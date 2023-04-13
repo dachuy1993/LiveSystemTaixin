@@ -1,0 +1,144 @@
+﻿<Page x:Class="LiveSystem.Page_Food"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LiveSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page_Food">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Lang\korea.xaml"/>
+                <ResourceDictionary Source="Lang\vietnam.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="White" Name="gridListView">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible">
+            <Label Content="{DynamicResource Số người}" VerticalContentAlignment="Center"></Label>
+            <Label Name="lbSoLuong" VerticalContentAlignment="Center" FontWeight="Bold" Width="50" HorizontalContentAlignment="Center"></Label>
+            <Label Content="{DynamicResource Ngày kiểm tra}" VerticalAlignment="Center"></Label>
+            <DatePicker Name="dpk_Check" VerticalContentAlignment="Center" SelectedDateChanged="dpk_Check_SelectedDateChanged"></DatePicker>
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Margin="10,0,0,0" Visibility="Visible">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+                    <RadioButton Content="{DynamicResource Sáng}" Margin="5,0" Name="rb_ShiftA" IsChecked="True"/>
+                    <RadioButton Content="{DynamicResource Trưa}" Margin="5,0" Name="rb_ShiftB"/>
+                    <RadioButton Content="{DynamicResource Chiều}" Margin="5,0" Name="rb_ShiftC"/>
+                    <RadioButton Content="{DynamicResource Đêm}" Margin="5,0" Name="rb_ShiftD"/>
+                </StackPanel>
+            </Border>
+           
+            <Label Content="{DynamicResource Bộ phận}" VerticalContentAlignment="Center"></Label>
+            <ComboBox Name="cbbDepatment" SelectionChanged="cbbDepatment_SelectionChanged" SelectedIndex="0" Width="100" VerticalContentAlignment="Center" Margin="5,0" Visibility="Visible">
+                <ComboBoxItem Content="ALL"></ComboBoxItem>
+                <ComboBoxItem Content="KOREA"></ComboBoxItem>
+                <ComboBoxItem Content="MANAGE"></ComboBoxItem>
+                <ComboBoxItem Content="IT"></ComboBoxItem>
+                <ComboBoxItem Content="MAR"></ComboBoxItem>
+                <ComboBoxItem Content="PRO"></ComboBoxItem>
+                <ComboBoxItem Content="QC"></ComboBoxItem>
+                <ComboBoxItem Content="VENDOR"></ComboBoxItem>
+                <ComboBoxItem Content="OTHER"></ComboBoxItem>
+            </ComboBox>
+            <Label Content="{DynamicResource Phòng ban}" VerticalContentAlignment="Center"></Label>
+            <ComboBox Name="cbbRoom" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbRoom_SelectionChanged"></ComboBox>
+            <Label Content="{DynamicResource Nhóm}" VerticalContentAlignment="Center"></Label>
+            <ComboBox Name="cbbTeam" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbTeam_SelectionChanged"></ComboBox>
+           
+            <Label Content="{DynamicResource Mã NV}" VerticalContentAlignment="Center"></Label>
+            <TextBox x:Name="txtName" VerticalContentAlignment="Center" Width="120"></TextBox>
+            <Button x:Name="btnTimKiem" Width="100" Margin="10,0,10,0" Click="btnTimKiem_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Image/Edit/search.png" Height="20" Width="20"></Image>
+                    <Label Content="{DynamicResource Tìm kiếm}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Margin="10,0,0,0" Visibility="Hidden">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+                    <RadioButton Content="{DynamicResource Đi làm}" Margin="5,0" Name="rb_On" IsChecked="True" Checked="rb_On_Checked"></RadioButton>
+                    <RadioButton Content="{DynamicResource Nghỉ}" Margin="5,0" Name="rb_Off" Checked="rb_Off_Checked" Visibility="Visible"></RadioButton>
+                    <RadioButton Content="{DynamicResource Muộn}" Margin="5,0" Name="rb_Delay" Checked="rb_Delay_Checked" Visibility="Visible"></RadioButton>
+                </StackPanel>
+            </Border>
+
+
+            <Button x:Name="btnExportExcel" Width="100" Margin="3,0" Click="btnExportExcel_Click" Visibility="Visible">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Image/Edit/xls-export.png" Height="20" Width="20"></Image>
+                    <Label Content="{DynamicResource Excel}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{ DynamicResource Thông tin suất ăn VSIP}" BorderBrush="Gray" Margin="2" >
+                <Grid>
+                    <!--<Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="lvVSIPMealDetail" Grid.Column="0" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="{DynamicResource Bộ phận}"  DisplayMemberBinding="{Binding EmpNm}"  Width="110"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Sáng}"     DisplayMemberBinding="{Binding Qty_Sang}" Width="90"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Trưa}"     DisplayMemberBinding="{Binding Qty_Trua}" Width="90"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Chiều}"    DisplayMemberBinding="{Binding Qty_Chieu}"  Width="90"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Đêm}"      DisplayMemberBinding="{Binding Qty_Dem}"  Width="90"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Frame Grid.Row="1" x:Name="frameChart_Food" NavigationUIVisibility="Hidden" Visibility="Visible"></Frame>
+                </Grid>
+            </GroupBox>
+            <ListView x:Name="lvThongTin" Grid.Column="1" Margin="5,5,5,5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" Grid.ColumnSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{DynamicResource STT}" DisplayMemberBinding="{Binding ID}" Width="50"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Division}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding DeptNm}" Width="200"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding GroupNm}" Width="200"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="90"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Họ và tên}" DisplayMemberBinding="{Binding EmpNm}" Width="200"></GridViewColumn>
+                        <!--<GridViewColumn Header="{DynamicResource Ca}" DisplayMemberBinding="{Binding Shift}" Width="100"></GridViewColumn>-->
+                        <!--<GridViewColumn Header="{DynamicResource Ca làm việc}" DisplayMemberBinding="{Binding Time}" Width="150"></GridViewColumn>-->
+                        <!--<GridViewColumn Header="" DisplayMemberBinding="{Binding BOD}" Width="1500"></GridViewColumn>-->
+                        <!--<GridViewColumn Header="{DynamicResource Giới tính}" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Ngày sinh}" DisplayMemberBinding="{Binding BOD}" Width="80"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource SĐT}" DisplayMemberBinding="{Binding HpTel}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource CMT/CCCD}" DisplayMemberBinding="{Binding ResidId}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Nơi cấp}" DisplayMemberBinding="{Binding ResidPlace}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Ngày cấp}" DisplayMemberBinding="{Binding ResidDate}" Width="80"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Dân tộc}" DisplayMemberBinding="{Binding Nation}" Width="60"></GridViewColumn>                      
+                        <GridViewColumn Header="{DynamicResource Tỉnh(tạm trú)}" DisplayMemberBinding="{Binding TempProv}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Huyện(tạm trú)}" DisplayMemberBinding="{Binding TempDist}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Xã(tạm trú)}" DisplayMemberBinding="{Binding TempComm}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Thôn(tạm trú)}" DisplayMemberBinding="{Binding TempVilla}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Tỉnh(thường trú)}" DisplayMemberBinding="{Binding PermProv}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Huyện(thường trú)}" DisplayMemberBinding="{Binding PermDist}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Xã(thường trú)}" DisplayMemberBinding="{Binding PermComm}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Thôn(thường trú)}" DisplayMemberBinding="{Binding PermVilla}" Width="150"></GridViewColumn>-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <StackPanel Grid.RowSpan="4" Name="stackLoading" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Frame x:Name="frameLoading"></Frame>
+        </StackPanel>
+    </Grid>
+</Page>

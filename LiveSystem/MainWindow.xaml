@@ -1,0 +1,73 @@
+﻿<Window x:Class="LiveSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LiveSystem"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"       
+        mc:Ignorable="d"
+        Title="Live System" Height="700" Width="1300" WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="Window_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Lang\Vietnam.xaml"/>
+                <ResourceDictionary Source="Lang\Korea.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid ScrollViewer.HorizontalScrollBarVisibility="Visible">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="461*"/>
+            <ColumnDefinition Width="189*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#CDC9C9" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <ListView  Name="lvButtonTop" Style="{StaticResource styleListViewHorizontal}" Background="#CDC9C9">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource styleButtonMainHeader}" Click="Button_Click" Background="{Binding BackGroundColor,Converter={StaticResource ColorDimGray_LightGreen}}">
+                            <StackPanel>
+                                <Image Source="{Binding ImageSource}" Style="{StaticResource styleImageHeader}"></Image>
+                                <TextBlock Text="{Binding ContentButton}" Style="{StaticResource styeTextBlockHeader}"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Vertical" VerticalAlignment="Top" Margin="0,10,10,0">
+                <Menu DockPanel.Dock="Top" VerticalContentAlignment="Center" VerticalAlignment="Center" Background="Transparent">
+                    <MenuItem Header="{DynamicResource Ngôn ngữ}" FontWeight="Bold">
+                        <MenuItem Name="rb_langVn" Header="Vietnam" Click="rb_langVn_Click">
+                            <MenuItem.Icon>
+                                <Image Source="Lang\vn-1.png" Width="15" Height="15"></Image>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Name="rb_langKr" Header="Korea" Click="rb_langKr_Click">
+                            <MenuItem.Icon>
+                                <Image Source="Lang\kr.png" Width="20" Height="20"></Image>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+            <Label Grid.Row="1" Grid.Column="1" Name="lb_Version" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
+            </Label>
+        </Grid>
+        <Grid Grid.Row="1" Background="DodgerBlue" Grid.ColumnSpan="2"></Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Frame x:Name="frameMain" NavigationUIVisibility="Hidden"></Frame>
+        </Grid>
+        <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" Name="stackLoading" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Frame x:Name="frameLoading" NavigationUIVisibility="Hidden"></Frame>
+        </Grid>
+    </Grid>
+</Window>

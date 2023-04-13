@@ -1,0 +1,195 @@
+﻿<Page x:Class="LiveSystem.Page_Map"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LiveSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page_Map">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Lang\Vietnam.xaml"/>
+                <ResourceDictionary Source="Lang\Korea.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="3" Margin="12">
+            <Border Background="AntiqueWhite" BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Width="600">
+                <Label Content="{DynamicResource BẢN ĐỒ TỈNH BẮC NINH}" FontSize="26" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+            </Border>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="Hidden">
+            <Button x:Name="btn_Map_BacNinh" Content="Bắc Ninh" Margin="20,0,10,0" Width="80" />
+            <Button x:Name="btn_Map_HaNoi" Content="Hà Nội" Margin="10,0" Width="80" />
+            <Button x:Name="btn_Map_BacGiang" Content="Bắc Giang" Margin="10,0" Width="80" />
+            <Button x:Name="btn_Map_ThaiNguyen" Content="Thái Nguyên" Margin="10,0" Width="80"/>
+        </StackPanel>
+        <Grid  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.ColumnSpan="20" Grid.RowSpan="20">
+                <Image x:Name="Image_Map" Visibility="Visible"></Image>
+            </Grid>
+            <StackPanel Orientation="Vertical" Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Image x:Name="Image_Taixin" Source="Image/logo_taixin-B.png" Height="30" Width="30"/>               
+            </StackPanel>
+            <Grid Grid.Column="2" Grid.Row="4" Grid.RowSpan="2" Grid.ColumnSpan="4">
+                <Button x:Name="btnYenPhong" Click="btnYenPhong_Click" Content="Yên Phong :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="7" Grid.Row="6" Grid.RowSpan="3" Grid.ColumnSpan="3" Height="35">
+                <Button x:Name="btnBacNinh" Click="btnBacNinh_Click" Content="Bắc Ninh :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="12" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="4" Height="35">
+                <Button x:Name="btnQueVo" Click="btnQueVo_Click" Content="Quế Võ :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="12" Grid.Row="11" Grid.RowSpan="3" Grid.ColumnSpan="4" Height="35">
+                <Button x:Name="btnGiaBinh" Click="btnGiaBinh_Click" Content="Gia Bình :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="14" Grid.Row="14" Grid.RowSpan="3" Grid.ColumnSpan="4" Height="35">
+                <Button x:Name="btnLuongTai" Click="btnLuongTai_Click" Content="Lương Tài :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="7" Grid.Row="13" Grid.RowSpan="3" Grid.ColumnSpan="4" Height="35">
+                <Button x:Name="btnThuanThanh" Click="btnThuanThanh_Click"  Content="Thuận Thành :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="5" Grid.Row="9" Grid.RowSpan="3" Grid.ColumnSpan="4" Height="35">
+                <Button x:Name="btnTienDu" Click="btnTienDu_Click" Content="Tiên Du :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="3" Height="35">
+                <Button x:Name="btnTuSon" Click="btnTuSon_Click" Content="Từ Sơn :" Height="35" Background="Transparent" BorderBrush="Gray" BorderThickness="1.5" FontSize="15" FontWeight="Bold"></Button>
+            </Grid>
+        </Grid>
+        <!--<GridSplitter Grid.Column="1" Grid.Row="1" Background="DodgerBlue" HorizontalAlignment="Stretch" Margin="0,50"></GridSplitter>-->
+        <Grid Grid.Column="1" Grid.Row="2" Margin="0,80">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="DodgerBlue" BorderThickness="1" CornerRadius="5" Margin="5">
+                <Label x:Name="txbTenXa" FontSize="18" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+            </Border>
+            <ListView x:Name="lvQtyXa" Grid.Row="1" Margin="5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" SelectionChanged="lvQtyXa_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{DynamicResource Phường/Xã}" DisplayMemberBinding="{Binding CommName}" Width="150"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Số lượng}" DisplayMemberBinding="{Binding EmpQty}" Width="60"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <ListView x:Name="lvThongTin" Margin="5" Grid.Column="1" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2">
+                    <ListView.View>
+                        <GridView>
+                            <!--<GridViewColumn Header="STT" DisplayMemberBinding="{Binding ID}" Width="50"></GridViewColumn>--><!--
+                            <GridViewColumn Header="Mã NV" DisplayMemberBinding="{Binding EmpId}" Width="60"></GridViewColumn>
+                            <GridViewColumn Header="Họ và Tên" DisplayMemberBinding="{Binding EmpNm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="SĐT" DisplayMemberBinding="{Binding HpTel}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="Bộ phận" DisplayMemberBinding="{Binding Deptlv1}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="Phòng ban" DisplayMemberBinding="{Binding Deptlv2}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Nhóm" DisplayMemberBinding="{Binding Deptlv3}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Ca" DisplayMemberBinding="{Binding Shift}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>
+                            <GridViewColumn Header="Ngày sinh" DisplayMemberBinding="{Binding BOD}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="CMT/CCCD" DisplayMemberBinding="{Binding ResidId}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="Nơi cấp" DisplayMemberBinding="{Binding ResidPlace}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="Ngày cấp" DisplayMemberBinding="{Binding ResidDate}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="Dân tộc" DisplayMemberBinding="{Binding Nation}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="Cấp bậc" DisplayMemberBinding="{Binding Level}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="Tỉnh(Tạm trú)" DisplayMemberBinding="{Binding TempProv}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Huyện(Tạm trú)" DisplayMemberBinding="{Binding TempDist}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Xã(Tạm trú)" DisplayMemberBinding="{Binding TempComm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Thôn(Tạm trú)" DisplayMemberBinding="{Binding TempVilla}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Tỉnh(Thường trú)" DisplayMemberBinding="{Binding PermProv}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Huyện(Thường trú)" DisplayMemberBinding="{Binding PermDist}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Xã(Thường trú)" DisplayMemberBinding="{Binding PermComm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="Thôn(Thường trú)" DisplayMemberBinding="{Binding PermVilla}" Width="150"></GridViewColumn>-->
+                            <GridViewColumn Header="{DynamicResource STT}" DisplayMemberBinding="{Binding ID}" Width="50"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="60"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Họ và tên}" DisplayMemberBinding="{Binding EmpNm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Giới tính}" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Ngày sinh}" DisplayMemberBinding="{Binding BOD}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource SĐT}" DisplayMemberBinding="{Binding HpTel}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource CMT/CCCD}" DisplayMemberBinding="{Binding ResidId}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Nơi cấp}" DisplayMemberBinding="{Binding ResidPlace}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Ngày cấp}" DisplayMemberBinding="{Binding ResidDate}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Dân tộc}" DisplayMemberBinding="{Binding Nation}" Width="60"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Deptlv1}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding Deptlv2}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding Deptlv3}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Khu vực}" DisplayMemberBinding="{Binding Position}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Ca}" DisplayMemberBinding="{Binding Shift}" Width="100"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Cấp bậc}" DisplayMemberBinding="{Binding Level}" Width="80"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Tỉnh(tạm trú)}" DisplayMemberBinding="{Binding TempProv}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Huyện(tạm trú)}" DisplayMemberBinding="{Binding TempDist}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Xã(tạm trú)}" DisplayMemberBinding="{Binding TempComm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Thôn(tạm trú)}" DisplayMemberBinding="{Binding TempVilla}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Tỉnh(thường trú)}" DisplayMemberBinding="{Binding PermProv}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Huyện(thường trú)}" DisplayMemberBinding="{Binding PermDist}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Xã(thường trú)}" DisplayMemberBinding="{Binding PermComm}" Width="150"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Thôn(thường trú)}" DisplayMemberBinding="{Binding PermVilla}" Width="150"></GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

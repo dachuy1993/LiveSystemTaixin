@@ -1,0 +1,168 @@
+﻿<Page x:Class="LiveSystem.Page_EmpOut"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LiveSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="480" d:DesignWidth="900"
+      Title="Page_EmpOut">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>          
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label VerticalContentAlignment="Center" Content="Ngày đăng ký"></Label>
+            <DatePicker HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="dp_Check" Margin="5,0"></DatePicker>
+            <Button x:Name="btnAdd" Content="Đăng ký " Width="100" Margin="10,0" Click="btnAdd_Click"></Button>
+        </StackPanel>
+
+        <TextBlock Grid.Row="1" Text="CA NGÀY" TextAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="CA ĐÊM" TextAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"></TextBlock>
+
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+                <Label Margin="3" Height="25" FontWeight="Bold">Bộ phận</Label>
+                <Label Margin="3" Height="25">Bếp</Label>
+
+                <Label Margin="3" Height="25">Bảo vệ VSIP</Label>
+                <Label Margin="3" Height="25">Bảo vệ TS</Label>
+                <Label Margin="3" Height="25">Bảo vệ YP</Label>
+
+                <Label Margin="3" Height="25">Lái xe VSIP</Label>
+                <Label Margin="3" Height="25">Lái xe TS</Label>
+                <Label Margin="3" Height="25">Lái xe YP</Label>
+                <Label Margin="3" Height="25">Lái xe tải</Label>
+
+                <Label Margin="3" Height="25">TV VSIP</Label>
+                <Label Margin="3" Height="25">TV TS</Label>
+                <Label Margin="3" Height="25">TV YP</Label>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đăng ký</Label>
+                <TextBox x:Name="txt_N_Bep_DK" Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvVsip_DK" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvTS_DK" Text="0"  Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvYP_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxVsip_DK" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTS_DK" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxYP_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTai_DK" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvVsip_DK" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvTS_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvYP_DK"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đi làm</Label>
+                <TextBox x:Name="txt_N_Bep_DL"  Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvVsip_DL" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvTS_DL"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvYP_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxVsip_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTS_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxYP_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTai_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvVsip_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvTS_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvYP_DL"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="3" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đi muộn</Label>
+                <TextBox x:Name="txt_N_Bep_DM"  Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvVsip_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvTS_DM"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_BvYP_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxVsip_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTS_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxYP_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_LxTai_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvVsip_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvTS_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_N_TvYP_DM"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+        </Grid>
+       
+
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+                <Label Margin="3" Height="25" FontWeight="Bold">Bộ phận</Label>
+                <Label Margin="3" Height="25">Bếp</Label>
+
+                <Label Margin="3" Height="25">Bảo vệ VSIP</Label>
+                <Label Margin="3" Height="25">Bảo vệ TS</Label>
+                <Label Margin="3" Height="25">Bảo vệ YP</Label>
+
+                <Label Margin="3" Height="25">Lái xe VSIP</Label>
+                <Label Margin="3" Height="25">Lái xe TS</Label>
+                <Label Margin="3" Height="25">Lái xe YP</Label>
+                <Label Margin="3" Height="25">Lái xe tải</Label>
+
+                <Label Margin="3" Height="25">TV VSIP</Label>
+                <Label Margin="3" Height="25">TV TS</Label>
+                <Label Margin="3" Height="25">TV YP</Label>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đăng ký</Label>
+                <TextBox x:Name="txt_D_Bep_DK"  Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvVsip_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvTS_DK"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvYP_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxVsip_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTS_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxYP_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTai_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvVsip_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvTS_DK"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvYP_DK"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đi làm</Label>
+                <TextBox x:Name="txt_D_Bep_DL"  Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvVsip_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvTS_DL"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvYP_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxVsip_DL" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTS_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxYP_DL" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTai_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvVsip_DL" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvTS_DL"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvYP_DL"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="3" Margin="5">
+                <Label Margin="3" FontWeight="Bold">Đi muộn</Label>
+                <TextBox x:Name="txt_D_Bep_DM"  Text="0" Height="25" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvVsip_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvTS_DM"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_BvYP_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxVsip_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTS_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxYP_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_LxTai_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvVsip_DM" Text="0"  Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvTS_DM"  Text="0" Height="25" Margin="3"  VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+                <TextBox x:Name="txt_D_TvYP_DM"  Text="0" Height="25"  Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></TextBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
