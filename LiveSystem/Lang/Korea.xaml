@@ -161,23 +161,23 @@
     <sys:String x:Key="Lịch trình hôm nay">금일 일정</sys:String>
 
     <sys:String x:Key="Phân loại">구분</sys:String>
-    <sys:String x:Key="Mục tiêu năm nay">금년도 목표</sys:String>
-    <sys:String x:Key="Tích luỹ">누적</sys:String>
+    <sys:String x:Key="Mục tiêu">목표</sys:String>
+    <sys:String x:Key="Kết quả">실적</sys:String>
     <sys:String x:Key="Phân loại 1">구분</sys:String>
     <sys:String x:Key="Phân loại 2">교육종류</sys:String>
     <sys:String x:Key="Tên khoá đào tạo">교육 과정명</sys:String>
     <sys:String x:Key="Quy định luật pháp">교육관련 법규, 시행령</sys:String>
-    <sys:String x:Key="Đối tượng đào tạo">교육 대상</sys:String>
+    <sys:String x:Key="Đối tượng">교육 대상</sys:String>
     <sys:String x:Key="Phương thức đào tạo">교육 방식</sys:String>
     <sys:String x:Key="Địa điểm đào tạo">교육 장소</sys:String>
-    <sys:String x:Key="Phụ trách đào tạo">교육 담당자</sys:String>
+    <sys:String x:Key="Phụ trách">교육 담당자</sys:String>
     <sys:String x:Key="Dự toán chi phí (VND)">교육예산</sys:String>
     <sys:String x:Key="Kế hoạch thời gian đào tạo 1 năm">연간 교육 시간</sys:String>
     <sys:String x:Key="Chu kỳ">주기</sys:String>
     <sys:String x:Key="Số lần">횟수</sys:String>
-    <sys:String x:Key="Thời lượng 1 lần">횟수당 시간</sys:String>
+    <sys:String x:Key="Thời lượng 1 lần">인당 시간</sys:String>
     <sys:String x:Key="Số người được đào tạo">교육 인원</sys:String>
-    <sys:String x:Key="Kế hoạch thời lượng đào tạo">총 교육 시간</sys:String>
+    <sys:String x:Key="Kế hoạch thời lượng đào tạo">목표시간</sys:String>
     <sys:String x:Key="Kế hoạch trong năm">년 월별 교육훈련 계획</sys:String>
     <sys:String x:Key="Tháng 1">1월</sys:String>
     <sys:String x:Key="Tháng 2">2월</sys:String>
@@ -191,8 +191,18 @@
     <sys:String x:Key="Tháng 10">10월</sys:String>
     <sys:String x:Key="Tháng 11">11월</sys:String>
     <sys:String x:Key="Tháng 12">12월</sys:String>
+    <sys:String x:Key="Thời gian dự kiến(tháng)">예상시간(월)</sys:String>
+    <sys:String x:Key="Kết quả(H)">결과(H)</sys:String>
     <sys:String x:Key="Ghi chú">비고</sys:String>
     <sys:String x:Key="Quản lý đào tạo">교육 관리</sys:String>
+
+    <sys:String x:Key="Kế hoạch đào tạo tháng này">금월 교육 계획</sys:String>
+    <sys:String x:Key="Kế hoạch đào tạo tháng sau">차월 교육 계획</sys:String>
+    <sys:String x:Key="Hạng mục">부 문</sys:String>
+    <sys:String x:Key="Khoá đào tạo">교육 과정</sys:String>
+    <sys:String x:Key="Thời gian ĐT">교육시간</sys:String>
+    <sys:String x:Key="Kế hoạch">계획</sys:String>
+    <sys:String x:Key="Tổng thời gian đã đào tạo">실적</sys:String>
 
 
 </ResourceDictionary>

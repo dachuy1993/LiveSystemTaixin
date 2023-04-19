@@ -854,7 +854,7 @@ namespace LiveSystem
 
         private void btnEditAdd_Click(object sender, RoutedEventArgs e)
         {
-            Window_EmployerEtc emp = new Window_EmployerEtc();
+            Window_CheckUser emp = new Window_CheckUser();
             emp.Show();
         }
 

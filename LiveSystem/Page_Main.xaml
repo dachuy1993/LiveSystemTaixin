@@ -365,18 +365,22 @@
 
 
             <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Bottom"  >
-                <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
                     <GroupBox Grid.Column="3" Header="{DynamicResource Quản lý đào tạo}"  Margin="2" BorderBrush="Gray" Visibility="Visible" >
                         <Grid>
                             <ListView x:Name="lvEdu" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
                                 <ListView.View>
                                     <GridView>
                                         
-                                        <GridViewColumn Header="{DynamicResource Phân loại}" DisplayMemberBinding="{Binding EduType}"  Width="200"></GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource Mục tiêu năm nay}" DisplayMemberBinding="{Binding PlanYearOld}" Width="130"></GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource Tích luỹ}" DisplayMemberBinding="{Binding Accumulate}" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource Tỷ lệ}" DisplayMemberBinding="{Binding Rate}" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource Tháng 1}" DisplayMemberBinding="{Binding Month1}" Width="auto"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource Phân loại}" DisplayMemberBinding="{Binding EduType}"  Width="320"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource Mục tiêu}" DisplayMemberBinding="{Binding PlanYearOld}" Width="150"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource Kết quả}" DisplayMemberBinding="{Binding Accumulate}" Width="80"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource Tỷ lệ}" DisplayMemberBinding="{Binding Rate}" Width="60"></GridViewColumn>
+                                        <!--<GridViewColumn Header="{DynamicResource Tháng 1}" DisplayMemberBinding="{Binding Month1}" Width="auto"></GridViewColumn>
                                         <GridViewColumn Header="{DynamicResource Tháng 2}" DisplayMemberBinding="{Binding Month2}" Width="auto"></GridViewColumn>
                                         <GridViewColumn Header="{DynamicResource Tháng 3}" DisplayMemberBinding="{Binding Month3}" Width="auto"></GridViewColumn>
                                         <GridViewColumn Header="{DynamicResource Tháng 4}" DisplayMemberBinding="{Binding Month4}" Width="auto"></GridViewColumn>
@@ -387,7 +391,7 @@
                                         <GridViewColumn Header="{DynamicResource Tháng 9}" DisplayMemberBinding="{Binding Month9}" Width="auto"></GridViewColumn>
                                         <GridViewColumn Header="{DynamicResource Tháng 10}" DisplayMemberBinding="{Binding Month10}" Width="auto"></GridViewColumn>
                                         <GridViewColumn Header="{DynamicResource Tháng 11}" DisplayMemberBinding="{Binding Month11}" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="{DynamicResource Tháng 12}" DisplayMemberBinding="{Binding Month12}" Width="auto"></GridViewColumn>
+                                        <GridViewColumn Header="{DynamicResource Tháng 12}" DisplayMemberBinding="{Binding Month12}" Width="auto"></GridViewColumn>-->
                                         
                                         
 
@@ -402,7 +406,7 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  VerticalAlignment="Bottom">
+            <Grid Grid.Row="1" Grid.Column="1" >
                 <Grid Grid.Column="1">
                     <GroupBox Grid.Column="3" Header="{DynamicResource Quản lý xe}"  Margin="2" BorderBrush="Gray" Visibility="Visible" >
                         <Grid>

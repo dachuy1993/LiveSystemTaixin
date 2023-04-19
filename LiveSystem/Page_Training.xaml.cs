@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 namespace LiveSystem
 {
@@ -31,10 +32,62 @@ namespace LiveSystem
         bool checkWorking = false;
         string pathFileExcel = @"TempFile//ExcelFile.xlsx";
         List<EmpEduModel> list_Excell = new List<EmpEduModel>();
+        
+
         public Page_Training()
         {
             InitializeComponent();
+            String DateYM = DateTime.Now.ToString("yyyy");
+            txtYear.Text = DateYM;
             Loaded += Page_Training_Loaded;
+            GetDataCmb();
+        }
+
+        
+
+        private async void GetDataCmb()
+        {
+            string Year = txtYear.Text;
+            string query = "SPGetDataCmbTypeTraining @date";
+            // Lấy dữ liệu và hiển thị
+            DataTable listCmb = new DataTable();
+            
+            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year });
+            
+            
+            List<string> listResult = new List<string>();
+            foreach(DataRow Row in listCmb.Rows)
+            {
+                listResult.Add(Row["Name"].ToString());
+            }
+            cbbType.ItemsSource = listResult;
+        }
+
+
+        private async void GetPlanEduNow()
+        {
+            string TypeNm = cbbType.SelectedValue.ToString();
+            string DateYM = DateTime.Now.ToString("yyyyMM");
+            string query = "SPGetDataPlanEduNow @dateYM , @TypeNm";
+            // Lấy dữ liệu và hiển thị
+            DataTable listCmb = new DataTable();
+
+            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM , TypeNm });
+
+            lvPlan.ItemsSource = listCmb.DefaultView;
+        }
+
+        private async void GetPlanEduAfter()
+        {
+            string TypeNm = cbbType.SelectedValue.ToString();
+            string DateYM = DateTime.Now.ToString("yyyyMM");
+            string query = "SPGetDataPlanEduAfter @dateYM , @TypeNm";
+            // Lấy dữ liệu và hiển thị
+            DataTable listCmb = new DataTable();
+
+            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM , TypeNm });
+
+            lvPlanAfter.ItemsSource = listCmb.DefaultView;
         }
 
         private void Page_Training_Loaded(object sender, RoutedEventArgs e)
@@ -64,9 +117,9 @@ namespace LiveSystem
 
         private async void GetListEmpTraining()
         {
-            
+            string TypeNm = cbbType.SelectedValue.ToString();
             string Year = txtYear.Text;
-            string query = "SPGetDateTrainingDetail @year";
+            string query = "SPGetDataTrainingDetail @year , @TypeNm";
 
             //hiển thị Page_loading
             await Task.Run(() =>
@@ -85,7 +138,7 @@ namespace LiveSystem
             DataTable listTraining = new DataTable();
             await Task.Run(() =>
             {
-                listTraining = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year });
+                listTraining = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year , TypeNm });
 
             });
             var listAll = new List<EmpEduModel>();
@@ -145,10 +198,44 @@ namespace LiveSystem
             });
         }
 
+
+        // Hiển thị bảng quản lý đào tạo
+        private async void GetEduInfo()
+        {
+            string TypeNm = cbbType.SelectedValue.ToString();
+            string Year = txtYear.Text;
+            //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
+            string query = "SPGetDateTrainingMainDetail @date , @TypeNm";
+
+
+            // Lấy dữ liệu và hiển thị
+            DataTable listEduInfo = new DataTable();
+            await Task.Run(() =>
+            {
+               
+
+                listEduInfo = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year , TypeNm });
+                //foreach (DataRow row in listEduInfo.Rows)
+                //{
+                //    row["Rate"] = row["Rate"] + "%";
+                //}
+            });
+            lvEdu.ItemsSource = listEduInfo.DefaultView;
+
+
+        }
+
+
+        
+
         private void btnExportExcel_Click(object sender, RoutedEventArgs e)
         {
             Process_ExportExcel();
         }
+
+
+
+
 
         public async void Process_ExportExcel()
         {
@@ -214,6 +301,8 @@ namespace LiveSystem
                 }
             }
         }
+
+
 
 
         public void CreatListExcel()
@@ -605,6 +694,14 @@ namespace LiveSystem
         private void btnTimKiem_Click(object sender, RoutedEventArgs e)
         {
             GetListEmpTraining();
+            GetEduInfo();
+            GetPlanEduNow();
+            GetPlanEduAfter();
+        }
+
+        private void cbbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -25,6 +25,16 @@
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible">
             <Label Content="{DynamicResource Năm kiểm tra}" VerticalAlignment="Center"></Label>
             <TextBox x:Name="txtYear" VerticalContentAlignment="Center" Width="120" Margin="10,0" ></TextBox>
+            <Label Content="{DynamicResource Phân loại}" VerticalContentAlignment="Center"></Label>
+            <ComboBox Name="cbbType" Width="350" VerticalContentAlignment="Center" SelectedIndex="0" Margin="0,0,20,0" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding .}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button x:Name="btnTimKiem" Width="100" Margin="0,0,5,0" Click="btnTimKiem_Click">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="Image/Edit/search.png" Height="20" Width="20"></Image>
@@ -42,7 +52,73 @@
 
 
         <Grid Grid.Row="3" Grid.Column="1" Grid.RowSpan="3"   >
-            <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0">
+                <GroupBox Grid.Column="3" Header="{DynamicResource Quản lý đào tạo}"  Margin="2" BorderBrush="Gray" Visibility="Visible" >
+                    <Grid>
+                        <ListView x:Name="lvEdu" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="{DynamicResource Phân loại}" DisplayMemberBinding="{Binding EduType}"  Width="320"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Mục tiêu}" DisplayMemberBinding="{Binding PlanYearOld}" Width="150"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Kết quả}" DisplayMemberBinding="{Binding Accumulate}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Tỷ lệ}" DisplayMemberBinding="{Binding Rate}" Width="60"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="1">
+                <GroupBox Grid.Column="3" Header="{DynamicResource Kế hoạch đào tạo tháng này}"  Margin="2" BorderBrush="Gray" Visibility="Visible" >
+                    <Grid>
+                        <ListView x:Name="lvPlan" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="{DynamicResource Hạng mục}" DisplayMemberBinding="{Binding PL1}"  Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Phân loại}" DisplayMemberBinding="{Binding PL2}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Khoá đào tạo}" DisplayMemberBinding="{Binding SubNm}" Width="150"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Thời gian ĐT}" DisplayMemberBinding="{Binding TimeEdu}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Đối tượng}" DisplayMemberBinding="{Binding EduPos}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Phụ trách}" DisplayMemberBinding="{Binding ChargeTrain}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Ghi chú}" DisplayMemberBinding="{Binding Remark}" Width="60"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="2">
+                <GroupBox Grid.Column="3" Header="{DynamicResource Kế hoạch đào tạo tháng sau}"  Margin="2" BorderBrush="Gray" Visibility="Visible" >
+                    <Grid>
+                        <ListView x:Name="lvPlanAfter" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="{DynamicResource Hạng mục}" DisplayMemberBinding="{Binding PL1}"  Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Phân loại}" DisplayMemberBinding="{Binding EduType}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Khoá đào tạo}" DisplayMemberBinding="{Binding Accumulate}" Width="150"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Thời gian ĐT}" DisplayMemberBinding="{Binding TimeEdu}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Đối tượng}" DisplayMemberBinding="{Binding EduPos}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Phụ trách}" DisplayMemberBinding="{Binding ChargeTrain}" Width="80"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Ghi chú}" DisplayMemberBinding="{Binding Remark}" Width="60"></GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            <Grid Grid.Column="1" Grid.RowSpan="3">
                 <GroupBox Grid.Column="3" Header="{DynamicResource Quản lý đào tạo}" Margin="2" BorderBrush="Gray" Visibility="Visible">
                     <Grid>
                         <ListView x:Name="lvTraining" Margin="5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}"  AlternationCount="2">
@@ -51,15 +127,15 @@
                                 <GridView >
 
                                     <GridViewColumn Header="{DynamicResource STT}" DisplayMemberBinding="{Binding ID}" Width="30" ></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Phân loại 1}" DisplayMemberBinding="{Binding PL1}" Width="170" ></GridViewColumn>
+                                    
                                     <GridViewColumn Header="{DynamicResource Phân loại 2}" DisplayMemberBinding="{Binding PL2}" Width="170"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Tên khoá đào tạo}" DisplayMemberBinding="{Binding TrainName}" Width="250"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Quy định luật pháp}" DisplayMemberBinding="{Binding QDLP}" Width="140"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Đối tượng đào tạo}" DisplayMemberBinding="{Binding TrainPos}" Width="120"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Khoá đào tạo}" DisplayMemberBinding="{Binding TrainName}" Width="250"></GridViewColumn>
+                                    
+                                    <GridViewColumn Header="{DynamicResource Đối tượng}" DisplayMemberBinding="{Binding TrainPos}" Width="120"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Phương thức đào tạo}" DisplayMemberBinding="{Binding PTDT}" Width="140"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Địa điểm đào tạo}" DisplayMemberBinding="{Binding TrainLocation}" Width="110"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Phụ trách đào tạo}" DisplayMemberBinding="{Binding ChargeTrain}" Width="120"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Dự toán chi phí (VND)}" DisplayMemberBinding="{Binding TrainPrice}" Width="150" TextBlock.TextAlignment="Center"></GridViewColumn>
+                                    
+                                    <GridViewColumn Header="{DynamicResource Phụ trách}" DisplayMemberBinding="{Binding ChargeTrain}" Width="120"></GridViewColumn>
+                                    
                                     <!--<GridViewColumn Width="600" >
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -112,11 +188,12 @@
 
                                     </GridViewColumn>-->
 
-                                    <GridViewColumn Header="{DynamicResource Chu kỳ}"  DisplayMemberBinding="{Binding Cycle}" Width="50"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Số lần}" DisplayMemberBinding="{Binding Times}" Width="50"></GridViewColumn>
+                                    
                                     <GridViewColumn Header="{DynamicResource Thời lượng 1 lần}" DisplayMemberBinding="{Binding Duration1time}" Width="110"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Số người được đào tạo}" DisplayMemberBinding="{Binding Numper}" Width="150"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Kế hoạch thời lượng đào tạo}" DisplayMemberBinding="{Binding PlanTraning}" Width="180"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Kế hoạch}" DisplayMemberBinding="{Binding PlanTraning}" Width="180"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Tổng thời gian đã đào tạo}" DisplayMemberBinding="{Binding TotalTimeEdu}" Width="180"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Tỷ lệ}" DisplayMemberBinding="{Binding Rate}" Width="180"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Tháng 1}" DisplayMemberBinding="{Binding Month1}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Tháng 2}" DisplayMemberBinding="{Binding Month2}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Tháng 3}" DisplayMemberBinding="{Binding Month3}" Width="60"></GridViewColumn>
@@ -130,8 +207,12 @@
                                     <GridViewColumn Header="{DynamicResource Tháng 11}" DisplayMemberBinding="{Binding Month11}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Tháng 12}" DisplayMemberBinding="{Binding Month12}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Ghi chú}" DisplayMemberBinding="{Binding Remark}" Width="100"></GridViewColumn>
-
-
+                                    <GridViewColumn Header="{DynamicResource Phân loại 1}" DisplayMemberBinding="{Binding PL1}" Width="170" ></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Quy định luật pháp}" DisplayMemberBinding="{Binding QDLP}" Width="140"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Địa điểm đào tạo}" DisplayMemberBinding="{Binding TrainLocation}" Width="110"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Dự toán chi phí (VND)}" DisplayMemberBinding="{Binding TrainPrice}" Width="150" TextBlock.TextAlignment="Center"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Chu kỳ}"  DisplayMemberBinding="{Binding Cycle}" Width="50"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Số lần}" DisplayMemberBinding="{Binding Times}" Width="50"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>

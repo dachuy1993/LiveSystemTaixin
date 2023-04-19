@@ -1,0 +1,91 @@
+﻿<Page x:Class="LiveSystem.Page_CheckPermission"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LiveSystem"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="500"
+      Title="Page_CheckPermission" Height="400" Width="400">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Label Content="Mời bạn nhập lại tài khoản" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="30" Width="400"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <StackPanel VerticalAlignment="Center">
+                <Border Name="borderUser" BorderThickness="1" BorderBrush="Gray" CornerRadius="10" VerticalAlignment="Center" Margin="40,0">
+                    <Grid>
+                        <TextBox Name="txtUser" TextAlignment="Left" VerticalAlignment="Center" FontSize="12"
+                                    BorderBrush="{x:Null}" BorderThickness="0" Margin="30,0,10,0" KeyDown="Txt_User_KeyDown_1"></TextBox>
+                        <TextBlock Width="20" TextAlignment="Left" HorizontalAlignment="Left" Margin="5">
+                            <Image Source="Image/user2.png" Width="20"/>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <Border Height="30" BorderThickness="1" BorderBrush="Gray" CornerRadius="10" VerticalAlignment="Center" Margin="40,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <Grid>
+                                <PasswordBox Name="pb_Pass" Width="230" VerticalAlignment="Center" FontSize="14" BorderThickness="0" Margin="30,0,0,0" KeyDown="Pb_Pass_KeyDown"/>
+                                <TextBox Name="txtPass" FontSize="12" VerticalAlignment="Center" BorderThickness="0" Margin="30,0,0,0" KeyDown="TxtPass_KeyDown"/>
+                                <TextBlock Width="20" TextAlignment="Left" HorizontalAlignment="Left" Margin="5"> 
+                                    <Image Source="Image/Keypass.png" Height="20" Width="20"/>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Grid Grid.Column="1">
+                                <Button Name="btnShowPass" Click="Btn_ShowPass_Click"  Background="Transparent" BorderBrush="Transparent">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <Image Source="Image\PasswordShow.png" Height="30" Width="30"></Image>
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="btnHidenPass" Click="Btn_HidenPass_Click" Background="Transparent" BorderBrush="Transparent">
+                                    <StackPanel VerticalAlignment="Center">
+                                        <Image Source="Image\PasswordHiden.png" Height="30" Width="30" Margin="3,0,2.2,0"></Image>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <CheckBox Name="ckbRemember" Checked="CkbRemember_Checked" Unchecked="CkbRemember_Unchecked" Content="Remember Password" HorizontalAlignment="Center" Visibility="Hidden"></CheckBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel>
+                <Button Name="btn_Confirm" Content="Xác nhận" FontWeight="Bold" Click="Btn_Confirm" Height="30" Margin="80,10" BorderBrush="LightGray">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFB0A0A0" Offset="0.446"/>
+                            <GradientStop Color="White" Offset="1"/>
+                            <GradientStop Color="#FFA2A2A2" Offset="0.97"/>
+
+                        </LinearGradientBrush>
+
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</Page>

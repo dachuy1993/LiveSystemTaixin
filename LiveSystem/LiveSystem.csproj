@@ -100,6 +100,9 @@
     <Compile Include="Model\EmpWorkingModel.cs" />
     <Compile Include="Model\QtyComm.cs" />
     <Compile Include="Model\TrainingModel.cs" />
+    <Compile Include="Page_CheckPermission.xaml.cs">
+      <DependentUpon>Page_CheckPermission.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page_DepatmenDetail.xaml.cs">
       <DependentUpon>Page_DepatmenDetail.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,9 @@
     <Compile Include="ViewModel\Page_Main_ViewModel.cs" />
     <Compile Include="Window_Car.xaml.cs">
       <DependentUpon>Window_Car.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_CheckUser.xaml.cs">
+      <DependentUpon>Window_CheckUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window_EmployerEtc.xaml.cs">
       <DependentUpon>Window_EmployerEtc.xaml</DependentUpon>
@@ -178,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Page_Car.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page_CheckPermission.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,6 +252,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Window_Car.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_CheckUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

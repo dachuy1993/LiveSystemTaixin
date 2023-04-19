@@ -163,16 +163,16 @@
     <sys:String x:Key="Lịch trình hôm nay">Lịch trình hôm nay</sys:String>
 
     <sys:String x:Key="Phân loại">Phân loại</sys:String>
-    <sys:String x:Key="Mục tiêu năm nay">Mục tiêu năm nay</sys:String>
-    <sys:String x:Key="Tích luỹ">Tích luỹ</sys:String>
+    <sys:String x:Key="Mục tiêu">Mục tiêu</sys:String>
+    <sys:String x:Key="Kết quả">Kết quả</sys:String>
     <sys:String x:Key="Phân loại 1">Phân loại 1</sys:String>
     <sys:String x:Key="Phân loại 2">Phân loại 2</sys:String>
     <sys:String x:Key="Tên khoá đào tạo">Tên khoá đào tạo</sys:String>
     <sys:String x:Key="Quy định luật pháp">Quy định luật pháp</sys:String>
-    <sys:String x:Key="Đối tượng đào tạo">Đối tượng đào tạo</sys:String>
+    <sys:String x:Key="Đối tượng">Đối tượng</sys:String>
     <sys:String x:Key="Phương thức đào tạo">Phương thức đào tạo</sys:String>
     <sys:String x:Key="Địa điểm đào tạo">Địa điểm đào tạo</sys:String>
-    <sys:String x:Key="Phụ trách đào tạo">Phụ trách đào tạo</sys:String>
+    <sys:String x:Key="Phụ trách">Phụ trách</sys:String>
     <sys:String x:Key="Dự toán chi phí (VND)">Dự toán chi phí (VND)</sys:String>
     <sys:String x:Key="Kế hoạch thời gian đào tạo 1 năm">Kế hoạch thời gian đào tạo 1 năm</sys:String>
     <sys:String x:Key="Chu kỳ">Chu kỳ</sys:String>
@@ -193,9 +193,19 @@
     <sys:String x:Key="Tháng 10">Tháng 10</sys:String>
     <sys:String x:Key="Tháng 11">Tháng 11</sys:String>
     <sys:String x:Key="Tháng 12">Tháng 12</sys:String>
+    <sys:String x:Key="Thời gian dự kiến(tháng)">Thời gian dự kiến(tháng)</sys:String>
+    <sys:String x:Key="Kết quả(H)">Kết quả(H)</sys:String>
     <sys:String x:Key="Ghi chú">Ghi chú</sys:String>
     <sys:String x:Key="Quản lý đào tạo">Quản lý đào tạo</sys:String>
-    
+
+    <sys:String x:Key="Kế hoạch đào tạo tháng này">Kế hoạch đào tạo tháng này</sys:String>
+    <sys:String x:Key="Kế hoạch đào tạo tháng sau">Kế hoạch đào tạo tháng sau</sys:String>
+    <sys:String x:Key="Hạng mục">Hạng mục</sys:String>
+    <sys:String x:Key="Khoá đào tạo">Khoá đào tạo</sys:String>
+    <sys:String x:Key="Thời gian ĐT">Thời gian ĐT</sys:String>
+    <sys:String x:Key="Kế hoạch">Kế hoạch</sys:String>
+    <sys:String x:Key="Tổng thời gian đã đào tạo">Tổng thời gian đã đào tạo</sys:String>
+
 
 
 </ResourceDictionary>
