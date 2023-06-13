@@ -208,6 +208,7 @@ namespace LiveSystem
         // Thông tin suất ăn VSIP
         private void GetVSIPMealDetail()
         {
+            string datettt = ""; 
             //if (dateCheck.Count() != 8)
             //    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
             //string query = "select * from tmmfod where Insdt = @date";

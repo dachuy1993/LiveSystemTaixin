@@ -50,6 +50,7 @@ namespace LiveSystem
         public static Page_Training Training = new Page_Training();
         public static Page_Food Food = new Page_Food();
         Page_Holiday holiday  = new Page_Holiday();
+        Page_Environment Environment = new Page_Environment();  
         int _indexCheckInternet = 0;
         string pathFileIni = "";
         int checkID = 0;
@@ -178,6 +179,13 @@ namespace LiveSystem
                     ImageSource = "Image/Dep/training.png",
                     BackGroundColor = PinValue.OFF
                 });
+                ListButton_Header.Add(new Helper_DataButton
+                {
+                    ID = 12,
+                    ContentButton = "An toàn",
+                    ImageSource = "Image/Dep/Safe.png",
+                    BackGroundColor = PinValue.OFF
+                });
 
             }
             else
@@ -257,6 +265,13 @@ namespace LiveSystem
                     ID = 11,
                     ContentButton = "교육",
                     ImageSource = "Image/Dep/training.png",
+                    BackGroundColor = PinValue.OFF
+                });
+                ListButton_Header.Add(new Helper_DataButton
+                {
+                    ID = 12,
+                    ContentButton = "안전한",
+                    ImageSource = "Image/Dep/Safe.png",
                     BackGroundColor = PinValue.OFF
                 });
 
@@ -353,6 +368,12 @@ namespace LiveSystem
                             frameMain.Navigate(Training);
                             break;
                         }
+                    case "An toàn":
+                        {
+                            Page_Environment Environment = new Page_Environment();
+                            frameMain.Navigate(Environment);
+                            break;
+                        }
                 }
                 foreach (var button in ListButton_Header)
                 {
@@ -431,6 +452,11 @@ namespace LiveSystem
                         case "교육":
                             {
                                 frameMain.Navigate(Training);
+                                break;
+                            }
+                        case "안전한":
+                            {
+                                frameMain.Navigate(Environment);
                                 break;
                             }
 
@@ -543,6 +569,12 @@ namespace LiveSystem
                                     frameMain.Navigate(Training);
                                     break;
                                 }
+                            case "An toàn":
+                                {
+                                    Page_Environment Environment = new Page_Environment();
+                                    frameMain.Navigate(Environment);
+                                    break;
+                                }
                         }
                         //foreach (var button1 in ListButton_Header)
                         //{
@@ -631,6 +663,12 @@ namespace LiveSystem
                                     {
                                         Page_Training Training = new Page_Training();
                                         frameMain.Navigate(Training);
+                                        break;
+                                    }
+                                case "안전한":
+                                    {
+                                        Page_Environment Environment = new Page_Environment();
+                                        frameMain.Navigate(Environment);
                                         break;
                                     }
 

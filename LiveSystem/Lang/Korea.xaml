@@ -204,5 +204,49 @@
     <sys:String x:Key="Kế hoạch">계획</sys:String>
     <sys:String x:Key="Tổng thời gian đã đào tạo">실적</sys:String>
 
+    <sys:String x:Key="Năm đánh giá">평가년도</sys:String>
+    <sys:String x:Key="Lần đánh giá">평가건수</sys:String>
+    <sys:String x:Key="Tên khu vực">구역이름</sys:String>
+    <sys:String x:Key="Tên khu vực viết tắt">구역이름 (약자)</sys:String>
+    <sys:String x:Key="Phụ trách khu vực">구역담당자</sys:String>
+    <sys:String x:Key="Ngày đánh giá">평가일짜</sys:String>
+    <sys:String x:Key="Điểm">점수</sys:String>
+    <sys:String x:Key="Tỉ lệ tuân thủ">준수율</sys:String>
+    <sys:String x:Key="Màu khu vực">구역 색깔</sys:String>
+    <sys:String x:Key="PCCC 1">소방 1</sys:String>
+    <sys:String x:Key="Điện 1">전기 1</sys:String>
+    <sys:String x:Key="An toàn 1">안전 1</sys:String>
+    <sys:String x:Key="Sức khoẻ 1">건강 1</sys:String>
+    <sys:String x:Key="Môi trường 1">환경 1</sys:String>
+    <sys:String x:Key="Tổng lỗi KV">구역별 위반 건수</sys:String>
+    <sys:String x:Key="PCCC 2">소방 2</sys:String>
+    <sys:String x:Key="Điện 2">전기 2</sys:String>
+    <sys:String x:Key="An toàn 2">안전 2</sys:String>
+    <sys:String x:Key="Sức khoẻ 2">건강 2</sys:String>
+    <sys:String x:Key="Môi trường 2">환경 2</sys:String>
+    <sys:String x:Key="Tổng cải tiến KV">구역별 개선 건수</sys:String>
+    <sys:String x:Key="Tỉ lệ cải tiến KV">구역별 개선 비율</sys:String>
+    <sys:String x:Key="PIC đánh giá">평가담당자</sys:String>
+    
+    <sys:String x:Key="Biến động kết quả đánh giá khu vực theo năm">년도별 안전 평가 결과 변동 상황 차트</sys:String>
+    <sys:String x:Key="Biểu đồ vi phạm theo khu vực">구역별 위반 차트</sys:String>
+    <sys:String x:Key="Biểu đồ vi phạm cải tiến theo hạng mục">항목별 지적 및 개선 상황 차트</sys:String>
+    <sys:String x:Key="Biến động màu khu vực qua các năm">년도별 색깔 관련 변동 상황 차트</sys:String>
+
+    <sys:String x:Key="Điện">전기</sys:String>
+    <sys:String x:Key="An toàn">안전</sys:String>
+    <sys:String x:Key="Sức khoẻ">건강</sys:String>
+    <sys:String x:Key="PCCC">소방</sys:String>
+    <sys:String x:Key="Môi trường">환경</sys:String>
+    <sys:String x:Key="파란색">빨간색</sys:String>
+    <sys:String x:Key="Vàng">노란색</sys:String>
+    <sys:String x:Key="Xanh">녹색</sys:String>
+    <sys:String x:Key="Kiểm tra dữ liệu">데이터입력</sys:String>
+    <sys:String x:Key="Truy vấn dữ liệu">데이터조회</sys:String>
+    <sys:String x:Key="Khu vực màu đỏ">빨간색구역</sys:String>
+    <sys:String x:Key="Khu vực màu vàng">노란색구역</sys:String>
+    <sys:String x:Key="Khu vực màu xanh">파란색구역</sys:String>
+    
+    
 
 </ResourceDictionary>

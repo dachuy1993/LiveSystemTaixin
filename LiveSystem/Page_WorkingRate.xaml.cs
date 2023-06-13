@@ -313,6 +313,7 @@ namespace LiveSystem
                     this.Dispatcher.Invoke(() =>
                     {
                         GetListEmpWorking();
+                        GetWorkingRate();
                         stackLoading.Visibility = Visibility.Hidden;
                         checkWorking = false;
                     }, System.Windows.Threading.DispatcherPriority.ContextIdle);

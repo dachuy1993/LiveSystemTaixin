@@ -44,7 +44,7 @@ namespace LiveSystem
         }
 
         
-
+        
         private async void GetDataCmb()
         {
             string Year = txtYear.Text;

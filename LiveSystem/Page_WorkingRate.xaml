@@ -24,6 +24,15 @@
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible">
             <Label Content="{DynamicResource Số người}" VerticalContentAlignment="Center"></Label>
             <Label Name="lbSoLuong" VerticalContentAlignment="Center" FontWeight="Bold" Width="50" HorizontalContentAlignment="Center"></Label>
+            <ComboBox x:Name="cbbDepatment" SelectionChanged="cbbDepatment_SelectionChanged" SelectedIndex="0" Width="100" VerticalContentAlignment="Center" Visibility="Visible">
+                <ComboBoxItem Content="ALL"/>
+                <ComboBoxItem Content="MANAGE"/>
+                <ComboBoxItem Content="IT"/>
+                <ComboBoxItem Content="MAR"/>
+                <ComboBoxItem Content="PRO"/>
+                <ComboBoxItem Content="QC"/>
+                <ComboBoxItem Content="HICUP"/>
+            </ComboBox>
             <Label Content="{DynamicResource Ngày kiểm tra}" VerticalAlignment="Center"></Label>
             <DatePicker Name="dpk_Check" VerticalContentAlignment="Center" SelectedDateChanged="dpk_Check_SelectedDateChanged"></DatePicker>
             <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Margin="10,0,0,0">
@@ -42,17 +51,8 @@
             </Border>
             <!--<Label Content="{DynamicResource Họ và tên}" VerticalContentAlignment="Center"></Label>
             <Label Content="or" VerticalContentAlignment="Center"></Label>
-            <Label Content="{DynamicResource Mã NV}" VerticalContentAlignment="Center"></Label>-->           
+            <Label Content="{DynamicResource Mã NV}" VerticalContentAlignment="Center"></Label>-->
             <Label Content="{DynamicResource Bộ phận}" VerticalAlignment="Center"></Label>
-            <ComboBox Name="cbbDepatment" SelectionChanged="cbbDepatment_SelectionChanged" SelectedIndex="0" Width="100" VerticalContentAlignment="Center" Margin="5,0" Visibility="Visible">
-                <ComboBoxItem Content="ALL"></ComboBoxItem>
-                <ComboBoxItem Content="MANAGE"></ComboBoxItem>
-                <ComboBoxItem Content="IT"></ComboBoxItem>
-                <ComboBoxItem Content="MAR"></ComboBoxItem>
-                <ComboBoxItem Content="PRO"></ComboBoxItem>
-                <ComboBoxItem Content="QC"></ComboBoxItem>
-                <ComboBoxItem Content="HICUP"></ComboBoxItem>
-            </ComboBox>
             <Label Content="{DynamicResource Phòng ban}" VerticalContentAlignment="Center"></Label>
             <ComboBox Name="cbbRoom" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbRoom_SelectionChanged"></ComboBox>
             <Label Content="{DynamicResource Nhóm}" VerticalContentAlignment="Center"></Label>
@@ -71,15 +71,16 @@
                     <Image Source="Image/Edit/xls-export.png" Height="20" Width="20"></Image>
                     <Label Content="{DynamicResource Excel}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
                 </StackPanel>
-            </Button>            
+            </Button>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="333*"/>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition Width="650*"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox  Header="{DynamicResource Tỷ lệ đi làm}" BorderBrush="Gray" Margin="2">
+            <GroupBox  Header="{DynamicResource Tỷ lệ đi làm}" BorderBrush="Gray" Margin="2,2,2,2">
                 <Grid>
                     <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -105,7 +106,7 @@
                 </Grid>
             </GroupBox>
             <!--<Frame Grid.Column="0" Grid.Row="1" x:Name="frameChart_Tinh" NavigationUIVisibility="Hidden"></Frame>-->
-            <GroupBox Grid.Column="1" Grid.RowSpan="2" Width="auto">
+            <GroupBox Width="auto" Grid.ColumnSpan="3" Margin="333,0,0,0">
                 <ListView x:Name="lvThongTin" Margin="5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2">
                     <ListView.View>
                         <GridView>
@@ -135,12 +136,12 @@
                                     <GridViewColumnHeader Content="{DynamicResource Họ và tên}"></GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
-                        
+
                             <GridViewColumn  DisplayMemberBinding="{Binding Remark}" Width="100">
                                 <GridViewColumn.Header>
                                     <GridViewColumnHeader Content="{DynamicResource Ca}"></GridViewColumnHeader>
                                 </GridViewColumn.Header>
-                            </GridViewColumn>                                             
+                            </GridViewColumn>
                             <!--<GridViewColumn Header="{DynamicResource Ca làm việc}" DisplayMemberBinding="{Binding Time}" Width="150"></GridViewColumn>-->
                             <!--<GridViewColumn Header="" DisplayMemberBinding="{Binding BOD}" Width="auto"></GridViewColumn>-->
                             <!--<GridViewColumn Header="{DynamicResource Giới tính}" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>
@@ -166,5 +167,5 @@
         <StackPanel Grid.RowSpan="4" Name="stackLoading" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Frame x:Name="frameLoading"></Frame>
         </StackPanel>
-    </Grid>   
+    </Grid>
 </Page>

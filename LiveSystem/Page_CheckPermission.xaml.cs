@@ -49,7 +49,7 @@ namespace LiveSystem
             }
             else
             {
-                MessageBox.Show("Bạn không có quyền để mở", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Bạn không có quyền để mở chức năng này", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }    
         }
 

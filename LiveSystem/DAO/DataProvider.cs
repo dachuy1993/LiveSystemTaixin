@@ -147,7 +147,7 @@ namespace LiveSystem.DAO
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 con.Close();
-            }
+            }  
             return dt;
         }
         public DataTable ExecuteSP(string str, string query, object[] parameter = null)

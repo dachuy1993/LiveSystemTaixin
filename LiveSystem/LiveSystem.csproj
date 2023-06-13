@@ -56,11 +56,11 @@
     <Reference Include="EPPlus">
       <HintPath>..\..\..\..\..\2.Sample\2.Program\2021.08.16\W_Opera\W_Opera\bin\Debug\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="LiveCharts">
-      <HintPath>..\..\..\..\..\Program Dev\3.Visual Studio\1.Sample\14.LiveChart\1.LiveChart\LiveChart\bin\Debug\LiveCharts.dll</HintPath>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
-    <Reference Include="LiveCharts.Wpf">
-      <HintPath>..\..\..\..\..\Program Dev\3.Visual Studio\1.Sample\14.LiveChart\1.LiveChart\LiveChart\bin\Debug\LiveCharts.Wpf.dll</HintPath>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=8.0.25.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -99,6 +99,7 @@
     <Compile Include="Model\EmpVSIPMealModel.cs" />
     <Compile Include="Model\EmpWorkingModel.cs" />
     <Compile Include="Model\QtyComm.cs" />
+    <Compile Include="Model\SafeModel.cs" />
     <Compile Include="Model\TrainingModel.cs" />
     <Compile Include="Page_CheckPermission.xaml.cs">
       <DependentUpon>Page_CheckPermission.xaml</DependentUpon>
@@ -111,6 +112,9 @@
     </Compile>
     <Compile Include="Page_EmpOut.xaml.cs">
       <DependentUpon>Page_EmpOut.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page_Environment.xaml.cs">
+      <DependentUpon>Page_Environment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page_Food.xaml.cs">
       <DependentUpon>Page_Food.xaml</DependentUpon>
@@ -142,6 +146,12 @@
     </Compile>
     <Compile Include="Window_EmployerEtc.xaml.cs">
       <DependentUpon>Window_EmployerEtc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_EnvironmentData.xaml.cs">
+      <DependentUpon>Window_EnvironmentData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_EnvironSave.xaml.cs">
+      <DependentUpon>Window_EnvironSave.xaml</DependentUpon>
     </Compile>
     <Page Include="Column.xaml">
       <SubType>Designer</SubType>
@@ -207,6 +217,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Page_Environment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Page_Food.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +274,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Window_EmployerEtc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_EnvironmentData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_EnvironSave.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -443,6 +465,12 @@
     <Resource Include="Image\user.png" />
     <Resource Include="Image\user1.png" />
     <Resource Include="Image\user2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Dep\Environment1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Dep\Safe.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

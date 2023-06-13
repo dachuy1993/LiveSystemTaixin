@@ -206,6 +206,49 @@
     <sys:String x:Key="Kế hoạch">Kế hoạch</sys:String>
     <sys:String x:Key="Tổng thời gian đã đào tạo">Tổng thời gian đã đào tạo</sys:String>
 
+    <sys:String x:Key="Năm đánh giá">Năm đánh giá</sys:String>
+    <sys:String x:Key="Lần đánh giá">Lần đánh giá</sys:String>
+    <sys:String x:Key="Tên khu vực">Tên khu vực</sys:String>
+    <sys:String x:Key="Kiểm tra dữ liệu">Kiểm tra dữ liệu</sys:String>
+    <sys:String x:Key="Tên khu vực viết tắt">Tên khu vực viết tắt</sys:String>
+    <sys:String x:Key="Phụ trách khu vực">Phụ trách khu vực</sys:String>
+    <sys:String x:Key="Ngày đánh giá">Ngày đánh giá</sys:String>
+    <sys:String x:Key="Điểm">Điểm</sys:String>
+    <sys:String x:Key="Tỉ lệ tuân thủ">Tỉ lệ tuân thủ</sys:String>
+    <sys:String x:Key="Màu khu vực">Màu khu vực</sys:String>
+    <sys:String x:Key="PCCC 1">PCCC 1</sys:String>
+    <sys:String x:Key="Điện 1">Điện 1</sys:String>
+    <sys:String x:Key="An toàn 1">An toàn 1</sys:String>
+    <sys:String x:Key="Sức khoẻ 1">Sức khoẻ 1</sys:String>
+    <sys:String x:Key="Môi trường 1">Môi trường 1</sys:String>
+    <sys:String x:Key="Tổng lỗi KV">Tổng lỗi KV</sys:String>
+    <sys:String x:Key="PCCC 2">PCCC 2</sys:String>
+    <sys:String x:Key="Điện 2">Điện 2</sys:String>
+    <sys:String x:Key="An toàn 2">An toàn 2</sys:String>
+    <sys:String x:Key="Sức khoẻ 2">Sức khoẻ 2</sys:String>
+    <sys:String x:Key="Môi trường 2">Môi trường 2</sys:String>
+    <sys:String x:Key="Tổng cải tiến KV">Tổng cải tiến KV</sys:String>
+    <sys:String x:Key="Tỉ lệ cải tiến KV">Tỉ lệ cải tiến KV</sys:String>
+    <sys:String x:Key="PIC đánh giá">PIC đánh giá</sys:String>
+    <sys:String x:Key="Biến động kết quả đánh giá khu vực theo năm">Biến động kết quả đánh giá khu vực theo năm</sys:String>
+    <sys:String x:Key="Biểu đồ vi phạm theo khu vực">Biểu đồ vi phạm theo khu vực</sys:String>
+    <sys:String x:Key="Biểu đồ vi phạm cải tiến theo hạng mục">Biểu đồ vi phạm cải tiến theo hạng mục</sys:String>
+    <sys:String x:Key="Biến động màu khu vực qua các năm">Biến động màu khu vực qua các năm</sys:String>
+
+    <sys:String x:Key="Điện">Điện</sys:String>
+    <sys:String x:Key="An toàn">An toàn</sys:String>
+    <sys:String x:Key="Sức khoẻ">Sức khoẻ</sys:String>
+    <sys:String x:Key="PCCC">PCCC</sys:String>
+    <sys:String x:Key="Môi trường">Môi trường</sys:String>
+    <sys:String x:Key="Đỏ">Đỏ</sys:String>
+    <sys:String x:Key="Vàng">Vàng</sys:String>
+    <sys:String x:Key="Xanh">Môi trường</sys:String>
+    <sys:String x:Key="Truy vấn dữ liệu">Truy vấn dữ liệu</sys:String>
+    <sys:String x:Key="Khu vực màu đỏ">Khu vực màu đỏ</sys:String>
+    <sys:String x:Key="Khu vực màu vàng">Khu vực màu vàng</sys:String>
+    <sys:String x:Key="Khu vực màu xanh">Khu vực màu xanh</sys:String>
+
+
 
 
 </ResourceDictionary>
