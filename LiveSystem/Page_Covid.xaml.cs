@@ -49,79 +49,87 @@ namespace LiveSystem
         //======================================================================================================//
         private void GetAllVaccineInfo()
         {
-            var listEmpVaccine = new List<Emp_Vaccine>();
-            var listEmpVaccine0 = new List<Emp_Vaccine>();
-            if(cbb_NumberVaccine.Text != "0")
+            try
             {
-                // Lấy dữ liệu nhân viên thực tế từ Ksystem
-                string query1 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
-                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
+                var listEmpVaccine = new List<Emp_Vaccine>();
+                var listEmpVaccine0 = new List<Emp_Vaccine>();
+                //if (cbb_NumberVaccine.Text != "0")
+                //{
+                    // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                    string query1 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                    var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
 
-                // Lấy dữ liệu số mũi vaccine
-                string query2 = "SELECT B.EmpId, B.EmpNm, B.Deptlv1, B.Deptlv2, A.Vtimes FROM LiveSystem.vacxin A join LiveSystem.update_employee B on A.EmpId = B.EmpId where Vtimes = @vtimes";
-                var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2, new object[] { cbb_NumberVaccine.Text });
+                    // Lấy dữ liệu số mũi vaccine
+                    string query2 = "SELECT B.EmpId, B.EmpNm, B.Deptlv1, B.Deptlv2,case when isnull(A.Vtimes) = 0 then A.Vtimes else 0 end as Vtimes FROM LiveSystem.update_employee B left join LiveSystem.vacxin A on A.EmpId = B.EmpId where  (case when isnull(A.Vtimes) = 0 then A.Vtimes else 0 end) = @vtimes";
+                    var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2, new object[] { cbb_NumberVaccine.Text });
 
-                // Join 2 table ở trên
-                listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                    .Select(s => new Emp_Vaccine
-                    {
-                        EmpId = s.x["EmpId"].ToString(),
-                        EmpNm = s.x["EmpNm"].ToString(),
-                        Deptlv1 = s.x["Deptlv1"].ToString(),
-                        Deptlv2 = s.x["Deptlv2"].ToString(),
-                        Vtimes = int.Parse(s.x["Vtimes"].ToString())
-                    }).OrderBy(x => x.EmpId).ToList();
-            }
-            else
-            {
-                // Lấy dữ liệu nhân viên thực tế từ Ksystem
-                string query1 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
-                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
-
-                // Lấy dữ liệu số mũi vaccine
-                string query2 = "SELECT B.EmpId, B.EmpNm, B.Deptlv1, B.Deptlv2, A.Vtimes FROM LiveSystem.vacxin A join LiveSystem.update_employee B on A.EmpId = B.EmpId where Vtimes = 1";
-                var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
-
-                // Join 2 table ở trên
-                listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                    .Select(s => new Emp_Vaccine
-                    {
-                        EmpId = s.x["EmpId"].ToString(),
-                        EmpNm = s.x["EmpNm"].ToString(),
-                        Deptlv1 = s.x["Deptlv1"].ToString(),
-                        Deptlv2 = s.x["Deptlv2"].ToString(),
-                        Vtimes = int.Parse(s.x["Vtimes"].ToString())
-                    }).OrderBy(x => x.EmpId).ToList();
-                foreach(DataRow row in listEmp.Rows)
-                {
-                    bool checkExist = false;
-                    listEmpVaccine.ForEach(x => {
-                        if (row["EmpId"].ToString().Trim().ToUpper() == x.EmpId.Trim().ToUpper())
+                    // Join 2 table ở trên
+                    listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                        .Select(s => new Emp_Vaccine
                         {
-                            checkExist = true;
-                        }
-                    });
-                    if(checkExist == false)
-                    {
-                        Emp_Vaccine emp = new Emp_Vaccine();
-                        emp.EmpId = row["EmpId"].ToString();
-                        emp.EmpNm = row["EmpNm"].ToString();
-                        listEmpVaccine0.Add(emp);
-                    }
-                }
-                listEmpVaccine = listEmpVaccine0.OrderBy(x => x.EmpId).ToList();
+                            EmpId = s.x["EmpId"].ToString(),
+                            EmpNm = s.x["EmpNm"].ToString(),
+                            Deptlv1 = s.x["Deptlv1"].ToString(),
+                            Deptlv2 = s.x["Deptlv2"].ToString(),
+                            Vtimes = int.Parse(s.x["Vtimes"].ToString())
+                        }).OrderBy(x => x.EmpId).ToList();
+                //}
+                //else
+                //{
+                //    // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                //    string query1 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                //    var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
+
+                //    // Lấy dữ liệu số mũi vaccine
+                //    string query2 = "SELECT B.EmpId, B.EmpNm, B.Deptlv1, B.Deptlv2, A.Vtimes FROM LiveSystem.vacxin A join LiveSystem.update_employee B on A.EmpId = B.EmpId where Vtimes = 1";
+                //    var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
+
+                //    // Join 2 table ở trên
+                //    listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                //        .Select(s => new Emp_Vaccine
+                //        {
+                //            EmpId = s.x["EmpId"].ToString(),
+                //            EmpNm = s.x["EmpNm"].ToString(),
+                //            Deptlv1 = s.x["Deptlv1"].ToString(),
+                //            Deptlv2 = s.x["Deptlv2"].ToString(),
+                //            Vtimes = int.Parse(s.x["Vtimes"].ToString())
+                //        }).OrderBy(x => x.EmpId).ToList();
+                //    foreach (DataRow row in listEmp.Rows)
+                //    {
+                //        bool checkExist = false;
+                //        listEmpVaccine.ForEach(x => {
+                //            if (row["EmpId"].ToString().Trim().ToUpper() == x.EmpId.Trim().ToUpper())
+                //            {
+                //                checkExist = true;
+                //            }
+                //        });
+                //        if (checkExist == false)
+                //        {
+                //            Emp_Vaccine emp = new Emp_Vaccine();
+                //            emp.EmpId = row["EmpId"].ToString();
+                //            emp.EmpNm = row["EmpNm"].ToString();
+                //            listEmpVaccine0.Add(emp);
+                //        }
+                //    }
+                    //listEmpVaccine = listEmpVaccine0.OrderBy(x => x.EmpId).ToList();
+                //}
+
+
+                int i = 1;
+                listEmpVaccine.ForEach(x =>
+                {
+                    x.ID = i;
+                    i++;
+                });
+
+                // Hiển thị danh sách lên view
+                lvKhaibaoYte.ItemsSource = listEmpVaccine;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
             }
             
-
-            int i = 1;
-            listEmpVaccine.ForEach(x =>
-            {
-                x.ID = i;
-                i++;
-            });
-
-            // Hiển thị danh sách lên view
-            lvKhaibaoYte.ItemsSource = listEmpVaccine;
         }
 
         private void GetListVTimes()

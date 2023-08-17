@@ -38,56 +38,81 @@ namespace LiveSystem
         {
             InitializeComponent();
             String DateYM = DateTime.Now.ToString("yyyy");
-            txtYear.Text = DateYM;
+            cbbYear.Text = DateYM;
             Loaded += Page_Training_Loaded;
             GetDataCmb();
+            GetDataCmbYear();
         }
 
         
         
         private async void GetDataCmb()
         {
-            string Year = txtYear.Text;
-            string query = "SPGetDataCmbTypeTraining @date";
-            // Lấy dữ liệu và hiển thị
-            DataTable listCmb = new DataTable();
-            
-            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year });
-            
-            
-            List<string> listResult = new List<string>();
-            foreach(DataRow Row in listCmb.Rows)
+            try
             {
-                listResult.Add(Row["Name"].ToString());
+                string Year = cbbYear.Text;
+                string query = "SPGetDataCmbTypeTraining @date";
+                // Lấy dữ liệu và hiển thị
+                DataTable listCmb = new DataTable();
+
+                listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year });
+
+
+                List<string> listResult = new List<string>();
+                foreach (DataRow Row in listCmb.Rows)
+                {
+                    listResult.Add(Row["Name"].ToString());
+                }
+                cbbType.ItemsSource = listResult;
             }
-            cbbType.ItemsSource = listResult;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
 
 
         private async void GetPlanEduNow()
         {
-            string TypeNm = cbbType.SelectedValue.ToString();
-            string DateYM = DateTime.Now.ToString("yyyyMM");
-            string query = "SPGetDataPlanEduNow @dateYM , @TypeNm";
-            // Lấy dữ liệu và hiển thị
-            DataTable listCmb = new DataTable();
+            try
+            {
+                string TypeNm = cbbType.SelectedValue.ToString();
+                string DateYM = DateTime.Now.ToString("yyyyMM");
+                string query = "SPGetDataPlanEduNow @dateYM , @TypeNm";
+                // Lấy dữ liệu và hiển thị
+                DataTable listCmb = new DataTable();
 
-            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM , TypeNm });
+                listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM, TypeNm });
 
-            lvPlan.ItemsSource = listCmb.DefaultView;
+                lvPlan.ItemsSource = listCmb.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
 
         private async void GetPlanEduAfter()
         {
-            string TypeNm = cbbType.SelectedValue.ToString();
-            string DateYM = DateTime.Now.ToString("yyyyMM");
-            string query = "SPGetDataPlanEduAfter @dateYM , @TypeNm";
-            // Lấy dữ liệu và hiển thị
-            DataTable listCmb = new DataTable();
+            try
+            {
+                string TypeNm = cbbType.SelectedValue.ToString();
+                string DateYM = DateTime.Now.ToString("yyyyMM");
+                string query = "SPGetDataPlanEduAfter @dateYM , @TypeNm";
+                // Lấy dữ liệu và hiển thị
+                DataTable listCmb = new DataTable();
 
-            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM , TypeNm });
+                listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { DateYM, TypeNm });
 
-            lvPlanAfter.ItemsSource = listCmb.DefaultView;
+                lvPlanAfter.ItemsSource = listCmb.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
 
         private void Page_Training_Loaded(object sender, RoutedEventArgs e)
@@ -117,116 +142,150 @@ namespace LiveSystem
 
         private async void GetListEmpTraining()
         {
-            string TypeNm = cbbType.SelectedValue.ToString();
-            string Year = txtYear.Text;
-            string query = "SPGetDataTrainingDetail @year , @TypeNm";
-
-            //hiển thị Page_loading
-            await Task.Run(() =>
+            try
             {
-                this.Dispatcher.Invoke(() =>
+                string TypeNm = cbbType.SelectedValue.ToString();
+                string Year = cbbYear.Text;
+                string query = "SPGetDataTrainingDetail @year , @TypeNm";
+
+                //hiển thị Page_loading
+                await Task.Run(() =>
                 {
-                    Page_LoadingData page_loading = new Page_LoadingData();
-                    stackLoading.Visibility = Visibility.Visible;
-                    frameLoading.Navigate(page_loading);
-                    checkWorking = true;
-                }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-             });
-            
-            //lấy dữ liệu và hiển thị
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Page_LoadingData page_loading = new Page_LoadingData();
+                        stackLoading.Visibility = Visibility.Visible;
+                        frameLoading.Navigate(page_loading);
+                        checkWorking = true;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                });
 
-            DataTable listTraining = new DataTable();
-            await Task.Run(() =>
-            {
-                listTraining = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year , TypeNm });
+                //lấy dữ liệu và hiển thị
 
-            });
-            var listAll = new List<EmpEduModel>();
-            foreach (DataRow rowA in listTraining.Rows)
-            {
-                EmpEduModel emp = new EmpEduModel();
-                emp.PL1 = rowA["PL1"].ToString();
-                emp.PL2 = rowA["PL2"].ToString();
-                emp.TrainName = rowA["TrainName"].ToString();
-                emp.QDLP = rowA["QDLP"].ToString();
-                emp.TrainPos = rowA["TrainPos"].ToString();
-                emp.PTDT = rowA["PTDT"].ToString();
-                emp.TrainLocation = rowA["TrainLocation"].ToString();
-                emp.ChargeTrain = rowA["ChargeTrain"].ToString();
-                emp.TrainPrice = rowA["TrainPrice"].ToString();
-                emp.Cycle = rowA["Cycle"].ToString();
-                emp.Times = rowA["Times"].ToString();
-                emp.Duration1time = rowA["Duration1time"].ToString();
-                emp.Numper = rowA["Numper"].ToString();
-                emp.PlanTraning = rowA["PlanTraning"].ToString();
-                emp.Month1 = rowA["Month1"].ToString();
-                emp.Month2 = rowA["Month2"].ToString();
-                emp.Month3 = rowA["Month3"].ToString();
-                emp.Month4 = rowA["Month4"].ToString();
-                emp.Month5 = rowA["Month5"].ToString();
-                emp.Month6 = rowA["Month6"].ToString();
-                emp.Month7 = rowA["Month7"].ToString();
-                emp.Month8 = rowA["Month8"].ToString();
-                emp.Month9 = rowA["Month9"].ToString();
-                emp.Month10 = rowA["Month10"].ToString();
-                emp.Month11 = rowA["Month11"].ToString();
-                emp.Month12 = rowA["Month12"].ToString();
-                emp.Remark = rowA["Remark"].ToString();
-                emp.Year = rowA["Year"].ToString();
-                listAll.Add(emp);
+                DataTable listTraining = new DataTable();
+                await Task.Run(() =>
+                {
+                    listTraining = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year, TypeNm });
+
+                });
+                var listAll = new List<EmpEduModel>();
+                foreach (DataRow rowA in listTraining.Rows)
+                {
+                    EmpEduModel emp = new EmpEduModel();
+                    emp.PL1 = rowA["PL1"].ToString();
+                    emp.PL2 = rowA["PL2"].ToString();
+                    emp.TrainName = rowA["TrainName"].ToString();
+                    emp.QDLP = rowA["QDLP"].ToString();
+                    emp.TrainPos = rowA["TrainPos"].ToString();
+                    emp.PTDT = rowA["PTDT"].ToString();
+                    emp.TrainLocation = rowA["TrainLocation"].ToString();
+                    emp.ChargeTrain = rowA["ChargeTrain"].ToString();
+                    emp.TrainPrice = rowA["TrainPrice"].ToString();
+                    emp.Cycle = rowA["Cycle"].ToString();
+                    emp.Times = rowA["Times"].ToString();
+                    emp.Duration1time = rowA["Duration1time"].ToString();
+                    emp.Numper = rowA["Numper"].ToString();
+                    emp.PlanTraning = rowA["PlanTraning"].ToString();
+                    emp.Month1 = rowA["Month1"].ToString();
+                    emp.Month2 = rowA["Month2"].ToString();
+                    emp.Month3 = rowA["Month3"].ToString();
+                    emp.Month4 = rowA["Month4"].ToString();
+                    emp.Month5 = rowA["Month5"].ToString();
+                    emp.Month6 = rowA["Month6"].ToString();
+                    emp.Month7 = rowA["Month7"].ToString();
+                    emp.Month8 = rowA["Month8"].ToString();
+                    emp.Month9 = rowA["Month9"].ToString();
+                    emp.Month10 = rowA["Month10"].ToString();
+                    emp.Month11 = rowA["Month11"].ToString();
+                    emp.Month12 = rowA["Month12"].ToString();
+                    emp.Remark = rowA["Remark"].ToString();
+                    emp.Year = rowA["Year"].ToString();
+                    listAll.Add(emp);
+                }
+
+                //Thêm STT
+                int i = 1;
+                listAll.ForEach(x =>
+                {
+                    x.ID = i;
+                    i++;
+                });
+
+                lvTraining.ItemsSource = listTraining.DefaultView;
+                list_Excell = listAll;
+
+                // Đóng Page_LoadingData
+                await Task.Run(() =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        stackLoading.Visibility = Visibility.Hidden;
+                        checkWorking = false;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                });
             }
-
-            //Thêm STT
-            int i = 1;
-            listAll.ForEach(x =>
+            catch (Exception)
             {
-                x.ID = i;
-                i++;
-            });
-
-            lvTraining.ItemsSource = listTraining.DefaultView;
-            list_Excell = listAll;
-
-            // Đóng Page_LoadingData
-            await Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    stackLoading.Visibility = Visibility.Hidden;
-                    checkWorking = false;
-                }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            });
+                MessageBox.Show("Error when processing training data", "Error", MessageBoxButton.OK);
+            }
+            
         }
 
 
         // Hiển thị bảng quản lý đào tạo
         private async void GetEduInfo()
         {
-            string TypeNm = cbbType.SelectedValue.ToString();
-            string Year = txtYear.Text;
-            //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
-            string query = "SPGetDateTrainingMainDetail @date , @TypeNm";
-
-
-            // Lấy dữ liệu và hiển thị
-            DataTable listEduInfo = new DataTable();
-            await Task.Run(() =>
+            try
             {
-               
+                string TypeNm = cbbType.SelectedValue.ToString();
+                string Year = cbbYear.Text;
+                //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
+                string query = "SPGetDateTrainingMainDetail @date , @TypeNm";
 
-                listEduInfo = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year , TypeNm });
-                //foreach (DataRow row in listEduInfo.Rows)
-                //{
-                //    row["Rate"] = row["Rate"] + "%";
-                //}
-            });
-            lvEdu.ItemsSource = listEduInfo.DefaultView;
+
+                // Lấy dữ liệu và hiển thị
+                DataTable listEduInfo = new DataTable();
+                await Task.Run(() =>
+                {
+
+
+                    listEduInfo = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year, TypeNm });
+                    //foreach (DataRow row in listEduInfo.Rows)
+                    //{
+                    //    row["Rate"] = row["Rate"] + "%";
+                    //}
+                });
+                lvEdu.ItemsSource = listEduInfo.DefaultView;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error when processing training data", "Error", MessageBoxButton.OK);
+            }
+            
 
 
         }
 
+        private async void GetDataCmbYear()
+        {
+            string Year = "";
+            string query = "SPGetDataCmbYearTrainning @date";
+            // Lấy dữ liệu và hiển thị
+            DataTable listCmb = new DataTable();
 
-        
+            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query, new object[] { Year });
+
+
+            List<string> listResult = new List<string>();
+            foreach (DataRow Row in listCmb.Rows)
+            {
+                listResult.Add(Row["CbbYear"].ToString());
+            }
+            cbbYear.ItemsSource = listResult;
+        }
+
+
+
 
         private void btnExportExcel_Click(object sender, RoutedEventArgs e)
         {
@@ -700,6 +759,11 @@ namespace LiveSystem
         }
 
         private void cbbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void cbbYear_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

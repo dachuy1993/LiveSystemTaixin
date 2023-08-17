@@ -26,6 +26,33 @@
 
                 <Label Content="{DynamicResource Số lượng}" VerticalContentAlignment="Center"></Label>
                 <Label Name="lbSoLuong" VerticalContentAlignment="Center" FontWeight="Bold"></Label>
+                <Label Content="{DynamicResource Năm kiểm tra}" VerticalAlignment="Center"></Label>
+                <ComboBox Name="cbbYear" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbYear_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding .}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Content="{DynamicResource Tháng kiểm tra}" VerticalAlignment="Center"></Label>
+                <ComboBox Name="cbbMonth" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbMonth_SelectionChanged">
+                    <ComboBoxItem Content=""></ComboBoxItem>
+                    <ComboBoxItem Content="01"></ComboBoxItem>
+                    <ComboBoxItem Content="02"></ComboBoxItem>
+                    <ComboBoxItem Content="03"></ComboBoxItem>
+                    <ComboBoxItem Content="04"></ComboBoxItem>
+                    <ComboBoxItem Content="05"></ComboBoxItem>
+                    <ComboBoxItem Content="06"></ComboBoxItem>
+                    <ComboBoxItem Content="07"></ComboBoxItem>
+                    <ComboBoxItem Content="08"></ComboBoxItem>
+                    <ComboBoxItem Content="09"></ComboBoxItem>
+                    <ComboBoxItem Content="10"></ComboBoxItem>
+                    <ComboBoxItem Content="11"></ComboBoxItem>
+                    <ComboBoxItem Content="12"></ComboBoxItem>
+
+                </ComboBox>
                 <Label Content="{DynamicResource Thời gian}" VerticalContentAlignment="Center"></Label>
                 <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Margin="10,0">
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -36,20 +63,39 @@
                     </StackPanel>
                 </Border>
                 <Label Content="{DynamicResource Bộ phận}" VerticalAlignment="Center"></Label>
-                <ComboBox Name="cbbDepatment" SelectionChanged="cbbDepatment_SelectionChanged" SelectedIndex="0" Width="100" VerticalContentAlignment="Center" Margin="5,0" Visibility="Visible">
-                    <ComboBoxItem Content="ALL"></ComboBoxItem>
-                    <ComboBoxItem Content="MANAGE"></ComboBoxItem>
-                    <ComboBoxItem Content="IT"></ComboBoxItem>
-                    <ComboBoxItem Content="MAR"></ComboBoxItem>
-                    <ComboBoxItem Content="PRO"></ComboBoxItem>
-                    <ComboBoxItem Content="QC"></ComboBoxItem>
-                    <ComboBoxItem Content="HICUP"></ComboBoxItem>
+                <ComboBox Name="cbbDepatment" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbDepatment_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding .}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
+
                 <Label Content="{DynamicResource Phòng ban}" VerticalContentAlignment="Center"></Label>
-                <ComboBox Name="cbbRoom" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbRoom_SelectionChanged"></ComboBox>
+                <!--<ComboBox Name="cbbRoom" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbRoom_SelectionChanged"></ComboBox>-->
+                <ComboBox Name="cbbRoom" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbRoom_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding .}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <Label Content="{DynamicResource Nhóm}" VerticalContentAlignment="Center"></Label>
-                <ComboBox Name="cbbTeam" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbTeam_SelectionChanged"></ComboBox>
-               
+                <!--<ComboBox Name="cbbTeam" Width="100" ItemsSource="{Binding}" DisplayMemberPath="EmpNm" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbTeam_SelectionChanged"></ComboBox>-->
+                <ComboBox Name="cbbTeam" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbTeam_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding .}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
                 <Label Content="{DynamicResource Mã NV}" VerticalContentAlignment="Center"></Label>
                 <TextBox x:Name="txtName" VerticalContentAlignment="Center" Width="120"></TextBox>
                 <Button x:Name="btnTimKiem" Width="100" Margin="10,0,10,0" Click="btnTimKiem_Click">

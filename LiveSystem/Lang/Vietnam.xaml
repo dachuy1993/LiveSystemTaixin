@@ -247,6 +247,7 @@
     <sys:String x:Key="Khu vực màu đỏ">Khu vực màu đỏ</sys:String>
     <sys:String x:Key="Khu vực màu vàng">Khu vực màu vàng</sys:String>
     <sys:String x:Key="Khu vực màu xanh">Khu vực màu xanh</sys:String>
+    <sys:String x:Key="Tháng kiểm tra">Tháng kiểm tra</sys:String>
 
 
 

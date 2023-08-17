@@ -45,7 +45,7 @@ namespace LiveSystem
         public static string path_Ksystem25 = "Data Source=192.168.2.5;Initial Catalog=LiveSystem;Persist Security Info=True;User ID=sa;Password= oneuser1!";
 
         bool checkWorking = false;
-        public static string dateCheck = "";
+        public static string dateCheck = DateTime.Now.ToString("yyyyMMdd");
         public static string shiftCheck = "Ca ngày";
         public int s = 0;
 
@@ -54,75 +54,140 @@ namespace LiveSystem
         public static string Depatmen_Code = "";
         #endregion
 
+        DataTable listWorkingRate = new DataTable();
+        DataTable listEduInfo = new DataTable();
+
+
+        public Page_Main()
+        {
+            InitializeComponent();
+            dpk_Check.SelectedDate = DateTime.Now;
+
+            Loaded += Page_Main_Loaded;
+
+            // Change Language
+            
+        }
+
+
+        private async void Page_Main_Loaded(object sender, RoutedEventArgs e)
+        {
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(MainWindow.language);
+            ApplyLanguage(MainWindow.language);
+
+            
+            GetWorkingRate();
+            
+
+            
+            // Tỷ lệ phép năm
+
+            timer1_Tick();
+
+            //Thông tin đào tạo
+
+        }
+
         /*New Code - THANGDN*/
         // Hiển thị bảng tỷ lệ đi làm
         private async void GetWorkingRate()
         {
-            //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
-            string query = "SPGetDataRateWorkMain @shift , @date";
-            // Hiển thị Page_LoadingData
-            await Task.Run(() =>
+
+            try
             {
-                this.Dispatcher.Invoke(() =>
+                string query = "SPGetDataRateWorkMain @shift , @date";
+                //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
+
+                // Hiển thị Page_LoadingData
+                await Task.Run(() =>
                 {
-                    Page_LoadingData page_Loading = new Page_LoadingData();
-                    stackLoading.Visibility = Visibility.Visible;
-                    frameLoading.Navigate(page_Loading);
-                    checkWorking = true;
-                }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Page_LoadingData page_Loading = new Page_LoadingData();
+                        stackLoading.Visibility = Visibility.Visible;
+                        frameLoading.Navigate(page_Loading);
+                        checkWorking = true;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
 
-            });
+                });
 
-            // Lấy dữ liệu và hiển thị
-            DataTable listWorkingRate = new DataTable();
-            await Task.Run(() =>
+                // Lấy dữ liệu và hiển thị
+                await Task.Run(() =>
+                {
+                    
+                        // Tỷ lệ đi làm
+                        if (dateCheck.Count() != 8)
+                            dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                        listWorkingRate = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { shiftCheck, dateCheck });
+                        foreach (DataRow row in listWorkingRate.Rows)
+                        {
+                            row["Rate"] = row["Rate"] + "%";
+                        }
+                       this.Dispatcher.Invoke(() =>
+                    { 
+                        GetVacationLeaveRate();
+                        // Tỷ lệ tăng ca
+                        GetOverTimeRate();
+                        // Thông tin suất ăn
+                        GetVSIPMeal();
+                        VaccineInfo();
+                        EmpInfoUpdateStatus();
+                        GetCarInfo();
+                        ScheduleInfo();
+                        GetEduInfo();
+                        Db_Read_Room();
+                        Db_Read_Team();
+
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+
+                });
+                lvWorkingRate.ItemsSource = listWorkingRate.DefaultView;
+
+                // Đóng Page_LoadingData
+                await Task.Run(() =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        stackLoading.Visibility = Visibility.Hidden;
+                        checkWorking = false;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                });
+
+            }
+            catch (Exception ex)
             {
-                if(dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-
-                //listWorkingRate = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { shiftCheck, dateCheck });
-                listWorkingRate = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { shiftCheck, dateCheck });
-                foreach (DataRow row in listWorkingRate.Rows)
-                {
-                    row["Rate"] = row["Rate"] + "%";
-                }
-            });
-            lvWorkingRate.ItemsSource = listWorkingRate.DefaultView;
-
+                MessageBox.Show("Error when processing data going to work", "Error", MessageBoxButton.OK);
+            }
             
-            // Đóng Page_LoadingData
-            await Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    stackLoading.Visibility = Visibility.Hidden;
-                    checkWorking = false;
-                }, System.Windows.Threading.DispatcherPriority.ContextIdle);
-            });
         }
 
         // Hiển thị bảng quản lý đào tạo
         private async void GetEduInfo()
         {
-            //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
-            string query = "SPGetDateTrainingMain @date";
-            
-
-            // Lấy dữ liệu và hiển thị
-            DataTable listEduInfo = new DataTable();
-            await Task.Run(() =>
+            try
             {
-                if (dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
+                
 
 
-                listEduInfo = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { dateCheck });
-                //foreach (DataRow row in listEduInfo.Rows)
-                //{
-                //    row["Rate"] = row["Rate"] + "%";
-                //}
-            });
-            lvEdu.ItemsSource = listEduInfo.DefaultView;
+                // Lấy dữ liệu và hiển thị
+                
+                await Task.Run(() =>
+                {
+                    string query = "SPGetDateTrainingMain @date";
+                    if (dateCheck.Count() != 8)
+                        dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+
+
+                    listEduInfo = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { dateCheck });
+                });
+                lvEdu.ItemsSource = listEduInfo.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error processing training data", "Error", MessageBoxButton.OK);
+            }
+            
 
             
         }
@@ -130,20 +195,28 @@ namespace LiveSystem
         // Hiển thị bảng tỷ lệ phép năm
         private void GetVacationLeaveRate()
         {
+            try
+            {
+                string query1 = "SPGetDataHolidayMain @date";
+
+                var listEmp = DataProvider.Instance.ExecuteSP(path_Ksystem20, query1, new object[] { dateCheck });
+
+
+                // Hiển thị danh sách lên view
+                lvPhepNam.ClearValue(ListView.ItemsSourceProperty);
+                lvPhepNam.ItemsSource = listEmp.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while processing annual leave data", "Error", MessageBoxButton.OK);
+            }
             // Lấy dữ liệu phép của toàn bộ nhân viên LiveSystem
             //string query1 = "select * from tmmhyUpdate";
             //var listEmpVacationLeave = DataProvider.Instance.executeQuery(path_Ksystem25, query1);
             // Lấy dữ liệu nhân viên thực tế từ Ksystem theo phòng ban
             //string query2 = "SPGetDataHolidayMain";
 
-            string query1 = "SPGetDataHolidayMain @date";
-
-            var listEmp = DataProvider.Instance.ExecuteSP(path_Ksystem20, query1, new object[] { dateCheck });
-
             
-            // Hiển thị danh sách lên view
-            lvPhepNam.ClearValue(ListView.ItemsSourceProperty);
-            lvPhepNam.ItemsSource = listEmp.DefaultView;
 
             
         }
@@ -151,147 +224,130 @@ namespace LiveSystem
         // Tỷ lệ tăng ca
         private void GetOverTimeRate()
         {
-            if (dateCheck.Count() != 8)
-                dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-            string query = "SPGetDataOverTimeMain @date";
-            var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
+            try
+            {
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                string query = "SPGetDataOverTimeMain @date";
+                var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
+
+                lvOverTime.ItemsSource = listOTRate.DefaultView;
+                lvOverTime3.ItemsSource = listOTRate.DefaultView;
+                lvOverTime4.ItemsSource = listOTRate.DefaultView;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error when processing overtime data", "Error", MessageBoxButton.OK);
+            }
             
-            lvOverTime.ItemsSource = listOTRate.DefaultView;
-            lvOverTime3.ItemsSource = listOTRate.DefaultView;
-            lvOverTime4.ItemsSource = listOTRate.DefaultView;
         }
 
         // Thông tin suất ăn VSIP
         private void GetVSIPMeal()
         {
-            //if (dateCheck.Count() != 8)
-            //    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-            //string query = "select * from tmmfod where Insdt = @date";
-            string query = "SPGetDateFoodMain @date";
-            //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
-            var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
-            lvVSIPMeal.ItemsSource = listVSIPMeal.DefaultView;
+            try
+            {
+                string query = "SPGetDateFoodMain @date";
+                var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
+                lvVSIPMeal.ItemsSource = listVSIPMeal.DefaultView;
 
-            // Chart
-            //var _qtyCity = new ChartValues<double>();
-            //var _nameCity = new ChartValues<string>();
-            //DataChart.Values3 = _qtyCity;
-            //if (MainWindow.language == "vi-VN")
-            //{
-            //    foreach (DataRow row in listVSIPMeal.Rows)
-            //    {
-            //        if (row["EmpNm"].ToString() == "TOTAL")
-            //        {
-            //            _nameCity.Add("Sáng");
-            //            _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
-            //            _nameCity.Add("Trưa");
-            //            _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
-            //            _nameCity.Add("Chiều");
-            //            _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
-            //            _nameCity.Add("Đêm");
-            //            _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
-            //        }
-            //    }
-            //    DataChart.Title = "Số lượng";
-            //}
-            //else
-            //{
-            //    foreach (DataRow row in listVSIPMeal.Rows)
-            //    {
-            //        if (row["EmpNm"].ToString() == "TOTAL")
-            //        {
-            //            _nameCity.Add("아침");
-            //            _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
-            //            _nameCity.Add("정오");
-            //            _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
-            //            _nameCity.Add("오후");
-            //            _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
-            //            _nameCity.Add("밤");
-            //            _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
-            //        }
-            //    }
-            //    DataChart.Title = "수량";
-            //}
-            //DataChart.Labels = _nameCity;
-            //DataChart.YFormatter = _qtyCity;
-            //DataChart.Step = 100;
-            //DataContext = this;
-            //Column column = new Column();
-            //frameChart_Food.Navigate(column);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error processing meal data", "Error", MessageBoxButton.OK);
+            }
+            
         }
 
         // Thông tin cư trú
         private void GetEmpInfo()
         {
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee where TempProv = N'Tỉnh Bắc Ninh'";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
-            // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date";
-            var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+            try
+            {
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee where TempProv = N'Tỉnh Bắc Ninh'";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date";
+                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
 
-            // Group by dữ liệu
-            var listAddressInfo = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .GroupBy(g => g.x["TempDist"])
-                .Select(s => new
-                {
-                    Dist = s.Key.ToString(),
-                    Qty = s.Count()
-                }).ToList();
-            listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
+                // Group by dữ liệu
+                var listAddressInfo = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .GroupBy(g => g.x["TempDist"])
+                    .Select(s => new
+                    {
+                        Dist = s.Key.ToString(),
+                        Qty = s.Count()
+                    }).ToList();
+                listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
 
-            // Chart
-            //var _qtyCity = new ChartValues<double>();
-            //var _nameCity = new ChartValues<string>();
-            //DataChart.Values3 = _qtyCity;
+                // Chart
+                //var _qtyCity = new ChartValues<double>();
+                //var _nameCity = new ChartValues<string>();
+                //DataChart.Values3 = _qtyCity;
 
-            //listAddressInfo.ForEach(x =>
-            //{
-            //    int len = x.Dist.Length;
-            //    if (x.Dist.Contains("Thành phố"))
-            //    {
-            //        _nameCity.Add(x.Dist.Substring(10, len - 10));
-            //    }
-            //    if (x.Dist.Contains("Quận"))
-            //    {
-            //        _nameCity.Add(x.Dist.Substring(5, len - 5));
-            //    }
-            //    if (x.Dist.Contains("Thị xã"))
-            //    {
-            //        _nameCity.Add(x.Dist.Substring(7, len - 7));
-            //    }
-            //    if (x.Dist.Contains("Huyện"))
-            //    {
-            //        _nameCity.Add(x.Dist.Substring(6, len - 6));
-            //    }
-            //    _qtyCity.Add(x.Qty);
-            //});
+                //listAddressInfo.ForEach(x =>
+                //{
+                //    int len = x.Dist.Length;
+                //    if (x.Dist.Contains("Thành phố"))
+                //    {
+                //        _nameCity.Add(x.Dist.Substring(10, len - 10));
+                //    }
+                //    if (x.Dist.Contains("Quận"))
+                //    {
+                //        _nameCity.Add(x.Dist.Substring(5, len - 5));
+                //    }
+                //    if (x.Dist.Contains("Thị xã"))
+                //    {
+                //        _nameCity.Add(x.Dist.Substring(7, len - 7));
+                //    }
+                //    if (x.Dist.Contains("Huyện"))
+                //    {
+                //        _nameCity.Add(x.Dist.Substring(6, len - 6));
+                //    }
+                //    _qtyCity.Add(x.Qty);
+                //});
 
-            //if (MainWindow.language == "vi-VN")
-            //{
-            //    DataChart.Title = "Số người";
-            //}
-            //else
-            //{
-            //    DataChart.Title = "수량";
-            //}
+                //if (MainWindow.language == "vi-VN")
+                //{
+                //    DataChart.Title = "Số người";
+                //}
+                //else
+                //{
+                //    DataChart.Title = "수량";
+                //}
 
-            //DataChart.Labels = _nameCity;
-            //DataChart.YFormatter = _qtyCity;
-            //DataChart.Step = 200;
-            //DataContext = this;
-            //Column column = new Column();
-            //frameChart_Huyen.Navigate(column);
+                //DataChart.Labels = _nameCity;
+                //DataChart.YFormatter = _qtyCity;
+                //DataChart.Step = 200;
+                //DataContext = this;
+                //Column column = new Column();
+                //frameChart_Huyen.Navigate(column);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error processing residence information data", "Error", MessageBoxButton.OK);
+            }
+            
         }
         public void ScheduleInfo()
         {
-            if (dateCheck.Count() != 8)
-                dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-            string query = "SPGetDateScheduleMain @date";
-            //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
-            var listScheduleInfo = DataProvider.Instance.ExecuteScalar(path_Ksystem25, query, new object[] { dateCheck });
-            //lvLichTrinh.ItemsSource = listScheduleInfo.DefaultView;
-            lb_Note.Text = listScheduleInfo.ToString();
+            try
+            {
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                string query = "SPGetDateScheduleMain @date";
+                //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                var listScheduleInfo = DataProvider.Instance.ExecuteScalar(path_Ksystem25, query, new object[] { dateCheck });
+                //lvLichTrinh.ItemsSource = listScheduleInfo.DefaultView;
+                lb_Note.Text = listScheduleInfo.ToString();
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Error processing schedule data", "Error", MessageBoxButton.OK);
+            }
+            
 
         }
 
@@ -299,124 +355,148 @@ namespace LiveSystem
         // Lấy dữ liệu tiêm Vaccine
         private void VaccineInfo()
         {
-            // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
-            
-            // Lấy dữ liệu số mũi vaccine
-            string query = "select * from vacxin";
-            var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query);
-
-            // Join 2 table ở trên
-            var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .Select(s => new Emp_Vaccine
-                {
-                    EmpId = s.x["EmpId"].ToString(),
-                    Vtimes = int.Parse(s.x["Vtimes"].ToString())
-                });
-
-            // Hiển thị lên view
-            double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
-            double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
-            double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
-            double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
-            double total = listEmp.Rows.Count;
-
-            lb_Vaccine1.Content = vaccine1;
-            lb_Vaccine2.Content = vaccine2;
-            lb_Vaccine3.Content = vaccine3;
-            lb_Vaccine4.Content = vaccine4;
-            lb_VaccineNo.Content = total - vaccine1;
-
-            if(listEmpVaccine.Count() != 0)
+            try
             {
-                lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
-                lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
-                lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
-                lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
-                lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+
+                // Lấy dữ liệu số mũi vaccine
+                string query = "select * from vacxin";
+                var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query);
+
+                // Join 2 table ở trên
+                var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new Emp_Vaccine
+                    {
+                        EmpId = s.x["EmpId"].ToString(),
+                        Vtimes = int.Parse(s.x["Vtimes"].ToString())
+                    });
+
+                // Hiển thị lên view
+                double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
+                double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
+                double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
+                double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
+                double total = listEmp.Rows.Count;
+
+                lb_Vaccine1.Content = vaccine1;
+                lb_Vaccine2.Content = vaccine2;
+                lb_Vaccine3.Content = vaccine3;
+                lb_Vaccine4.Content = vaccine4;
+                lb_VaccineNo.Content = total - vaccine1;
+
+                if (listEmpVaccine.Count() != 0)
+                {
+                    lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
+                    lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
+                    lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
+                    lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
+                    lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Error in processing vaccination data", "Error", MessageBoxButton.OK);
+            }
+            
         }
 
         // Employee Information Update Status
         private void EmpInfoUpdateStatus()
         {
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
+            try
+            {
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
 
-            // Lấy thông tin nhân viên đang làm việc
-            string query2 = "select * from TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+                // Lấy thông tin nhân viên đang làm việc
+                string query2 = "select * from TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
 
-            var EmpInfoUpdateStatusOK = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .Select(s => new { s }).ToList().Count();
-            var EmpInfoUpdateStatusNG = listEmp.Rows.Count - EmpInfoUpdateStatusOK;
-            lb_UpdateDiaChi_OK.Content = EmpInfoUpdateStatusOK;
-            lb_UpdateDiaChi_NG.Content = EmpInfoUpdateStatusNG;
-            lb_Total.Content = listEmp.Rows.Count;
+                var EmpInfoUpdateStatusOK = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new { s }).ToList().Count();
+                var EmpInfoUpdateStatusNG = listEmp.Rows.Count - EmpInfoUpdateStatusOK;
+                lb_UpdateDiaChi_OK.Content = EmpInfoUpdateStatusOK;
+                lb_UpdateDiaChi_NG.Content = EmpInfoUpdateStatusNG;
+                lb_Total.Content = listEmp.Rows.Count;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error processing address update data", "Error", MessageBoxButton.OK);
+            }
+            
         }
 
         // Lấy thông tin đặt xe
         private void GetCarInfo()
         {
-            string date1 = DateTime.Now.ToString("yyyy-MM-dd");
-            string dateKM1;
-            string dateKM2;
-            if (DateTime.Now.Month == 1)
+            try
             {
-                if (int.Parse(DateTime.Now.Day.ToString()) <= 25)
+                string date1 = DateTime.Now.ToString("yyyy-MM-dd");
+                string dateKM1;
+                string dateKM2;
+                if (DateTime.Now.Month == 1)
                 {
-                    dateKM1 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-26";
-                    dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-25";
+                    if (int.Parse(DateTime.Now.Day.ToString()) <= 25)
+                    {
+                        dateKM1 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-26";
+                        dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-25";
 
+                    }
+                    else
+                    {
+                        dateKM1 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-26";
+                        dateKM2 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-31";
+                    }
                 }
                 else
                 {
-                    dateKM1 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-26";
-                    dateKM2 = DateTime.Now.AddYears(-1).ToString("yyyy") + "-12-31";
+                    if (int.Parse(DateTime.Now.Day.ToString()) <= 25)
+                    {
+                        dateKM1 = DateTime.Now.ToString("yyyy") + "-" + DateTime.Now.AddMonths(-1).ToString("MM") + "-26";
+                        dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-25";
+                    }
+                    else
+                    {
+                        dateKM1 = DateTime.Now.ToString("yyyy-MM") + "-26";
+                        dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-31";
+                    }
                 }
+
+                string query = "Call SPGetListCarForDate( @date1 , @dateKM1 , @dateKM2 )";
+                var listCar = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query, new object[] { date1, dateKM1, dateKM2 });
+                listCar.Columns.Add("Color", typeof(string));
+                foreach (DataRow row in listCar.Rows)
+                {
+                    if (row["Status"].ToString() == "Finish")
+                    {
+                        row["Color"] = "DodgerBlue";
+                    }
+                    else
+                    {
+                        row["Color"] = "Red";
+                    }
+
+                    if (row["Destination"].ToString() == "")
+                    {
+                        row["Destination"] = row["OtherDestination"];
+                    }
+
+                    if (row["User"].ToString() == "")
+                    {
+                        row["User"] = row["OtherOrderer"];
+                    }
+                }
+
+                lvCar.ItemsSource = listCar.DefaultView;
             }
-            else
+            catch (Exception)
             {
-                if (int.Parse(DateTime.Now.Day.ToString()) <= 25)
-                {
-                    dateKM1 = DateTime.Now.ToString("yyyy") + "-" + DateTime.Now.AddMonths(-1).ToString("MM") + "-26";
-                    dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-25";
-                }
-                else
-                {
-                    dateKM1 = DateTime.Now.ToString("yyyy-MM") + "-26";
-                    dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-31";
-                }
+                MessageBox.Show("Error when processing car data", "Error", MessageBoxButton.OK);
             }
-
-            string query = "Call SPGetListCarForDate( @date1 , @dateKM1 , @dateKM2 )";
-            var listCar = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query, new object[] {date1, dateKM1, dateKM2});
-            listCar.Columns.Add("Color", typeof(string));
-            foreach(DataRow row in listCar.Rows)
-            {
-                if (row["Status"].ToString() == "Finish")
-                {
-                    row["Color"] = "DodgerBlue";
-                }
-                else
-                {
-                    row["Color"] = "Red";
-                }
-
-                if (row["Destination"].ToString() == "")
-                {
-                    row["Destination"] = row["OtherDestination"];
-                }
-
-                if (row["User"].ToString() == "")
-                {
-                    row["User"] = row["OtherOrderer"];
-                }
-            }
-
-            lvCar.ItemsSource = listCar.DefaultView;
+            
         }
 
 
@@ -425,47 +505,7 @@ namespace LiveSystem
         /*Old Code*/
         /*===============================================================================================================================================*/
 
-        public Page_Main()
-        {           
-            InitializeComponent();
-            dpk_Check.SelectedDate = DateTime.Now;
-            
-            Loaded += Page_Main_Loaded;
-
-            // Change Language
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(MainWindow.language);
-            ApplyLanguage(MainWindow.language);
-        }
-
-
-        private void Page_Main_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Tỷ lệ đi làm
-            GetWorkingRate();
-            // Tỷ lệ phép năm
-            GetVacationLeaveRate();
-            // Tỷ lệ tăng ca
-            GetOverTimeRate();
-            // Thông tin suất ăn
-            GetVSIPMeal();
-            // Thông tin cư trú
-            //GetEmpInfo();
-            // Vaccine
-            VaccineInfo();
-            // EmpInfoUpdateStatus
-            EmpInfoUpdateStatus();
-            // Thông tin xe
-            GetCarInfo();
-            // Lịch trình hôm nay
-            ScheduleInfo();
-            GetEduInfo();
-
-            Db_Read_Room();
-            Db_Read_Team();
-            timer1_Tick();
-            //Thông tin đào tạo
-            
-        }
+        
 
         private void timer1_Tick()
         {
@@ -532,64 +572,101 @@ namespace LiveSystem
 
         public void Db_Read_Room()
         {
+            //try
+            //{
+            //    listRoom.Clear();
+            //    //listRoom.Add(new Helper_Employee { EmpId = "0", EmpNm = "ALL", cmpcode = "0" });
+            //    using (MySqlConnection conn = new MySqlConnection(path_TaixinWeb))
+            //    {
+            //        conn.Open();
+            //        using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM phongban ", conn))
+            //        {
+            //            using (MySqlDataReader dr = cmd.ExecuteReader())
+            //            {
+            //                while (dr.Read())
+            //                {
+            //                    if (dr[0] != null)
+            //                    {
+            //                        Helper_Employee item = new Helper_Employee();
+            //                        item.EmpId = dr[0].ToString();
+            //                        item.EmpNm = dr[1].ToString();
+            //                        item.cmpcode = dr[2].ToString();
+            //                        listRoom.Add(item);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        conn.Close();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
             try
             {
                 listRoom.Clear();
-                //listRoom.Add(new Helper_Employee { EmpId = "0", EmpNm = "ALL", cmpcode = "0" });
-                using (MySqlConnection conn = new MySqlConnection(path_TaixinWeb))
+                string query = "SPGetDataCbbDept @date";
+                //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                var listCbbDept = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
+                foreach (DataRow row in listCbbDept.Rows)
                 {
-                    conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM phongban ", conn))
-                    {
-                        using (MySqlDataReader dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                if (dr[0] != null)
-                                {
-                                    Helper_Employee item = new Helper_Employee();
-                                    item.EmpId = dr[0].ToString();
-                                    item.EmpNm = dr[1].ToString();
-                                    item.cmpcode = dr[2].ToString();
-                                    listRoom.Add(item);
-                                }
-                            }
-                        }
-                    }
-                    conn.Close();
+                    Helper_Employee item = new Helper_Employee();
+                    item.EmpId = row[0].ToString();
+                    item.EmpNm = row[1].ToString();
+                    item.cmpcode = row[2].ToString();
+                    listRoom.Add(item);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex )
             {
                 MessageBox.Show(ex.Message);
             }
         }
         public void Db_Read_Team()
         {
+            //try
+            //{
+            //    listTeam.Clear();
+            //    using (MySqlConnection conn = new MySqlConnection(path_TaixinWeb))
+            //    {
+            //        conn.Open();
+            //        using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM nhom ", conn))
+            //        {
+            //            using (MySqlDataReader dr = cmd.ExecuteReader())
+            //            {
+            //                while (dr.Read())
+            //                {
+            //                    if (dr[0] != null)
+            //                    {
+            //                        Helper_Employee item = new Helper_Employee();
+            //                        item.EmpId = dr[0].ToString();
+            //                        item.EmpNm = dr[1].ToString();
+            //                        item.cmpcode = dr[2].ToString();
+            //                        listTeam.Add(item);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        conn.Close();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
             try
             {
-                listTeam.Clear();
-                using (MySqlConnection conn = new MySqlConnection(path_TaixinWeb))
+                string query = "SPGetDataCbbDeptGroup @date";
+                //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                var listCbbGroup = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
+                foreach (DataRow row in listCbbGroup.Rows)
                 {
-                    conn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand("SELECT * FROM nhom ", conn))
-                    {
-                        using (MySqlDataReader dr = cmd.ExecuteReader())
-                        {
-                            while (dr.Read())
-                            {
-                                if (dr[0] != null)
-                                {
-                                    Helper_Employee item = new Helper_Employee();
-                                    item.EmpId = dr[0].ToString();
-                                    item.EmpNm = dr[1].ToString();
-                                    item.cmpcode = dr[2].ToString();
-                                    listTeam.Add(item);
-                                }
-                            }
-                        }
-                    }
-                    conn.Close();
+                    Helper_Employee item = new Helper_Employee();
+                    item.EmpId = row[0].ToString();
+                    item.EmpNm = row[1].ToString();
+                    item.cmpcode = row[2].ToString();
+                    listTeam.Add(item);
                 }
             }
             catch (Exception ex)
@@ -627,14 +704,14 @@ namespace LiveSystem
             if (checkWorking == false && MainWindow._checkInternet== "Success")
             {
                 GetWorkingRate();
-                GetVacationLeaveRate();
-                GetVSIPMeal();
-                GetCarInfo();
+                //GetVacationLeaveRate();
+                //GetVSIPMeal();
+                //GetCarInfo();
                 
-                ScheduleInfo();
-                GetOverTimeRate();
-                //Thông tin đào tạo
-                GetEduInfo();
+                //ScheduleInfo();
+                //GetOverTimeRate();
+                ////Thông tin đào tạo
+                //GetEduInfo();
 
             }   
             else

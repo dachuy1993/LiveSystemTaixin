@@ -92,115 +92,125 @@ namespace LiveSystem
         //================================================================================================================//
         private void GetListVSIPMeal()
         {
-            string shift = "";
-            if (rb_ShiftA.IsChecked == true)
-                shift = "Ca sáng";
-            if (rb_ShiftB.IsChecked == true)
-                shift = "Ca trưa";
-            if (rb_ShiftC.IsChecked == true)
-                shift = "Ca chiều";
-            if (rb_ShiftD.IsChecked == true)
-                shift = "Ca đêm";
-
-            // Lấy dữ liệu xuất ăn và thông tin nhân viên
-            string query1 = "SPGetDateFoodMainDetail @date , @shift";
-            string query2 = "select * from update_employee";
-            var listVSIPMeal = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinAccessManager, query1, new object[] { dateCheck, shift });
-            var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
-
-            // Kết hợp và bổ sung thông tin cho danh sách
-            List<EmpVSIPMealModel> listAll = new List<EmpVSIPMealModel>();
-            foreach (DataRow rowA in listVSIPMeal.Rows)
+            try
             {
-                EmpVSIPMealModel emp = new EmpVSIPMealModel();
-                foreach (DataRow rowB in listEmpInfo.Rows)
+                string shift = "";
+                if (rb_ShiftA.IsChecked == true)
+                    shift = "Ca sáng";
+                if (rb_ShiftB.IsChecked == true)
+                    shift = "Ca trưa";
+                if (rb_ShiftC.IsChecked == true)
+                    shift = "Ca chiều";
+                if (rb_ShiftD.IsChecked == true)
+                    shift = "Ca đêm";
+
+                // Lấy dữ liệu xuất ăn và thông tin nhân viên
+                string query1 = "SPGetDateFoodMainDetail @date , @shift";
+                //string query2 = "select * from update_employee";
+                var listVSIPMeal = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinAccessManager, query1, new object[] { dateCheck, shift });
+                //var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
+
+                // Kết hợp và bổ sung thông tin cho danh sách
+                List<EmpVSIPMealModel> listAll = new List<EmpVSIPMealModel>();
+                foreach (DataRow rowA in listVSIPMeal.Rows)
                 {
-                    if (rowA["EmpID"].ToString().Trim().ToUpper() == rowB["EmpId"].ToString().Trim().ToUpper())
+                    EmpVSIPMealModel emp = new EmpVSIPMealModel();
+                    //foreach (DataRow rowB in listEmpInfo.Rows)
+                    //{
+                    //    if (rowA["EmpID"].ToString().Trim().ToUpper() == rowB["EmpId"].ToString().Trim().ToUpper())
+                    //    {
+                    //        emp.DeptNm = rowB["Deptlv2"].ToString();
+                    //        emp.GroupNm = rowB["Deptlv3"].ToString();
+                    //    }
+                    //}
+
+                    emp.EmpId = rowA["EmpID"].ToString();
+                    emp.EmpNm = rowA["EmpName"].ToString();
+                    emp.Division = rowA["Division"].ToString();
+                    emp.DeptNm = rowA["DeptNm"].ToString();
+                    emp.GroupNm = rowA["GroupNm"].ToString();
+                    switch (emp.Division)
                     {
-                        emp.DeptNm = rowB["Deptlv2"].ToString();
-                        emp.GroupNm = rowB["Deptlv3"].ToString();
+                        case "V93":
+                            emp.Division = "MANAGE";
+                            break;
+                        case "V94":
+                            emp.Division = "IT";
+                            break;
+                        case "V95":
+                            emp.Division = "MAR";
+                            break;
+                        case "V96":
+                            emp.Division = "PRO";
+                            break;
+                        case "V97":
+                            emp.Division = "QC";
+                            break;
+                        case "V98":
+                            emp.Division = "HICUP";
+                            break;
+
                     }
+                    listAll.Add(emp);
                 }
 
-                emp.EmpId = rowA["EmpID"].ToString();
-                emp.EmpNm = rowA["EmpName"].ToString();
-                emp.Division = rowA["Division"].ToString();
-                switch (emp.Division)
+                // Lọc dữ liệu theo bộ phận, phòng ban, nhóm, mã nhân viên
+                if (txtName.Text == "")
                 {
-                    case "V93":
-                        emp.Division = "MANAGE";
-                        break;
-                    case "V94":
-                        emp.Division = "IT";
-                        break;
-                    case "V95":
-                        emp.Division = "MAR";
-                        break;
-                    case "V96":
-                        emp.Division = "PRO";
-                        break;
-                    case "V97":
-                        emp.Division = "QC";
-                        break;
-                    case "V98":
-                        emp.Division = "HICUP";
-                        break;
-                    
-                }
-                listAll.Add(emp);
-            }
-
-            // Lọc dữ liệu theo bộ phận, phòng ban, nhóm, mã nhân viên
-            if (txtName.Text == "")
-            {
-                // Bộ phận != ALL
-                if(cbbDepatment.Text != "ALL")
-                {
-                    if (cbbDepatment.Text == "OTHER")
+                    // Bộ phận != ALL
+                    if (cbbDepatment.Text != "ALL")
                     {
-                        listAll = listAll.Where(x => x.Division == "ETC").ToList();
-                    }
-                    else
-                    { 
-                        // Phòng ban == ALL
-                        if (cbbRoom.Text == "ALL")
+                        if (cbbDepatment.Text == "OTHER")
                         {
-                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text).ToList();
+                            listAll = listAll.Where(x => x.Division == "ETC").ToList();
                         }
-                        // Phòng ban != ALL
                         else
                         {
-                            // Nhóm == ALL
-                            if(cbbTeam.Text == "ALL")
+                            // Phòng ban == ALL
+                            if (cbbRoom.Text == "ALL")
                             {
-                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text).ToList();
+                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text).ToList();
                             }
-                            // Nhóm != ALL
+                            // Phòng ban != ALL
                             else
                             {
-                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text && x.GroupNm == cbbTeam.Text).ToList();
+                                // Nhóm == ALL
+                                if (cbbTeam.Text == "ALL")
+                                {
+                                    listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text).ToList();
+                                }
+                                // Nhóm != ALL
+                                else
+                                {
+                                    listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text && x.GroupNm == cbbTeam.Text).ToList();
+                                }
                             }
                         }
                     }
                 }
-            }
-            // Textbox mã nhân viên != ""
-            else
-            {
-                listAll = listAll.Where(x => x.EmpId.Trim().ToUpper() == txtName.Text.Trim().ToUpper()).ToList();
-            }
+                // Textbox mã nhân viên != ""
+                else
+                {
+                    listAll = listAll.Where(x => x.EmpId.Trim().ToUpper() == txtName.Text.Trim().ToUpper()).ToList();
+                }
 
-            // Sắp xếp và thêm STT
-            listAll = listAll.OrderBy(x => x.EmpId).ToList();
-            int i = 1;
-            listAll.ForEach(x =>
+                // Sắp xếp và thêm STT
+                listAll = listAll.OrderBy(x => x.EmpId).ToList();
+                int i = 1;
+                listAll.ForEach(x =>
+                {
+                    x.ID = i;
+                    i++;
+                });
+                lvThongTin.ItemsSource = listAll;
+                list_Excel = listAll;
+                lbSoLuong.Content = listAll.Count().ToString() + " (người)";
+            }
+            catch (Exception)
             {
-                x.ID = i;
-                i++;
-            });
-            lvThongTin.ItemsSource = listAll;
-            list_Excel = listAll;
-            lbSoLuong.Content = listAll.Count().ToString() + " (người)";
+                MessageBox.Show("Error", "Error processing meal data", MessageBoxButton.OK);
+            }
+            
         }
         //================================================================================================================//
 
@@ -208,61 +218,69 @@ namespace LiveSystem
         // Thông tin suất ăn VSIP
         private void GetVSIPMealDetail()
         {
-            string datettt = ""; 
-            //if (dateCheck.Count() != 8)
-            //    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-            //string query = "select * from tmmfod where Insdt = @date";
-            string query = "SPGetDateFoodMain_test @date";
-            //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
-            var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
-            lvVSIPMealDetail.ItemsSource = listVSIPMeal.DefaultView;
+            try
+            {
+                //string datettt = "";
+                //if (dateCheck.Count() != 8)
+                //    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                //string query = "select * from tmmfod where Insdt = @date";
+                string query = "SPGetDateFoodMain @date";
+                //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
+                lvVSIPMealDetail.ItemsSource = listVSIPMeal.DefaultView;
 
-            // Chart
-            var _qtyCity = new ChartValues<double>();
-            var _nameCity = new ChartValues<string>();
-            DataChart.Values3 = _qtyCity;
-            if (MainWindow.language == "vi-VN")
-            {
-                foreach (DataRow row in listVSIPMeal.Rows)
+                // Chart
+                var _qtyCity = new ChartValues<double>();
+                var _nameCity = new ChartValues<string>();
+                DataChart.Values3 = _qtyCity;
+                if (MainWindow.language == "vi-VN")
                 {
-                    if (row["EmpNm"].ToString() == "TOTAL")
+                    foreach (DataRow row in listVSIPMeal.Rows)
                     {
-                        _nameCity.Add("Sáng");
-                        _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
-                        _nameCity.Add("Trưa");
-                        _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
-                        _nameCity.Add("Chiều");
-                        _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
-                        _nameCity.Add("Đêm");
-                        _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
+                        if (row["EmpNm"].ToString() == "TOTAL")
+                        {
+                            _nameCity.Add("Sáng");
+                            _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
+                            _nameCity.Add("Trưa");
+                            _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
+                            _nameCity.Add("Chiều");
+                            _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
+                            _nameCity.Add("Đêm");
+                            _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
+                        }
                     }
+                    DataChart.Title = "Số lượng";
                 }
-                DataChart.Title = "Số lượng";
-            }
-            else
-            {
-                foreach (DataRow row in listVSIPMeal.Rows)
+                else
                 {
-                    if (row["EmpNm"].ToString() == "TOTAL")
+                    foreach (DataRow row in listVSIPMeal.Rows)
                     {
-                        _nameCity.Add("아침");
-                        _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
-                        _nameCity.Add("정오");
-                        _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
-                        _nameCity.Add("오후");
-                        _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
-                        _nameCity.Add("밤");
-                        _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
+                        if (row["EmpNm"].ToString() == "TOTAL")
+                        {
+                            _nameCity.Add("아침");
+                            _qtyCity.Add(int.Parse(row["Qty_Sang"].ToString()));
+                            _nameCity.Add("정오");
+                            _qtyCity.Add(int.Parse(row["Qty_Trua"].ToString()));
+                            _nameCity.Add("오후");
+                            _qtyCity.Add(int.Parse(row["Qty_Chieu"].ToString()));
+                            _nameCity.Add("밤");
+                            _qtyCity.Add(int.Parse(row["Qty_Dem"].ToString()));
+                        }
                     }
+                    DataChart.Title = "수량";
                 }
-                DataChart.Title = "수량";
+                DataChart.Labels = _nameCity;
+                DataChart.YFormatter = _qtyCity;
+                DataChart.Step = 100;
+                DataContext = this;
+                Column column = new Column();
+                frameChart_Food.Navigate(column);
             }
-            DataChart.Labels = _nameCity;
-            DataChart.YFormatter = _qtyCity;
-            DataChart.Step = 100;
-            DataContext = this;
-            Column column = new Column();
-            frameChart_Food.Navigate(column);
+            catch (Exception)
+            {
+                MessageBox.Show("Error", "Error processing meal detail data", MessageBoxButton.OK);
+            }
+            
         }
         private void dpk_Check_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {

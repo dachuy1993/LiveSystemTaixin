@@ -27,6 +27,15 @@
                     </LinearGradientBrush>
                 </Border.Background>
                 <StackPanel>
+                    <!--<local:DonutSpinner  Height="40" Width="40" Margin="10,10,0, 20"/>-->
+                    <!--<local:DonutSpinner  Height="40" Width="40" Margin="10,10,0, 20" Duration="0:0:1.5">
+                        <local:DonutSpinner.SpinnerColor>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#0033FF"/>
+                                <GradientStop Color="#66CCFF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </local:DonutSpinner.SpinnerColor>
+                    </local:DonutSpinner>-->
                     <Image Source="Image\Edit\load.png" Height="70" Width="70" Margin="0,0"></Image>
                     <TextBlock Name="txb_Loading" Foreground="DodgerBlue" FontSize="13" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>

@@ -23,6 +23,7 @@ namespace LiveSystem.Model
         public string Duration1time { get; set; }
         public string Numper { get; set; }
         public string PlanTraning { get; set; }
+        public string TotalTimeEdu { get; set; }
         public string Month1 { get; set; }
         public string Month2 { get; set; }
         public string Month3 { get; set; }

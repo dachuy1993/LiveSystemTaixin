@@ -90,7 +90,8 @@
                         <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="80"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Họ và tên}" DisplayMemberBinding="{Binding EmpNm}" Width="150"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Deptlv1}" Width="150"></GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding Deptlv2}" Width="250"></GridViewColumn>                       
+                        <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding Deptlv2}" Width="250"></GridViewColumn>
+                        <!--<GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding Deptlv3}" Width="250"></GridViewColumn>-->
                     </GridView>
                 </ListView.View>
             </ListView>

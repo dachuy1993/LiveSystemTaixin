@@ -36,6 +36,8 @@ namespace LiveSystem
         string pathFileExcel = @"TempFile//ExcelFile.xlsx";
         List<EmpVacationLeave> list_Excel = new List<EmpVacationLeave>();
         string dateCheck = "";
+        string depatment = "ALL";
+        string room = "ALL";
         public Page_Holiday()
         {
             InitializeComponent();
@@ -47,112 +49,121 @@ namespace LiveSystem
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(MainWindow.language);
             ApplyLanguage(MainWindow.language);
             GetVacationLeaveRateDetail();
+            GetDataCmbDept();
 
         }
 
         //===========================================================================================================//
         private void GetEmpVacationLeave()
         {
-            // Lấy dữ liệu phếp năm và thông tin nhân viên
-            string query1 = "SPGetDataVacationLeave @date";
-            string query2 = "select * from update_employee";
-            var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
-            var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
-
-            // Thêm đầy đủ thông tin nhân viên vào listAll
-            var listAll = new List<EmpVacationLeave>();
-            foreach (DataRow rowA in listEmp.Rows)
+            try
             {
-                foreach(DataRow rowB in listEmpInfo.Rows)
+                // Lấy dữ liệu phếp năm và thông tin nhân viên
+                string query1 = "SPGetDataVacationLeave @date";
+                string query2 = "select * from update_employee";
+                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { DateTime.Now.ToString("yyyy-MM-dd") });
+                var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
+
+                // Thêm đầy đủ thông tin nhân viên vào listAll
+                var listAll = new List<EmpVacationLeave>();
+                foreach (DataRow rowA in listEmp.Rows)
                 {
-                    if (rowA["EmpId"].ToString().Trim().ToUpper() == rowB["EmpId"].ToString().Trim().ToUpper())
+                    //foreach(DataRow rowB in listEmpInfo.Rows)
+                    //{
+                    //    if (rowA["EmpId"].ToString().Trim().ToUpper() == rowB["EmpId"].ToString().Trim().ToUpper())
+                    //    {
+                    //        rowA["DeptNm"] = rowB["Deptlv2"];
+                    //        rowA["MinorNm"] = rowB["Deptlv3"];
+                    //    }
+                    //}
+
+                    switch (rowA["MinorCd"].ToString().Trim().Substring(0, 3))
                     {
-                        rowA["DeptNm"] = rowB["Deptlv2"];
-                        rowA["MinorNm"] = rowB["Deptlv3"];
+                        case "V93":
+                            rowA["MinorCd"] = "MANAGE";
+                            break;
+                        case "V94":
+                            rowA["MinorCd"] = "IT";
+                            break;
+                        case "V95":
+                            rowA["MinorCd"] = "MAR";
+                            break;
+                        case "V96":
+                            rowA["MinorCd"] = "PRO";
+                            break;
+                        case "V97":
+                            rowA["MinorCd"] = "QC";
+                            break;
+                        case "V98":
+                            rowA["MinorCd"] = "HICUP";
+                            break;
                     }
+
+                    EmpVacationLeave emp = new EmpVacationLeave();
+                    emp.Division = rowA["MinorCd"].ToString();
+                    emp.DeptNm = rowA["DeptNm"].ToString();
+                    emp.GroupNm = rowA["MinorNm"].ToString();
+                    emp.EmpId = rowA["EmpId"].ToString();
+                    emp.EmpNm = rowA["EmpNm"].ToString();
+                    emp.Old = double.Parse(rowA["Oldtmmhy"].ToString());
+                    emp.Total = double.Parse(rowA["Totaltmmhy"].ToString());
+                    emp.Used = double.Parse(rowA["Ustmmhy"].ToString());
+                    emp.Remain = double.Parse(rowA["Paytmmhy"].ToString());
+                    listAll.Add(emp);
                 }
 
-                switch (rowA["MinorCd"].ToString().Trim().Substring(0, 3))
+                // Lọc dữ liệu theo điều kiện bộ phận, phòng ban, nhóm, mã nhân viên
+                if (txtName.Text == "")
                 {
-                    case "V93":
-                        rowA["MinorCd"] = "MANAGE";
-                        break;
-                    case "V94":
-                        rowA["MinorCd"] = "IT";
-                        break;
-                    case "V95":
-                        rowA["MinorCd"] = "MAR";
-                        break;
-                    case "V96":
-                        rowA["MinorCd"] = "PRO";
-                        break;
-                    case "V97":
-                        rowA["MinorCd"] = "QC";
-                        break;
-                    case "V98":
-                        rowA["MinorCd"] = "HICUP";
-                        break;
-                }
-
-                EmpVacationLeave emp = new EmpVacationLeave();
-                emp.Division = rowA["MinorCd"].ToString();
-                emp.DeptNm = rowA["DeptNm"].ToString();
-                emp.GroupNm = rowA["MinorNm"].ToString();
-                emp.EmpId = rowA["EmpId"].ToString();
-                emp.EmpNm = rowA["EmpNm"].ToString();
-                emp.Old = double.Parse(rowA["Oldtmmhy"].ToString());
-                emp.Total = double.Parse(rowA["Totaltmmhy"].ToString());
-                emp.Used = double.Parse(rowA["Ustmmhy"].ToString());
-                emp.Remain = double.Parse(rowA["Paytmmhy"].ToString());
-                listAll.Add(emp);
-            }
-
-            // Lọc dữ liệu theo điều kiện bộ phận, phòng ban, nhóm, mã nhân viên
-            if(txtName.Text == "")
-            {
-                // Bộ phận != ALL
-                if (cbbDepatment.Text != "ALL")
-                {
-                    // Phòng ban == ALL
-                    if (cbbRoom.Text == "ALL")
+                    // Bộ phận != ALL
+                    if (cbbDepatment.Text != "ALL")
                     {
-                        listAll = listAll.Where(x => x.Division == cbbDepatment.Text).ToList();
-                    }
-                    // Phòng ban != ALL
-                    else
-                    {
-                        // Nhóm == ALL
-                        if (cbbTeam.Text == "ALL")
+                        // Phòng ban == ALL
+                        if (cbbRoom.Text == "ALL")
                         {
-                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text).ToList();
+                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text).ToList();
                         }
-                        // Nhóm != ALL
+                        // Phòng ban != ALL
                         else
                         {
-                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text && x.GroupNm == cbbTeam.Text).ToList();
+                            // Nhóm == ALL
+                            if (cbbTeam.Text == "ALL")
+                            {
+                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text).ToList();
+                            }
+                            // Nhóm != ALL
+                            else
+                            {
+                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text && x.GroupNm == cbbTeam.Text).ToList();
+                            }
                         }
                     }
                 }
-            }
-            // TextBox mã nhân viên != ""
-            else
-            {
-                listAll = listAll.Where(x => x.EmpId.Trim().ToUpper() == txtName.Text.Trim().ToUpper()).ToList();
-            }
+                // TextBox mã nhân viên != ""
+                else
+                {
+                    listAll = listAll.Where(x => x.EmpId.Trim().ToUpper() == txtName.Text.Trim().ToUpper()).ToList();
+                }
 
-            // Sắp xếp dữ liệu và thêm STT
-            listAll = listAll.OrderBy(x => x.EmpId).ToList();
-            int i = 1;
-            listAll.ForEach(x =>
-            {
-                x.ID = i;
-                i++;
-            });
+                // Sắp xếp dữ liệu và thêm STT
+                listAll = listAll.OrderBy(x => x.EmpId).ToList();
+                int i = 1;
+                listAll.ForEach(x =>
+                {
+                    x.ID = i;
+                    i++;
+                });
 
-            // Hiển thị dữ liệu lên view
-            lvThongTin.ItemsSource = listAll;
-            list_Excel = listAll;
-            lbSoLuong.Content = listAll.Count().ToString() + " (người)";
+                // Hiển thị dữ liệu lên view
+                lvThongTin.ItemsSource = listAll;
+                list_Excel = listAll;
+                lbSoLuong.Content = listAll.Count().ToString() + " (người)";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
         //===========================================================================================================//
 
@@ -184,132 +195,90 @@ namespace LiveSystem
         List<Helper_Employee> _tempTeam = new List<Helper_Employee>();
         string _room = "";
         string _team = "";
-        string depatment = "";
-        private void cbbDepatment_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _tempRoom.Clear();
-            _tempTeam.Clear();
-            var click = sender as ComboBox;
-            var clickItem = click.SelectedItem as ComboBoxItem;
-            if (clickItem != null)
-            {
-                depatment = clickItem.Content.ToString();
-                string code = "";
-                switch (depatment)
-                {
-                    case "MANAGE":
-                        {
-                            code = "1";
-                            break;
-                        }
-                    case "IT":
-                        {
-                            code = "2";
-                            break;
-                        }
-                    case "HICUP":
-                        {
-                            code = "3";
-                            break;
-                        }
-                    case "MAR":
-                        {
-                            code = "4";
-                            break;
-                        }
-                    case "QC":
-                        {
-                            code = "5";
-                            break;
-                        }
-                    case "PRO":
-                        {
-                            code = "6";
-                            break;
-                        }
-                    case "KOREA":
-                        {
-                            code = "7";
-                            break;
-                        }
-
-                }
-                _room = "ALL";
-                _team = "ALL";
-
-                if (depatment != "ALL")
-                {
-                    cbbRoom.ClearValue(ComboBox.ItemsSourceProperty);
-                    cbbTeam.ClearValue(ComboBox.ItemsSourceProperty);
-                    _tempRoom = Page_Main.listRoom.Where(X => X.cmpcode == code).ToList();
-                    _tempRoom.Add(new Helper_Employee { EmpId = "0", EmpNm = "ALL", cmpcode = "0" });
-                    cbbRoom.ItemsSource = _tempRoom.OrderBy(x => x.cmpcode).ToList();
-                    cbbRoom.SelectedIndex = 0;
-                }
-            }
-        }
+        
 
         // Hiển thị bảng tỷ lệ phép năm
         private void GetVacationLeaveRateDetail()
         {
-            string dateCheck = DateTime.Now.ToString("yyyy-MM-dd");
-            string query1 = "SPGetDataHolidayMain @date";
-
-            var listEmp = DataProvider.Instance.ExecuteSP(path_Ksystem20, query1, new object[] { dateCheck });
-
-            
-            // Hiển thị danh sách lên view
-            lvPhepNam.ClearValue(ListView.ItemsSourceProperty);
-            lvPhepNam.ItemsSource = listEmp.DefaultView;
-
-            // Chart
-            var _qtyOT = new ChartValues<double>();
-            var _nameDept = new ChartValues<string>();
-            DataChart.Values3 = _qtyOT;
-            List<string> listCity = new List<string>();
-            foreach (DataRow Row in listEmp.Rows)
+            try
             {
-                _nameDept.Add(Row["Division"].ToString());
-                if (Row["Rate"].ToString().IndexOf(",") > 0)
+                string dateCheck = DateTime.Now.ToString("yyyy-MM-dd");
+                string query1 = "SPGetDataHolidayMain @date";
+
+                var listEmp = DataProvider.Instance.ExecuteSP(path_Ksystem20, query1, new object[] { dateCheck });
+
+
+                // Hiển thị danh sách lên view
+                lvPhepNam.ClearValue(ListView.ItemsSourceProperty);
+                lvPhepNam.ItemsSource = listEmp.DefaultView;
+
+                // Chart
+                var _qtyOT = new ChartValues<double>();
+                var _nameDept = new ChartValues<string>();
+                DataChart.Values3 = _qtyOT;
+                List<string> listCity = new List<string>();
+                foreach (DataRow Row in listEmp.Rows)
                 {
-                    _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));
+                    _nameDept.Add(Row["Division"].ToString());
+                    if (Row["Rate"].ToString().IndexOf(",") > 0)
+                    {
+                        _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));
+                    }
+                    else
+                    {
+                        _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                    }
+                }
+                if (MainWindow.language == "vi-VN")
+                {
+                    DataChart.Title = "Tỷ lệ";
                 }
                 else
                 {
-                    _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                    DataChart.Title = "율(%)";
                 }
+                DataChart.Labels = _nameDept;
+                DataChart.YFormatter = _qtyOT;
+                DataChart.Step = 5;
+                DataContext = this;
+                Column column = new Column();
+                frameChart_Holiday.Navigate(column);
             }
-            if (MainWindow.language == "vi-VN")
+            catch (Exception ex)
             {
-                DataChart.Title = "Tỷ lệ";
+                MessageBox.Show(ex.Message, "Error Query");
             }
-            else
-            {
-                DataChart.Title = "율(%)";
-            }
-            DataChart.Labels = _nameDept;
-            DataChart.YFormatter = _qtyOT;
-            DataChart.Step = 5;
-            DataContext = this;
-            Column column = new Column();
-            frameChart_Holiday.Navigate(column);
+            
         }
 
         private void cbbRoom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var click = sender as ComboBox;
-            var clickItem = click.SelectedItem as Helper_Employee;
+            var clickItem = click.SelectedItem;
             cbbTeam.ClearValue(ComboBox.ItemsSourceProperty);
             _room = "ALL";
             _team = "ALL";
             if (clickItem != null)
             {
-                if (clickItem.EmpNm != "ALL")
+                room = clickItem.ToString();
+
+                if (room != "ALL")
                 {
-                    _tempTeam = Page_Main.listTeam.Where(X => X.cmpcode == clickItem.EmpId).ToList();
-                    _tempTeam.Add(new Helper_Employee { EmpId = "0", EmpNm = "ALL", cmpcode = "0" });
-                    cbbTeam.ItemsSource = _tempTeam.OrderBy(x => x.cmpcode).ToList();
-                    _room = clickItem.EmpNm;
+                    string query = "SPGetDataCbbDeptGroupList @Dept";
+                    DataTable listCmbTeam = new DataTable();
+                    //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                    listCmbTeam = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { room });
+                    //public static List<Helper_Employee> listResultRoom = new List<Helper_Employee>();
+                    List<Helper_Employee> listResultTeam = new List<Helper_Employee>();
+                    //listResultRoom.Clear();
+                    //listResultTeam.Add(new Helper_Employee { Deptlv3 = "ALL" });
+                    foreach (DataRow row in listCmbTeam.Rows)
+                    {
+                        Helper_Employee item = new Helper_Employee();
+                        item.Deptlv3 = row[0].ToString();
+                        listResultTeam.Add(item);
+                    }
+                    cbbTeam.ItemsSource = listResultTeam.Select(x => x.Deptlv3).ToList();
                     cbbTeam.SelectedIndex = 0;
                 }
             }
@@ -327,6 +296,70 @@ namespace LiveSystem
                     _team = clickItem.EmpNm;
                 }
             }
+        }
+
+        private void cbbDepatment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                //_tempRoom.Clear();
+                //_tempTeam.Clear();
+                var click = sender as ComboBox;
+                var clickItem = click.SelectedItem;
+                cbbRoom.ClearValue(ComboBox.ItemsSourceProperty);
+                if (clickItem != null)
+                {
+                    depatment = clickItem.ToString();
+
+                    if (depatment != "ALL")
+                    {
+                        string query = "SPGetDataCbbDeptList @Dept";
+                        DataTable listCmbRoom = new DataTable();
+                        //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
+                        listCmbRoom = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { depatment });
+                        //public static List<Helper_Employee> listResultRoom = new List<Helper_Employee>();
+                        List<Helper_Employee> listResultRoom = new List<Helper_Employee>();
+                        //listResultRoom.Clear();
+                        //listResultRoom.Add(new Helper_Employee { Deptlv2 = "ALL" });
+                        foreach (DataRow row in listCmbRoom.Rows)
+                        {
+                            Helper_Employee item = new Helper_Employee();
+                            item.Deptlv2 = row[0].ToString();
+                            listResultRoom.Add(item);
+                        }
+                        cbbRoom.ItemsSource = listResultRoom.Select(x => x.Deptlv2).ToList();
+                        cbbRoom.SelectedIndex = 0;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+
+
+        private async void GetDataCmbDept()
+        {
+            string query = "SPGetDataCmbDept ";
+            // Lấy dữ liệu và hiển thị
+            DataTable listCmb = new DataTable();
+
+            listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query);
+
+
+            List<string> listResult = new List<string>();
+            foreach (DataRow Row in listCmb.Rows)
+            {
+                listResult.Add(Row["CbbDept"].ToString());
+            }
+            cbbDepatment.ItemsSource = listResult;
         }
 
         private async void btnTimKiem_Click(object sender, RoutedEventArgs e)

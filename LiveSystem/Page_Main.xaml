@@ -173,8 +173,8 @@
                                 <GridView>
                                     <GridViewColumn Header="{DynamicResource Bộ phận}"     DisplayMemberBinding="{Binding DeptNm}" Width="65"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Số người}"    DisplayMemberBinding="{Binding Numper}" Width="65"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Tháng này}"   DisplayMemberBinding="{Binding TotalOT}" Width="65"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Bình quân}"   DisplayMemberBinding="{Binding Rate}" Width="65"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Tháng này}"   DisplayMemberBinding="{Binding TotalOT}" Width="85"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Bình quân}"   DisplayMemberBinding="{Binding Rate}" Width="85"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>

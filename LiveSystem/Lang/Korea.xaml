@@ -246,6 +246,7 @@
     <sys:String x:Key="Khu vực màu đỏ">빨간색구역</sys:String>
     <sys:String x:Key="Khu vực màu vàng">노란색구역</sys:String>
     <sys:String x:Key="Khu vực màu xanh">파란색구역</sys:String>
+    <sys:String x:Key="Tháng kiểm tra">테스트 월</sys:String>
     
     
 

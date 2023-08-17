@@ -24,7 +24,15 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible">
             <Label Content="{DynamicResource Năm kiểm tra}" VerticalAlignment="Center"></Label>
-            <TextBox x:Name="txtYear" VerticalContentAlignment="Center" Width="120" Margin="10,0" ></TextBox>
+            <ComboBox Name="cbbYear" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbYear_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding .}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Content="{DynamicResource Phân loại}" VerticalContentAlignment="Center"></Label>
             <ComboBox Name="cbbType" Width="350" VerticalContentAlignment="Center" SelectedIndex="0" Margin="0,0,20,0" >
                 <ComboBox.ItemTemplate>

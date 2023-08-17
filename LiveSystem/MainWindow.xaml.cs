@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Defaults;
+using LiveSystem.DAO;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
@@ -36,9 +38,10 @@ namespace LiveSystem
 
 
         #region Khái báo biến
+        public static string path_Ksystem20 = "Data Source=192.168.2.20;Initial Catalog=TAIXINERP;Persist Security Info=True;User ID=sa;Password= Ksystem@123";
         public static List<Helper_DataButton> ListButton_Header = new List<Helper_DataButton>();
         DispatcherTimer dt = new DispatcherTimer();
-        Page_Main main = new Page_Main();
+        //Page_Main main = new Page_Main();
         Page_Covid vac = new Page_Covid();
         Page_Address tt = new Page_Address();
         Page_Covid yte = new Page_Covid();
@@ -55,6 +58,7 @@ namespace LiveSystem
         string pathFileIni = "";
         int checkID = 0;
         public static string language = "vi-VN";
+        public static string languageLogin = "";
         public static string _checkInternet = "Success";
         public static string EmpId = "";
         #endregion
@@ -62,6 +66,7 @@ namespace LiveSystem
         public static bool checkOne = false;
         public static bool checkNote = false;
         bool checkWorking = false;
+        string IPUser = "";
         public MainWindow()
         {
             InitializeComponent();     
@@ -69,13 +74,61 @@ namespace LiveSystem
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            //GetLanguageLogin();
+            //if (languageLogin == "")
+            //    language = "vi-VN";
+            //else
+            //    language = languageLogin;
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
             ApplyLanguage(language);
             frameMain.Navigate(main);         
             lb_Version.Content = "Version : " + Ver;
         }
-      
+        Page_Main main = new Page_Main();
+
+        private void GetLanguageLogin()
+        {
+            IPUser = GetIPAddress();
+            List<string> list = new List<string>();
+            List<string> listTime = new List<string>();
+            
+            using (SqlConnection conn = new SqlConnection(path_Ksystem20))
+            {
+                conn.Open();
+                {
+
+                    string query = "SPCheckLanguageLogin @IPUser ";
+
+                    DataTable ListTimeLogin = new DataTable();
+                    ListTimeLogin = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { IPUser });
+
+                    foreach (DataRow item in ListTimeLogin.Rows)
+                    {
+                        languageLogin = item[0].ToString();
+                    }
+
+                }
+            }
+
+
+        }
+        private string GetIPAddress()
+        {
+            string IPAddress = string.Empty;
+            IPHostEntry Host = default(IPHostEntry);
+            string Hostname = null;
+            Hostname = System.Environment.MachineName;
+            Host = Dns.GetHostEntry(Hostname);
+            foreach (IPAddress IP in Host.AddressList)
+            {
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    IPAddress = Convert.ToString(IP);
+                }
+            }
+            return IPAddress;
+        }
+
         private void ApplyLanguage(string cultureName = null)
         {
             if (cultureName != null)
@@ -277,7 +330,7 @@ namespace LiveSystem
 
 
             }
-            //huynd 20230313 thêm đổi ngôn ngư
+            // thêm đổi ngôn ngư
             foreach (var button in ListButton_Header)
             {
 
@@ -476,7 +529,7 @@ namespace LiveSystem
         }
 
 
-        //add HUYND 20230311 load lại dư liệu khi thay đổi ngôn ngữ
+        // load lại dư liệu khi thay đổi ngôn ngữ
         private void Button_Click()
         {
             //lvButtonTop.BackgroundColor
@@ -694,6 +747,7 @@ namespace LiveSystem
         private void rb_langKr_Click(object sender, RoutedEventArgs e)
         {
             language = "kr-KR";
+            SaveUserIPLogin();
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
             ApplyLanguage(language);   
             CreatButton_Header();
@@ -703,10 +757,26 @@ namespace LiveSystem
         private void rb_langVn_Click(object sender, RoutedEventArgs e)
         {
             language = "vi-VN";
+            SaveUserIPLogin();
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
             ApplyLanguage(language);          
             CreatButton_Header();
             Button_Click();
+        }
+
+        private void SaveUserIPLogin()
+        {
+            using (SqlConnection conn = new SqlConnection(path_Ksystem20))
+            {
+                conn.Open();
+                var command = "Insert TblLanguageLogin(IPUser, DateLogin, LanguageVN) values('" + IPUser + "', CONVERT(CHAR(8),GETDATE(),112),'" + language + "')";
+                using (SqlCommand cmd = new SqlCommand(command, conn))
+                {
+                    cmd.CommandText = command;
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

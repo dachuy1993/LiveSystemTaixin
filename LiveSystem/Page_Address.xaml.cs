@@ -75,162 +75,170 @@ namespace LiveSystem
         // THANGDN
         private void GetAllEmp()
         {
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
-            // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
+            try
+            {
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
 
-            // Lọc dữ liệu theo điều kiện Update
-            if (rbUpdate_OK.IsChecked == true)
-            {
-                updateThongTin = "OK";
-            }
-            if(rbUpdate_NG.IsChecked == true)
-            {
-                updateThongTin = "NG";
-            }
-            if (rbUpdate_ALL.IsChecked == true)
-            {
-                updateThongTin = "ALL";
-            }
-            // Lấy dữ liệu nhân viên đã được update thông tin trên taixin web
-            listAllEmpOK = listEmp.AsEnumerable().Join(listEmpInformation.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .Select(s => new Emp
+                // Lọc dữ liệu theo điều kiện Update
+                if (rbUpdate_OK.IsChecked == true)
                 {
-                    EmpId = s.y["EmpId"].ToString(),
-                    EmpNm = s.y["EmpNm"].ToString(),
-                    SexCd = s.y["SexCd"].ToString(),
-                    BOD = DateTime.Parse(s.y["BOD"].ToString()).ToString("yyyy-MM-dd"),
-                    HpTel = s.y["HpTel"].ToString(),
-                    ResidId = s.y["ResidId"].ToString(),
-                    ResidPlace = s.y["ResidPlace"].ToString(),
-                    ResidDate = DateTime.Parse(s.y["ResidDate"].ToString()).ToString("yyyy-MM-dd"),
-                    Nation = s.y["Nation"].ToString(),
-                    Deptlv1 = s.y["Deptlv1"].ToString(),
-                    Deptlv2 = s.y["Deptlv2"].ToString(),
-                    Deptlv3 = s.y["Deptlv3"].ToString(),
-                    Position = s.y["Position"].ToString(),
-                    Shift = s.y["Shift"].ToString(),
-                    Level = s.y["Level"].ToString(),
-
-                    TempProv = s.y["TempProv"].ToString(),
-                    TempDist = s.y["TempDist"].ToString(),
-                    TempComm = s.y["TempComm"].ToString(),
-                    TempVilla = s.y["TempVilla"].ToString(),
-
-                    PermProv = s.y["PermProv"].ToString(),
-                    PermDist = s.y["PermDist"].ToString(),
-                    PermComm = s.y["PermComm"].ToString(),
-                    PermVilla = s.y["PermVilla"].ToString(),
-                }).ToList();
-
-            // Thêm dữ liệu người chưa cập nhật thông tin trên taixin web vào danh sách tất cả nhân viên - danh sách người chưa cập nhật
-            foreach (DataRow row in listEmp.Rows )
-            {
-                bool isUpdated = false;
-                listAllEmpOK.ForEach(x =>
+                    updateThongTin = "OK";
+                }
+                if (rbUpdate_NG.IsChecked == true)
                 {
-                    if (row["EmpId"].ToString().Trim().ToUpper() == x.EmpId.Trim().ToUpper())
+                    updateThongTin = "NG";
+                }
+                if (rbUpdate_ALL.IsChecked == true)
+                {
+                    updateThongTin = "ALL";
+                }
+                // Lấy dữ liệu nhân viên đã được update thông tin trên taixin web
+                listAllEmpOK = listEmp.AsEnumerable().Join(listEmpInformation.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new Emp
                     {
-                        isUpdated = true;
+                        EmpId = s.y["EmpId"].ToString(),
+                        EmpNm = s.y["EmpNm"].ToString(),
+                        SexCd = s.y["SexCd"].ToString(),
+                        BOD = DateTime.Parse(s.y["BOD"].ToString()).ToString("yyyy-MM-dd"),
+                        HpTel = s.y["HpTel"].ToString(),
+                        ResidId = s.y["ResidId"].ToString(),
+                        ResidPlace = s.y["ResidPlace"].ToString(),
+                        ResidDate = DateTime.Parse(s.y["ResidDate"].ToString()).ToString("yyyy-MM-dd"),
+                        Nation = s.y["Nation"].ToString(),
+                        Deptlv1 = s.y["Deptlv1"].ToString(),
+                        Deptlv2 = s.y["Deptlv2"].ToString(),
+                        Deptlv3 = s.y["Deptlv3"].ToString(),
+                        Position = s.y["Position"].ToString(),
+                        Shift = s.y["Shift"].ToString(),
+                        Level = s.y["Level"].ToString(),
+
+                        TempProv = s.y["TempProv"].ToString(),
+                        TempDist = s.y["TempDist"].ToString(),
+                        TempComm = s.y["TempComm"].ToString(),
+                        TempVilla = s.y["TempVilla"].ToString(),
+
+                        PermProv = s.y["PermProv"].ToString(),
+                        PermDist = s.y["PermDist"].ToString(),
+                        PermComm = s.y["PermComm"].ToString(),
+                        PermVilla = s.y["PermVilla"].ToString(),
+                    }).ToList();
+
+                // Thêm dữ liệu người chưa cập nhật thông tin trên taixin web vào danh sách tất cả nhân viên - danh sách người chưa cập nhật
+                foreach (DataRow row in listEmp.Rows)
+                {
+                    bool isUpdated = false;
+                    listAllEmpOK.ForEach(x =>
+                    {
+                        if (row["EmpId"].ToString().Trim().ToUpper() == x.EmpId.Trim().ToUpper())
+                        {
+                            isUpdated = true;
+                        }
+                    });
+                    if (isUpdated == false)
+                    {
+                        Emp emp = new Emp();
+                        emp.EmpId = row["EmpId"].ToString();
+                        emp.EmpNm = row["EmpNm"].ToString();
+                        emp.SexCd = row["SexCd"].ToString();
+                        listAllEmpNG.Add(emp);
                     }
+                }
+
+                // Check điều kiện lọc
+                switch (updateThongTin)
+                {
+                    case "OK":
+                        listAllEmp = listAllEmpOK;
+                        break;
+                    case "NG":
+                        listAllEmp = listAllEmpNG;
+                        break;
+                    case "ALL":
+                        listAllEmp = listAllEmpOK.Union(listAllEmpNG).ToList();
+                        break;
+                }
+
+                // Lọc dữ liệu theo Địa chỉ nếu radio box không phải là Chưa cập nhật
+                if (updateThongTin != "NG")
+                {
+                    // Lọc theo điều kiện cư trú là tạm trú hoặc thường trú
+                    bool thuongTru = true;
+                    if (rbTamTru.IsChecked == true) { thuongTru = false; }
+
+                    if (cbbTinh.Text != "ALL")
+                    {
+                        if (cbbHuyen.Text == "ALL")
+                        {
+                            // Lọc theo tỉnh thường trú
+                            if (thuongTru == true)
+                            {
+                                listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text).ToList();
+                            }
+                            // Lọc theo tỉnh tạm trú
+                            else
+                            {
+                                listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text).ToList();
+                            }
+                        }
+                        else
+                        {
+                            if (cbbXa.Text == "ALL")
+                            {
+                                // Lọc theo tỉnh và huyện thường trú
+                                if (thuongTru == true)
+                                {
+                                    listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text && x.PermDist == cbbHuyen.Text).ToList();
+                                }
+                                // Lọc theo tỉnh và huyện tạm trú
+                                else
+                                {
+                                    listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text && x.TempDist == cbbHuyen.Text).ToList();
+                                }
+                            }
+                            else
+                            {
+                                // Lọc theo tỉnh, huyện và xã thường trú
+                                if (thuongTru == true)
+                                {
+                                    listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text && x.PermDist == cbbHuyen.Text && x.PermComm == cbbXa.Text).ToList();
+                                }
+                                // Lọc theo tỉnh, huyện và xã tạm trú
+                                else
+                                {
+                                    listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text && x.TempDist == cbbHuyen.Text && x.TempComm == cbbXa.Text).ToList();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Sắp sếp dữ liệu
+                listAllEmp = listAllEmp.OrderBy(x => x.Deptlv1).ToList();
+
+                // Thêm STT và sửa Giới tính
+                int i = 1;
+                listAllEmp.ForEach(x =>
+                {
+                    x.ID = i;
+                    if (x.SexCd.Contains("001")) { x.SexCd = "Nam"; } else { x.SexCd = "Nữ"; }
+                    i++;
                 });
-                if (isUpdated == false)
-                {
-                    Emp emp = new Emp();
-                    emp.EmpId = row["EmpId"].ToString();
-                    emp.EmpNm = row["EmpNm"].ToString();
-                    emp.SexCd = row["SexCd"].ToString();
-                    listAllEmpNG.Add(emp);
-                }
+
+                // Hiển thị dữ liệu lên view
+                lvThongTin.ClearValue(ListView.ItemsSourceProperty);
+                lvThongTin.ItemsSource = listAllEmp;
+                lb_Qty.Content = listAllEmp.Count() + " (người)";
             }
-
-            // Check điều kiện lọc
-            switch (updateThongTin)
+            catch (Exception ex)
             {
-                case "OK":
-                    listAllEmp = listAllEmpOK;
-                    break;
-                case "NG":
-                    listAllEmp = listAllEmpNG;
-                    break;
-                case "ALL":
-                    listAllEmp = listAllEmpOK.Union(listAllEmpNG).ToList();
-                    break;
+                MessageBox.Show(ex.Message, "Error Query");
             }
-
-            // Lọc dữ liệu theo Địa chỉ nếu radio box không phải là Chưa cập nhật
-            if(updateThongTin != "NG")
-            {
-                // Lọc theo điều kiện cư trú là tạm trú hoặc thường trú
-                bool thuongTru = true;
-                if (rbTamTru.IsChecked == true) { thuongTru = false; }
-
-                if (cbbTinh.Text != "ALL")
-                {
-                    if (cbbHuyen.Text == "ALL")
-                    {
-                        // Lọc theo tỉnh thường trú
-                        if (thuongTru == true)
-                        {
-                            listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text).ToList();
-                        }
-                        // Lọc theo tỉnh tạm trú
-                        else
-                        {
-                            listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text).ToList();
-                        }
-                    }
-                    else
-                    {
-                        if (cbbXa.Text == "ALL")
-                        {
-                            // Lọc theo tỉnh và huyện thường trú
-                            if (thuongTru == true)
-                            {
-                                listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text && x.PermDist == cbbHuyen.Text).ToList();
-                            }
-                            // Lọc theo tỉnh và huyện tạm trú
-                            else
-                            {
-                                listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text && x.TempDist == cbbHuyen.Text).ToList();
-                            }
-                        }
-                        else
-                        {
-                            // Lọc theo tỉnh, huyện và xã thường trú
-                            if (thuongTru == true)
-                            {
-                                listAllEmp = listAllEmp.Where(x => x.PermProv == cbbTinh.Text && x.PermDist == cbbHuyen.Text && x.PermComm == cbbXa.Text).ToList();
-                            }
-                            // Lọc theo tỉnh, huyện và xã tạm trú
-                            else
-                            {
-                                listAllEmp = listAllEmp.Where(x => x.TempProv == cbbTinh.Text && x.TempDist == cbbHuyen.Text && x.TempComm == cbbXa.Text).ToList();
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Sắp sếp dữ liệu
-            listAllEmp = listAllEmp.OrderBy(x => x.Deptlv1).ToList();
-
-            // Thêm STT và sửa Giới tính
-            int i = 1;
-            listAllEmp.ForEach(x =>
-            {
-                x.ID = i;
-                if (x.SexCd.Contains("001")) { x.SexCd = "Nam"; } else { x.SexCd = "Nữ"; }
-                i++;
-            });
-
-            // Hiển thị dữ liệu lên view
-            lvThongTin.ClearValue(ListView.ItemsSourceProperty);
-            lvThongTin.ItemsSource = listAllEmp;
-            lb_Qty.Content = listAllEmp.Count() + " (người)";
+            
         }
         // END THANGDN
 
@@ -239,99 +247,115 @@ namespace LiveSystem
         // Thông tin cư trú
         private void GetEmpInfo()
         {
-            var cbbTinhDetail = "Tỉnh Bắc Ninh";
-            if (cbbTinh.Text != "ALL")
+            try
             {
-                 cbbTinhDetail = cbbTinh.Text;
-            }    
+                var cbbTinhDetail = "Tỉnh Bắc Ninh";
+                if (cbbTinh.Text != "ALL")
+                {
+                    cbbTinhDetail = cbbTinh.Text;
+                }
                 if (dateCheck.Count() != 8)
-                dateCheck = DateTime.Now.ToString("yyyyMMdd");
-            
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee where TempProv = @cbbTinh";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1, new object[] { cbbTinhDetail });
+                    dateCheck = DateTime.Now.ToString("yyyyMMdd");
+
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee where TempProv = @cbbTinh";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1, new object[] { cbbTinhDetail });
 
 
-            
-            // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date";
-            var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
 
-            // Group by dữ liệu
-            var listAddressInfo = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .GroupBy(g => g.x["TempDist"])
-                .Select(s => new
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date";
+                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+
+                // Group by dữ liệu
+                var listAddressInfo = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .GroupBy(g => g.x["TempDist"])
+                    .Select(s => new
+                    {
+                        Dist = s.Key.ToString(),
+                        Qty = s.Count()
+                    }).ToList();
+                listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
+
+                // Chart
+                var _qtyCity = new ChartValues<double>();
+                var _nameCity = new ChartValues<string>();
+                DataChart.Values3 = _qtyCity;
+
+                listAddressInfo.ForEach(x =>
                 {
-                    Dist = s.Key.ToString(),
-                    Qty = s.Count()
-                }).ToList();
-            listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
+                    int len = x.Dist.Length;
+                    if (x.Dist.Contains("Thành phố"))
+                    {
+                        _nameCity.Add(x.Dist.Substring(10, len - 10));
+                    }
+                    if (x.Dist.Contains("Quận"))
+                    {
+                        _nameCity.Add(x.Dist.Substring(5, len - 5));
+                    }
+                    if (x.Dist.Contains("Thị xã"))
+                    {
+                        _nameCity.Add(x.Dist.Substring(7, len - 7));
+                    }
+                    if (x.Dist.Contains("Huyện"))
+                    {
+                        _nameCity.Add(x.Dist.Substring(6, len - 6));
+                    }
+                    _qtyCity.Add(x.Qty);
+                });
 
-            // Chart
-            var _qtyCity = new ChartValues<double>();
-            var _nameCity = new ChartValues<string>();
-            DataChart.Values3 = _qtyCity;
-
-            listAddressInfo.ForEach(x =>
-            {
-                int len = x.Dist.Length;
-                if (x.Dist.Contains("Thành phố"))
+                if (MainWindow.language == "vi-VN")
                 {
-                    _nameCity.Add(x.Dist.Substring(10, len - 10));
+                    DataChart.Title = "Số người";
                 }
-                if (x.Dist.Contains("Quận"))
+                else
                 {
-                    _nameCity.Add(x.Dist.Substring(5, len - 5));
+                    DataChart.Title = "수량";
                 }
-                if (x.Dist.Contains("Thị xã"))
-                {
-                    _nameCity.Add(x.Dist.Substring(7, len - 7));
-                }
-                if (x.Dist.Contains("Huyện"))
-                {
-                    _nameCity.Add(x.Dist.Substring(6, len - 6));
-                }
-                _qtyCity.Add(x.Qty);
-            });
 
-            if (MainWindow.language == "vi-VN")
-            {
-                DataChart.Title = "Số người";
+                DataChart.Labels = _nameCity;
+                DataChart.YFormatter = _qtyCity;
+                DataChart.Step = 200;
+                if (cbbTinh.Text != "ALL" && cbbTinh.Text != "Tỉnh Bắc Ninh")
+                {
+                    DataChart.Step = 10;
+                }
+
+                DataContext = this;
+                Column column = new Column();
+                frameChart_HuyenDetail.Navigate(column);
             }
-            else
+            catch (Exception ex)
             {
-                DataChart.Title = "수량";
-            }
-
-            DataChart.Labels = _nameCity;
-            DataChart.YFormatter = _qtyCity;
-            DataChart.Step = 200;
-            if (cbbTinh.Text != "ALL" && cbbTinh.Text != "Tỉnh Bắc Ninh")
-            {
-                DataChart.Step = 10;
+                MessageBox.Show(ex.Message, "Error Query");
             }
             
-            DataContext = this;
-            Column column = new Column();
-            frameChart_HuyenDetail.Navigate(column);
         }
 
         private void EmpInfoUpdateStatusDetail()
         {
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
+            try
+            {
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
 
-            // Lấy thông tin nhân viên đang làm việc
-            string query2 = "select * from TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+                // Lấy thông tin nhân viên đang làm việc
+                string query2 = "select * from TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
 
-            var EmpInfoUpdateStatusOK = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .Select(s => new { s }).ToList().Count();
-            var EmpInfoUpdateStatusNG = listEmp.Rows.Count - EmpInfoUpdateStatusOK;
-            lb_UpdateDiaChi_OKDetail.Content = EmpInfoUpdateStatusOK;
-            lb_UpdateDiaChi_NGDetail.Content = EmpInfoUpdateStatusNG;
-            lb_TotalDetail.Content = listEmp.Rows.Count;
+                var EmpInfoUpdateStatusOK = listEmpInformation.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new { s }).ToList().Count();
+                var EmpInfoUpdateStatusNG = listEmp.Rows.Count - EmpInfoUpdateStatusOK;
+                lb_UpdateDiaChi_OKDetail.Content = EmpInfoUpdateStatusOK;
+                lb_UpdateDiaChi_NGDetail.Content = EmpInfoUpdateStatusNG;
+                lb_TotalDetail.Content = listEmp.Rows.Count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
 
         //===========================================================================================================================================//
@@ -359,68 +383,84 @@ namespace LiveSystem
 
         private void cbbTinh_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbbTinh.SelectedValue == null || cbbTinh.SelectedValue.ToString() == "ALL")
+            try
             {
-                List<string> list = new List<string>();
-                list.Add("ALL");
-                cbbHuyen.ClearValue(ListView.ItemsSourceProperty);
-                cbbXa.ClearValue(ListView.ItemsSourceProperty);
-                cbbHuyen.ItemsSource = list;
-                cbbXa.ItemsSource = list;
+                if (cbbTinh.SelectedValue == null || cbbTinh.SelectedValue.ToString() == "ALL")
+                {
+                    List<string> list = new List<string>();
+                    list.Add("ALL");
+                    cbbHuyen.ClearValue(ListView.ItemsSourceProperty);
+                    cbbXa.ClearValue(ListView.ItemsSourceProperty);
+                    cbbHuyen.ItemsSource = list;
+                    cbbXa.ItemsSource = list;
+                    cbbHuyen.SelectedIndex = 0;
+                    cbbXa.SelectedIndex = 0;
+                    return;
+                }
+
+                // Do không so sánh với danh sách nhân viên thực tế nên vẫn có huyện và xã hiển thị nhưng không có danh sách
+                string query = "";
+                if (rbThuongTru.IsChecked == true)
+                {
+                    query = "select distinct PermDist from update_employee where PermProv = @permProv";
+                }
+                else
+                {
+                    query = "select distinct TempDist from update_employee where TempProv = @tempProv";
+                }
+                List<string> listDist = new List<string>();
+                listDist.Add("ALL");
+                listDist.AddRange(DataProvider.Instance.MySqlGetList(path_TaixinWeb, query, new object[] { cbbTinh.SelectedValue.ToString() }));
+                if (cbbHuyen.ItemsSource != null)
+                    cbbHuyen.ClearValue(ListView.ItemsSourceProperty);
+
+                cbbHuyen.ItemsSource = listDist;
                 cbbHuyen.SelectedIndex = 0;
-                cbbXa.SelectedIndex = 0;
-                return;
             }
-
-            // Do không so sánh với danh sách nhân viên thực tế nên vẫn có huyện và xã hiển thị nhưng không có danh sách
-            string query = "";
-            if (rbThuongTru.IsChecked == true)
+            catch (Exception ex)
             {
-                query = "select distinct PermDist from update_employee where PermProv = @permProv";
+                MessageBox.Show(ex.Message, "Error Query");
             }
-            else
-            {
-                query = "select distinct TempDist from update_employee where TempProv = @tempProv";
-            }
-            List<string> listDist = new List<string>();
-            listDist.Add("ALL");
-            listDist.AddRange(DataProvider.Instance.MySqlGetList(path_TaixinWeb, query, new object[] { cbbTinh.SelectedValue.ToString() }));
-            if(cbbHuyen.ItemsSource != null)
-                cbbHuyen.ClearValue(ListView.ItemsSourceProperty);
-
-            cbbHuyen.ItemsSource = listDist;
-            cbbHuyen.SelectedIndex = 0;
+            
         }
 
         private void cbbHuyen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbbHuyen.SelectedValue == null || cbbHuyen.SelectedValue.ToString() == "ALL")
+            try
             {
-                List<string> list = new List<string>();
-                list.Add("ALL");
-                cbbXa.ClearValue(ListView.ItemsSourceProperty);
-                cbbXa.ItemsSource = list;
+                if (cbbHuyen.SelectedValue == null || cbbHuyen.SelectedValue.ToString() == "ALL")
+                {
+                    List<string> list = new List<string>();
+                    list.Add("ALL");
+                    cbbXa.ClearValue(ListView.ItemsSourceProperty);
+                    cbbXa.ItemsSource = list;
+                    cbbXa.SelectedIndex = 0;
+                    return;
+                }
+
+                string query = "";
+                if (rbThuongTru.IsChecked == true)
+                {
+                    query = "select distinct PermComm from update_employee where PermProv = @permProv and PermDist = @permDist";
+                }
+                else
+                {
+                    query = "select distinct TempComm from update_employee where TempProv = @tempProv and TempDist = @tempDist";
+                }
+                List<string> listComm = new List<string>();
+                listComm.Add("ALL");
+                listComm.AddRange(DataProvider.Instance.MySqlGetList(path_TaixinWeb, query, new object[] { cbbTinh.SelectedValue.ToString(), cbbHuyen.SelectedValue.ToString() }));
+                if (cbbXa.ItemsSource != null)
+                    cbbXa.ClearValue(ComboBox.ItemsSourceProperty);
+
+                cbbXa.ItemsSource = listComm;
                 cbbXa.SelectedIndex = 0;
-                return;
             }
-
-            string query = "";
-            if (rbThuongTru.IsChecked == true)
+            catch (Exception ex)
             {
-                query = "select distinct PermComm from update_employee where PermProv = @permProv and PermDist = @permDist";
+                MessageBox.Show(ex.Message, "Error Query");
             }
-            else
-            {
-                query = "select distinct TempComm from update_employee where TempProv = @tempProv and TempDist = @tempDist";
-            }
-            List<string> listComm = new List<string>();
-            listComm.Add("ALL");
-            listComm.AddRange(DataProvider.Instance.MySqlGetList(path_TaixinWeb, query, new object[] { cbbTinh.SelectedValue.ToString(), cbbHuyen.SelectedValue.ToString() }));
-            if (cbbXa.ItemsSource != null)
-                cbbXa.ClearValue(ComboBox.ItemsSourceProperty);
-
-            cbbXa.ItemsSource = listComm;
-            cbbXa.SelectedIndex = 0;
+            
         }
 
         bool checkWorking = false;
@@ -469,41 +509,49 @@ namespace LiveSystem
 
         private void GetDistinctProv()
         {
-            // Lấy dữ liệu thông tin nhân viên
-            string query1 = "select * from update_employee";
-            var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
-            // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
-            // Lấy dữ liệu nhân viên đã được update thông tin trên taixin web
-            var listAllEmp = listEmp.AsEnumerable().Join(listEmpInformation.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                .Select(s => new
-                {
-                    TempProv = s.y["TempProv"].ToString(),
-                    PermProv = s.y["PermProv"].ToString(),
-                }).ToList();
+            try
+            {
+                // Lấy dữ liệu thông tin nhân viên
+                string query1 = "select * from update_employee";
+                var listEmpInformation = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query1);
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate >= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
+                // Lấy dữ liệu nhân viên đã được update thông tin trên taixin web
+                var listAllEmp = listEmp.AsEnumerable().Join(listEmpInformation.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new
+                    {
+                        TempProv = s.y["TempProv"].ToString(),
+                        PermProv = s.y["PermProv"].ToString(),
+                    }).ToList();
 
-            // Lấy danh sách tỉnh từ bảng update_employee
-            List<string> listProv = new List<string>();
-            listProv.Add("ALL");
-            if (rbThuongTru.IsChecked == true)
-            {
-                var listPermProv = listAllEmp.GroupBy(x => x.PermProv).Select(g => g.First()).ToList();
-                listPermProv.ForEach(x =>
+                // Lấy danh sách tỉnh từ bảng update_employee
+                List<string> listProv = new List<string>();
+                listProv.Add("ALL");
+                if (rbThuongTru.IsChecked == true)
                 {
-                    listProv.Add(x.PermProv);
-                });
-            }
-            else
-            {
-                var listTempProv = listAllEmp.GroupBy(x => x.TempProv).Select(g => g.First()).ToList();
-                listTempProv.ForEach(x =>
+                    var listPermProv = listAllEmp.GroupBy(x => x.PermProv).Select(g => g.First()).ToList();
+                    listPermProv.ForEach(x =>
+                    {
+                        listProv.Add(x.PermProv);
+                    });
+                }
+                else
                 {
-                    listProv.Add(x.TempProv);
-                });
+                    var listTempProv = listAllEmp.GroupBy(x => x.TempProv).Select(g => g.First()).ToList();
+                    listTempProv.ForEach(x =>
+                    {
+                        listProv.Add(x.TempProv);
+                    });
+                }
+                cbbTinh.ItemsSource = listProv;
+                cbbTinh.SelectedIndex = 0;
             }
-            cbbTinh.ItemsSource = listProv;
-            cbbTinh.SelectedIndex = 0;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Query");
+            }
+            
         }
 
         public void CreatListExcel()
