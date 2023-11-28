@@ -243,11 +243,45 @@
     <sys:String x:Key="Đỏ">Đỏ</sys:String>
     <sys:String x:Key="Vàng">Vàng</sys:String>
     <sys:String x:Key="Xanh">Môi trường</sys:String>
-    <sys:String x:Key="Truy vấn dữ liệu">Truy vấn dữ liệu</sys:String>
+    <sys:String x:Key="Truy vấn dữ liệu">Danh sách dữ liệu</sys:String>
+    <sys:String x:Key="Cập nhật dữ liệu">Cập nhật dữ liệu</sys:String>
     <sys:String x:Key="Khu vực màu đỏ">Khu vực màu đỏ</sys:String>
     <sys:String x:Key="Khu vực màu vàng">Khu vực màu vàng</sys:String>
     <sys:String x:Key="Khu vực màu xanh">Khu vực màu xanh</sys:String>
     <sys:String x:Key="Tháng kiểm tra">Tháng kiểm tra</sys:String>
+    <sys:String x:Key="Mã số thuế">Mã số thuế</sys:String>
+    <sys:String x:Key="Ăn cơm">Ăn cơm</sys:String>
+    <sys:String x:Key="Tăng ca trên 40h/ tháng">Tăng ca trên 40h/tháng</sys:String>
+    <sys:String x:Key="Làm việc trên 60h/ tuần">Làm việc trên 60h/tuần</sys:String>
+    <sys:String x:Key="Tỷ lệ tuyển dụng">Tỷ lệ tuyển dụng</sys:String>
+    <sys:String x:Key="Vị trí tuyển dụng">Vị trí tuyển dụng</sys:String>
+    <sys:String x:Key="Ngày hoàn thành">Ngày hoàn thành</sys:String>
+    <sys:String x:Key="Số người yêu cầu">Yêu cầu</sys:String>
+    <sys:String x:Key="Số người đã tuyển">Đã tuyển</sys:String>
+    <sys:String x:Key="Số người còn lại">Còn lại</sys:String>
+    <sys:String x:Key="Tỷ lệ tuyển">Tỷ lệ tuyển</sys:String>
+    <sys:String x:Key="Quản lý an toàn">Quản lý an toàn</sys:String>
+    <sys:String x:Key="Số ngày làm việc không có tai nạn">Số ngày làm việc không có tai nạn </sys:String>
+    <sys:String x:Key="Kết quả lần 1">Kết quả lần 1</sys:String>
+    <sys:String x:Key="Kết quả lần 2">Kết quả lần 2</sys:String>
+    <sys:String x:Key="Số lượng vi phạm">Số lượng vi phạm</sys:String>
+    <sys:String x:Key="Số lượng cải tiến">Số lượng cải tiến</sys:String>
+    <sys:String x:Key="Tỷ lệ cải tiến">Tỷ lệ cải tiến(%)</sys:String>
+    <sys:String x:Key="Kết quả đánh giá an toàn môi trường">Kết quả đánh giá an toàn môi trường</sys:String>
+    <sys:String x:Key="tình trạng vi phạm và cải tiến an toàn môi trường">Hiệu suất cải thiện an toàn môi trường</sys:String>
+    <sys:String x:Key="Tuần">Tuần</sys:String>
+    <sys:String x:Key="Thiết bị 1">Thiết bị 1</sys:String>
+    <sys:String x:Key="Thiết bị 2">Thiết bị 2</sys:String>
+    <sys:String x:Key="Ngày tai nạn">Ngày tai nạn</sys:String>
+    <sys:String x:Key="Mã nhân viên">Mã nhân viên</sys:String>
+    <sys:String x:Key="Họ tên">Họ tên</sys:String>
+    <sys:String x:Key="Vị trí xảy ra tai nạn">Vị trí xảy ra tai nạn</sys:String>
+    <sys:String x:Key="Loại tai nạn">Loại tai nạn</sys:String>
+    <sys:String x:Key="Số ngày an toàn">Số ngày an toàn</sys:String>
+    <sys:String x:Key="Đặt xe tiếp theo">Đặt xe tiếp theo</sys:String>
+
+
+
 
 
 

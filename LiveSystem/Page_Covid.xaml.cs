@@ -38,6 +38,7 @@ namespace LiveSystem
             InitializeComponent();
             GetListVTimes();
             Loaded += Page_Covid_Loaded;
+            VaccineInfo();
         }
 
         private void Page_Covid_Loaded(object sender, RoutedEventArgs e)
@@ -531,6 +532,56 @@ namespace LiveSystem
                     MessageBox.Show("파일 이름이 중복되었습니다", "정보", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+
+        private void VaccineInfo()
+        {
+            try
+            {
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
+                var listEmp = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
+
+                // Lấy dữ liệu số mũi vaccine
+                string query = "select * from vacxin";
+                var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query);
+
+                // Join 2 table ở trên
+                var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+                    .Select(s => new Emp_Vaccine
+                    {
+                        EmpId = s.x["EmpId"].ToString(),
+                        Vtimes = int.Parse(s.x["Vtimes"].ToString())
+                    });
+
+                // Hiển thị lên view
+                double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
+                double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
+                double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
+                double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
+                double total = listEmp.Rows.Count;
+
+                lb_Vaccine1.Content = vaccine1;
+                lb_Vaccine2.Content = vaccine2;
+                lb_Vaccine3.Content = vaccine3;
+                lb_Vaccine4.Content = vaccine4;
+                lb_VaccineNo.Content = total - vaccine1;
+
+                if (listEmpVaccine.Count() != 0)
+                {
+                    lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
+                    lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
+                    lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
+                    lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
+                    lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error in processing vaccination data", "Error", MessageBoxButton.OK);
+            }
+
         }
         private void btnExcelYte_Click(object sender, RoutedEventArgs e)
         {

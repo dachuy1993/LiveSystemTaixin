@@ -19,12 +19,12 @@
     </Page.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="65"/>
+            <RowDefinition Height="165"/>
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5">
-            <GroupBox Header="{DynamicResource Số mũi vaccine}" Margin="5,0" >
+            <GroupBox Header="{DynamicResource Số mũi vaccine}" Margin="5,0" Height="65" >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <ComboBox  Name="cbb_NumberVaccine" Width="120" Height="30" VerticalContentAlignment="Center"/>
                 </StackPanel>
@@ -47,7 +47,7 @@
                     <RadioButton Content="Có" Margin="5" Name="rbDichuyen_NG" Checked="rbDichuyen_NG_Checked"></RadioButton>
                 </StackPanel>
             </GroupBox>-->
-            <GroupBox Header="{DynamicResource Tìm kiếm}">
+            <GroupBox Header="{DynamicResource Tìm kiếm}" Height="65">
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnTimKiemYte" Click="btnTimKiemYte_Click" Height="30" Width="100" Margin="5,0">
                         <StackPanel Orientation="Horizontal">
@@ -64,6 +64,48 @@
                    
                 </StackPanel>
             </GroupBox>
+            <GroupBox Grid.Column="6" Grid.Row="1"  Header="{DynamicResource Vaccine}"  Margin="2" BorderBrush="Gray">
+                <Grid>
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="{DynamicResource Tiêm 1 mũi}"    ></Label>
+                            <Label Content="{DynamicResource Tiêm 2 mũi}"    ></Label>
+                            <Label Content="{DynamicResource Tiêm 3 mũi}"    ></Label>
+                            <Label Content="{DynamicResource Tiêm 4 mũi}"    ></Label>
+                            <Label Content="{DynamicResource Chưa tiêm}"     ></Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label Name="lb_Vaccine1"  FontWeight="Bold" ></Label>
+                            <Label Name="lb_Vaccine2"  FontWeight="Bold" ></Label>
+                            <Label Name="lb_Vaccine3"  FontWeight="Bold" ></Label>
+                            <Label Name="lb_Vaccine4"  FontWeight="Bold" ></Label>
+                            <Label Name="lb_VaccineNo"  FontWeight="Bold"  Foreground="Red"></Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Column="2">
+                            <Label Content="{DynamicResource Tỷ lệ}"  ></Label>
+                            <Label Content="{DynamicResource Tỷ lệ}"  ></Label>
+                            <Label Content="{DynamicResource Tỷ lệ}"  ></Label>
+                            <Label Content="{DynamicResource Tỷ lệ}"  ></Label>
+                            <Label Content="{DynamicResource Tỷ lệ}"  ></Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="3">
+                            <Label Name="lb_Rate1" FontWeight="Bold" ></Label>
+                            <Label Name="lb_Rate2" FontWeight="Bold" ></Label>
+                            <Label Name="lb_Rate3" FontWeight="Bold" ></Label>
+                            <Label Name="lb_Rate4" FontWeight="Bold" ></Label>
+                            <Label Name="lb_RateNo" FontWeight="Bold"  Foreground="Red"></Label>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
             <GroupBox Header="{DynamicResource Ngày kiểm tra}" Width="140" Margin="5,0" Visibility="Hidden">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <DatePicker Name="dpkCheck" Height="30" Width="120"  VerticalAlignment="Center" VerticalContentAlignment="Center" />

@@ -54,6 +54,7 @@ namespace LiveSystem
         public static Page_Food Food = new Page_Food();
         Page_Holiday holiday  = new Page_Holiday();
         Page_Environment Environment = new Page_Environment();  
+        Page_EnvironmentTab EnvironmentTab = new Page_EnvironmentTab();
         int _indexCheckInternet = 0;
         string pathFileIni = "";
         int checkID = 0;
@@ -423,8 +424,8 @@ namespace LiveSystem
                         }
                     case "An toàn":
                         {
-                            Page_Environment Environment = new Page_Environment();
-                            frameMain.Navigate(Environment);
+                            Page_EnvironmentTab EnvironmentTab = new Page_EnvironmentTab();
+                            frameMain.Navigate(EnvironmentTab);
                             break;
                         }
                 }
@@ -509,7 +510,7 @@ namespace LiveSystem
                             }
                         case "안전한":
                             {
-                                frameMain.Navigate(Environment);
+                                frameMain.Navigate(EnvironmentTab);
                                 break;
                             }
 
@@ -624,8 +625,8 @@ namespace LiveSystem
                                 }
                             case "An toàn":
                                 {
-                                    Page_Environment Environment = new Page_Environment();
-                                    frameMain.Navigate(Environment);
+                                    Page_EnvironmentTab EnvironmentTab = new Page_EnvironmentTab();
+                                    frameMain.Navigate(EnvironmentTab);
                                     break;
                                 }
                         }
@@ -720,8 +721,8 @@ namespace LiveSystem
                                     }
                                 case "안전한":
                                     {
-                                        Page_Environment Environment = new Page_Environment();
-                                        frameMain.Navigate(Environment);
+                                        Page_EnvironmentTab EnvironmentTab = new Page_EnvironmentTab();
+                                        frameMain.Navigate(EnvironmentTab);
                                         break;
                                     }
 

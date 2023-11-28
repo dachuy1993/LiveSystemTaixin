@@ -1,0 +1,122 @@
+﻿<Window x:Class="LiveSystem.Window_EnvironTabSave"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LiveSystem"
+        mc:Ignorable="d"
+        Title="Cập nhật dữ liệu an toàn tuần" Height="450" Width="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible">
+            <Label Content="Năm" VerticalAlignment="Center"></Label>
+            <ComboBox Name="cbbYearTab3" Width="150" VerticalContentAlignment="Center" SelectedIndex="0" Margin="0,0,20,0" SelectionChanged="cbbYearChange" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding .}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Tuần" VerticalAlignment="Center"></Label>
+            <ComboBox Name="cbbWeekTab3" Width="150" VerticalContentAlignment="Center" SelectedIndex="0" Margin="0,0,20,0" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding .}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button x:Name="btnTimKiemTab3" Width="100" Margin="20,0,5,0" Click="btnTimKiemTab3_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Image/Edit/search.png" Height="20" Width="20"></Image>
+                    <Label Content="Tìm kiếm" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnQueryData" Width="100" Margin="20,0,5,0" Click="btnDanhsach_Click" Visibility="Hidden">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Image/Edit/search.png" Height="20" Width="20"></Image>
+                    <Label Content="Dữ liệu" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5">
+                    <Label Margin="3" Height="25" FontWeight="Bold">Khu vực lỗi</Label>
+                    <Label Margin="3" Height="25">PCCC</Label>
+                    <Label Margin="3" Height="25">Điện</Label>
+                    <Label Margin="3" Height="25">An toàn</Label>
+                    <Label Margin="3" Height="25">Sức khoẻ</Label>
+                    <Label Margin="3" Height="25">Môi trường</Label>
+                    <Label Margin="3" Height="25">Thiết bị</Label>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="26,3,104,7" Grid.ColumnSpan="2">
+                    <Label Margin="3" FontWeight="Bold">Số lượng lỗi</Label>
+                    <TextBox Margin="3" Height="25" Name="txt_PCCC" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Elec" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Safe" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Health" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Envico" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_UL" VerticalContentAlignment="Center">0</TextBox>
+                    <Label Margin="3" Height="25"></Label>
+                    <Button Name="btnAdd" Content="THÊM" Margin="3,20,3,3" Height="30" Click="btnAdd_Click"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="5">
+                    <Label Margin="3" Height="25" FontWeight="Bold">Khu vực cải tiến</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">PCCC</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">Điện</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">An toàn</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">Sức khoẻ</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">Môi trường</Label>
+                    <Label Margin="3" Height="25" HorizontalAlignment="Center">Thiết bị</Label>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Margin="5">
+                    <Label Margin="3" FontWeight="Bold">Số lượng cả tiến</Label>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_PCCC" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Elec" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Safe" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Heal" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Envico" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_UL" VerticalContentAlignment="Center">0</TextBox>
+                    <Label Margin="3" Height="25"></Label>
+                    <Button Name="btnEdit" Content="SỬA" Margin="3,20,3,3" Height="30" Click="btnEdit_Click"></Button>
+                </StackPanel>
+                <StackPanel Grid.Column="4" Orientation="Vertical" Margin="5,5,0,5">
+                    <Label Margin="3" FontWeight="Bold" HorizontalAlignment="Center" Height="25">Tuần</Label>
+                    <TextBox Margin="3" Height="25" Name="txt_Week" VerticalContentAlignment="Center" Width="120">0</TextBox>
+                    <Label Margin="3" Height="25"></Label>
+                    <Label Margin="3" Height="25"></Label>
+                    <Label Margin="3" Height="25"></Label>
+                    <Label Margin="3" Height="25"></Label>
+                    <Label Margin="3" Height="25"></Label>
+                    <Label Margin="3" Height="25"></Label>
+                    <Button Name="btnDel" Content="XOÁ" Margin="3,20,3,3" Width="120" Height="30" Click="btnDel_Click"></Button>
+                </StackPanel>
+                
+            </Grid>
+        </Grid>
+        <StackPanel Grid.RowSpan="4" Name="stackLoading" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Frame x:Name="frameLoading"></Frame>
+        </StackPanel>
+    </Grid>
+</Window>

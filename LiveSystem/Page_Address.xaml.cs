@@ -126,6 +126,7 @@ namespace LiveSystem
                         PermDist = s.y["PermDist"].ToString(),
                         PermComm = s.y["PermComm"].ToString(),
                         PermVilla = s.y["PermVilla"].ToString(),
+                        TaxCode = s.y["TaxCode"].ToString(),
                     }).ToList();
 
                 // Thêm dữ liệu người chưa cập nhật thông tin trên taixin web vào danh sách tất cả nhân viên - danh sách người chưa cập nhật
@@ -597,6 +598,7 @@ namespace LiveSystem
                     ws.Column(18).Width = 20;//huyen
                     ws.Column(19).Width = 20;//xa
                     ws.Column(20).Width = 20;//thon
+                    ws.Column(21).Width = 20;
 
                     ws.Row(1).Height = 10;
                     ws.Row(2).Height = 40;
@@ -608,7 +610,7 @@ namespace LiveSystem
 
                     for (int i = 1; i < numberRow; i++)
                     {
-                        string strCell = "A" + i.ToString() + ":" + "T" + i.ToString();
+                        string strCell = "A" + i.ToString() + ":" + "U" + i.ToString();
                         var cell = ws.Cells[strCell];
                         var border = cell.Style.Border;
                         border.Bottom.Style =
@@ -621,7 +623,7 @@ namespace LiveSystem
                     }
                     for (int i = 5; i < numberRow; i++)
                     {
-                        string strCell = "A" + i.ToString() + ":" + "T" + i.ToString();
+                        string strCell = "A" + i.ToString() + ":" + "U" + i.ToString();
                         var cell = ws.Cells[strCell];
                         ws.Row(i).Height = 25;
                         cell.Style.Font.Size = 11;
@@ -679,6 +681,8 @@ namespace LiveSystem
                         ws.Cells[strCell9].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         string strCell20 = "T" + i.ToString() + ":" + "T" + i.ToString();
                         ws.Cells[strCell20].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        string strCell21 = "U" + i.ToString() + ":" + "U" + i.ToString();
+                        ws.Cells[strCell21].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                     }
 
@@ -687,7 +691,7 @@ namespace LiveSystem
                     {
                         if (i % 2 == 0)
                         {
-                            string strCell = "A" + i.ToString() + ":" + "T" + i.ToString();
+                            string strCell = "A" + i.ToString() + ":" + "U" + i.ToString();
                             var cell = ws.Cells[strCell];
                             var fill = cell.Style.Fill;
                             fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
@@ -698,55 +702,57 @@ namespace LiveSystem
                     //Bôi den backgroud
                     //
 
-                    ws.Cells["A2:T2"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                    ws.Cells["A2:T2"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Azure);
+                    ws.Cells["A2:U2"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A2:U2"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Azure);
 
-                    ws.Cells["A4:T4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                    ws.Cells["A4:T4"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Ivory);
+                    ws.Cells["A4:U4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A4:U4"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Ivory);
 
 
                     ws.Cells["A1:A1"].Value = "";
-                    ws.Cells["A1:T1"].Merge = true;
+                    ws.Cells["A1:U1"].Merge = true;
                     ws.Cells["A1:A1"].Style.Font.Size = 25;
                     ws.Cells["A1:A1"].Style.Font.Bold = true;
 
 
                     ws.Cells["A2:A2"].Value = "THÔNG TIN CÔNG NHÂN VIÊN";
-                    ws.Cells["A2:T2"].Merge = true;
+                    ws.Cells["A2:U2"].Merge = true;
                     ws.Cells["A2:A2"].Style.Font.Size = 22;
                     ws.Cells["A2:A2"].Style.Font.Bold = true;
 
 
                     //Ngày SX
                     ws.Cells["A3:A3"].Value = "Ngày : " + DateTime.Now.ToString("dd/MM/yyyy") + "  Số lượng : " + (numberRow-5);
-                    ws.Cells["A3:T3"].Merge = true;
+                    ws.Cells["A3:U3"].Merge = true;
                     ws.Cells["A3:A3"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     ws.Cells["A3:A3"].Style.Font.Bold = true;
 
 
                     //Head                  
-                    ws.Cells["A4:T4"].Style.Font.Size = 12;
-                    ws.Cells["A4:T4"].Style.Font.Bold = true;
+                    ws.Cells["A4:U4"].Style.Font.Size = 12;
+                    ws.Cells["A4:U4"].Style.Font.Bold = true;
                     ws.Cells["A4:A4"].Value = "STT";
                     ws.Cells["B4:B4"].Value = "Mã NV";
                     ws.Cells["C4:C4"].Value = "Họ và Tên";
                     ws.Cells["D4:D4"].Value = "Giới tính";
                     ws.Cells["E4:E4"].Value = "Ngày sinh";
                     ws.Cells["F4:F4"].Value = "Số điện thoại";
-                    ws.Cells["G4:G4"].Value = "CMT/CCCD";
-                    ws.Cells["H4:H4"].Value = "Nơi cấp";
-                    ws.Cells["I4:I4"].Value = "Ngày cấp";
-                    ws.Cells["J4:J4"].Value = "Dân tộc";
-                    ws.Cells["K4:K4"].Value = "Bộ phận";
-                    ws.Cells["L4:L4"].Value = "Phòng ban";
-                    ws.Cells["M4:M4"].Value = "Nhóm";
-                    ws.Cells["N4:N4"].Value = "Khu vực";
-                    ws.Cells["O4:O4"].Value = "Ca";
-                    ws.Cells["P4:P4"].Value = "Cấp bậc";
-                    ws.Cells["Q4:Q4"].Value = "Tỉnh/Thành phố";
-                    ws.Cells["R4:R4"].Value = "Quận/Huyện";
-                    ws.Cells["S4:S4"].Value = "Phường/Xã";
-                    ws.Cells["T4:T4"].Value = "Thôn/xóm";
+                    ws.Cells["G4:G4"].Value = "Mã số thuế";
+                    ws.Cells["H4:H4"].Value = "CMT/CCCD";
+                    ws.Cells["I4:I4"].Value = "Nơi cấp";
+                    ws.Cells["J4:J4"].Value = "Ngày cấp";
+                    ws.Cells["K4:K4"].Value = "Dân tộc";
+                    ws.Cells["L4:L4"].Value = "Bộ phận";
+                    ws.Cells["M4:M4"].Value = "Phòng ban";
+                    ws.Cells["N4:N4"].Value = "Nhóm";
+                    ws.Cells["O4:O4"].Value = "Khu vực";
+                    ws.Cells["P4:P4"].Value = "Ca";
+                    ws.Cells["Q4:Q4"].Value = "Cấp bậc";
+                    ws.Cells["R4:R4"].Value = "Tỉnh/Thành phố";
+                    ws.Cells["S4:S4"].Value = "Quận/Huyện";
+                    ws.Cells["T4:T4"].Value = "Phường/Xã";
+                    ws.Cells["U4:U4"].Value = "Thôn/xóm";
+                    
 
 
                     int index = 4;
@@ -776,37 +782,41 @@ namespace LiveSystem
                             //--
                             string strCell6 = "F" + index.ToString() + ":" + "F" + index.ToString();
                             ws.Cells[strCell6].Value = item.HpTel;
-                            //--
+
                             string strCell7 = "G" + index.ToString() + ":" + "G" + index.ToString();
-                            ws.Cells[strCell7].Value = item.ResidId;
+                            ws.Cells[strCell7].Value = item.TaxCode;
                             //--
                             string strCell8 = "H" + index.ToString() + ":" + "H" + index.ToString();
-                            ws.Cells[strCell8].Value = item.ResidPlace;
+                            ws.Cells[strCell8].Value = item.ResidId;
                             //--
                             string strCell9 = "I" + index.ToString() + ":" + "I" + index.ToString();
-                            ws.Cells[strCell9].Value = item.ResidDate;
+                            ws.Cells[strCell9].Value = item.ResidPlace;
+                            //--
                             string strCell10 = "J" + index.ToString() + ":" + "J" + index.ToString();
-                            ws.Cells[strCell10].Value = item.Nation;
+                            ws.Cells[strCell10].Value = item.ResidDate;
                             string strCell11 = "K" + index.ToString() + ":" + "K" + index.ToString();
-                            ws.Cells[strCell11].Value = item.Deptlv1;
+                            ws.Cells[strCell11].Value = item.Nation;
                             string strCell12 = "L" + index.ToString() + ":" + "L" + index.ToString();
-                            ws.Cells[strCell12].Value = item.Deptlv2;
+                            ws.Cells[strCell12].Value = item.Deptlv1;
                             string strCell13 = "M" + index.ToString() + ":" + "M" + index.ToString();
-                            ws.Cells[strCell13].Value = item.Deptlv3;
+                            ws.Cells[strCell13].Value = item.Deptlv2;
                             string strCell14 = "N" + index.ToString() + ":" + "N" + index.ToString();
-                            ws.Cells[strCell14].Value = item.Position;
+                            ws.Cells[strCell14].Value = item.Deptlv3;
                             string strCell15 = "O" + index.ToString() + ":" + "O" + index.ToString();
-                            ws.Cells[strCell15].Value = item.Shift;
+                            ws.Cells[strCell15].Value = item.Position;
                             string strCell16 = "P" + index.ToString() + ":" + "P" + index.ToString();
-                            ws.Cells[strCell16].Value = item.Level;
+                            ws.Cells[strCell16].Value = item.Shift;
                             string strCell17 = "Q" + index.ToString() + ":" + "Q" + index.ToString();
-                            ws.Cells[strCell17].Value = item.TempProv;
+                            ws.Cells[strCell17].Value = item.Level;
                             string strCell18 = "R" + index.ToString() + ":" + "R" + index.ToString();
-                            ws.Cells[strCell18].Value = item.TempDist;
+                            ws.Cells[strCell18].Value = item.TempProv;
                             string strCell19 = "S" + index.ToString() + ":" + "S" + index.ToString();
-                            ws.Cells[strCell19].Value = item.TempComm;
+                            ws.Cells[strCell19].Value = item.TempDist;
                             string strCell20 = "T" + index.ToString() + ":" + "T" + index.ToString();
-                            ws.Cells[strCell20].Value = item.TempVilla;
+                            ws.Cells[strCell20].Value = item.TempComm;
+                            string strCell21 = "U" + index.ToString() + ":" + "U" + index.ToString();
+                            ws.Cells[strCell21].Value = item.TempVilla;
+                           
 
                         }
 
@@ -816,7 +826,7 @@ namespace LiveSystem
                     ws.PrinterSettings.PaperSize = ePaperSize.A4;
                     ws.PrinterSettings.Orientation = eOrientation.Landscape;
                     ws.PrinterSettings.FitToPage = true;
-                    ws.Cells["A4:T4"].AutoFilter = true;
+                    ws.Cells["A4:U4"].AutoFilter = true;
                     ws.PrinterSettings.TopMargin = Decimal.Parse("0");
                     ws.PrinterSettings.LeftMargin = Decimal.Parse("0.25");
                     ws.PrinterSettings.BottomMargin = Decimal.Parse("0.25");

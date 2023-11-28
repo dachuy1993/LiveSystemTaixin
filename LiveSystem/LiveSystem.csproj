@@ -103,6 +103,7 @@
     <Compile Include="Model\EmpVacationLeave.cs" />
     <Compile Include="Model\EmpVSIPMealModel.cs" />
     <Compile Include="Model\EmpWorkingModel.cs" />
+    <Compile Include="Model\ListCarModel.cs" />
     <Compile Include="Model\QtyComm.cs" />
     <Compile Include="Model\SafeModel.cs" />
     <Compile Include="Model\TrainingModel.cs" />
@@ -120,6 +121,9 @@
     </Compile>
     <Compile Include="Page_Environment.xaml.cs">
       <DependentUpon>Page_Environment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page_EnvironmentTab.xaml.cs">
+      <DependentUpon>Page_EnvironmentTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page_Food.xaml.cs">
       <DependentUpon>Page_Food.xaml</DependentUpon>
@@ -155,8 +159,17 @@
     <Compile Include="Window_EnvironmentData.xaml.cs">
       <DependentUpon>Window_EnvironmentData.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window_EnvironmentWeekData.xaml.cs">
+      <DependentUpon>Window_EnvironmentWeekData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_EnvironNumDaySave.xaml.cs">
+      <DependentUpon>Window_EnvironNumDaySave.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window_EnvironSave.xaml.cs">
       <DependentUpon>Window_EnvironSave.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_EnvironTabSave.xaml.cs">
+      <DependentUpon>Window_EnvironTabSave.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window_Loading.xaml.cs">
       <DependentUpon>Window_Loading.xaml</DependentUpon>
@@ -233,6 +246,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Page_EnvironmentTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Page_Food.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -293,7 +310,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Window_EnvironmentWeekData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_EnvironNumDaySave.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window_EnvironSave.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_EnvironTabSave.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

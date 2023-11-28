@@ -34,5 +34,6 @@ namespace LiveSystem.Model
         public string PermDist { get; set; }
         public string PermComm { get; set; }
         public string PermVilla { get; set; }
+        public string TaxCode { get; set; } 
     }
 }

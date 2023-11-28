@@ -136,6 +136,9 @@ namespace LiveSystem
                     case "V98":
                         emp.Division = "HICUP";
                         break;
+                    case "V92"://add 2023-09-06
+                        emp.Division = "SL TEAM";
+                        break;
                 }
                 emp.DeptNm = rowA["DeptNm"].ToString();
                 emp.GroupNm = rowA["MinorNm"].ToString();
@@ -156,7 +159,7 @@ namespace LiveSystem
                     listAll = listAll.Where(x => x.MOT > 52 && x.MOT <= 104).ToList();
                     break;
                 case "300h":
-                    listAll = listAll.Where(x => x.YOT >= 300).ToList();
+                    listAll = listAll.Where(x => x.YOT > 300).ToList();
                     break;
             }
             
@@ -195,7 +198,7 @@ namespace LiveSystem
             }
 
             // Sắp xếp và thêm STT
-            listAll = listAll.OrderBy(x => x.EmpId).ToList();
+            listAll = listAll.OrderByDescending(x => x.YOT).ToList();
             int i = 1;
             listAll.ForEach(x =>
             {
@@ -990,7 +993,10 @@ namespace LiveSystem
             List<string> listResult = new List<string>();
             foreach (DataRow Row in listCmb.Rows)
             {
-                listResult.Add(Row["CbbDept"].ToString());
+                if (Row["CbbDept"].ToString() != "CUSHION")
+                {
+                    listResult.Add(Row["CbbDept"].ToString());
+                }
             }
             cbbDepatment.ItemsSource = listResult;
         }

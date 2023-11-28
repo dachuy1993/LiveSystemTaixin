@@ -97,6 +97,9 @@ namespace LiveSystem
                         case "V98":
                             rowA["MinorCd"] = "HICUP";
                             break;
+                        case "V92"://add 2023-09-06
+                            rowA["MinorCd"] = "SL TEAM";
+                            break;
                     }
 
                     EmpVacationLeave emp = new EmpVacationLeave();
@@ -146,7 +149,7 @@ namespace LiveSystem
                 }
 
                 // Sắp xếp dữ liệu và thêm STT
-                listAll = listAll.OrderBy(x => x.EmpId).ToList();
+                listAll = listAll.OrderByDescending(x => x.Remain).ToList();
                 int i = 1;
                 listAll.ForEach(x =>
                 {
@@ -222,12 +225,36 @@ namespace LiveSystem
                     _nameDept.Add(Row["Division"].ToString());
                     if (Row["Rate"].ToString().IndexOf(",") > 0)
                     {
-                        _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));
+                        _qtyOT.Add(int.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));
                     }
                     else
-                    {
-                        _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                    {//add 2023-09-06
+                        if (Row["Rate"].ToString() != "0%")
+                        {
+                            _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                        }
+                        else
+                        {
+                            _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 1).ToString()));
+                        }
+
                     }
+                    //if (Row["Rate"].ToString().IndexOf(",") > 0)
+                    //{
+                    //    _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));
+                    //}
+                    //else
+                    //{
+                    //    if (Row["Rate"].ToString() != "0")
+                    //    {
+                    //        _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                    //    }
+                    //    else
+                    //    {
+                    //        _qtyOT.Add(int.Parse(Row["Rate"].ToString()));
+                    //    }    
+
+                    //}
                 }
                 if (MainWindow.language == "vi-VN")
                 {
@@ -352,12 +379,16 @@ namespace LiveSystem
             DataTable listCmb = new DataTable();
 
             listCmb = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query);
-
+            
 
             List<string> listResult = new List<string>();
             foreach (DataRow Row in listCmb.Rows)
             {
-                listResult.Add(Row["CbbDept"].ToString());
+                if (Row["CbbDept"].ToString() != "CUSHION")
+                {
+                    listResult.Add(Row["CbbDept"].ToString());
+                }    
+                
             }
             cbbDepatment.ItemsSource = listResult;
         }

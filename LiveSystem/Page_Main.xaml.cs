@@ -31,6 +31,8 @@ using System.Windows.Shapes;
 using LiveSystem.DAO;
 using LiveSystem.ViewModel;
 using System.Windows.Threading;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using LiveSystem.Model;
 
 namespace LiveSystem
 {
@@ -43,11 +45,14 @@ namespace LiveSystem
         public static string path_TaixinAccessManager = "Data Source=192.168.2.5\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_TaixinAccessManager_1 = "Data Source=192.168.2.20\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_Ksystem25 = "Data Source=192.168.2.5;Initial Catalog=LiveSystem;Persist Security Info=True;User ID=sa;Password= oneuser1!";
+        public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
+
 
         bool checkWorking = false;
         public static string dateCheck = DateTime.Now.ToString("yyyyMMdd");
         public static string shiftCheck = "Ca ngày";
         public int s = 0;
+        public int NumSafe;
 
 
         //Temp
@@ -95,7 +100,7 @@ namespace LiveSystem
 
             try
             {
-                string query = "SPGetDataRateWorkMain @shift , @date";
+                string query = "SPGetDataRateWorkMainM @date";
                 //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
 
                 // Hiển thị Page_LoadingData
@@ -118,7 +123,7 @@ namespace LiveSystem
                         // Tỷ lệ đi làm
                         if (dateCheck.Count() != 8)
                             dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-                        listWorkingRate = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { shiftCheck, dateCheck });
+                        listWorkingRate = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { dateCheck });
                         foreach (DataRow row in listWorkingRate.Rows)
                         {
                             row["Rate"] = row["Rate"] + "%";
@@ -130,6 +135,11 @@ namespace LiveSystem
                         GetOverTimeRate();
                         // Thông tin suất ăn
                         GetVSIPMeal();
+                        // Tỷ lệ tuyển dụng
+                        GetRecruitmentRate();
+                        GetDataSafe();
+
+
                         VaccineInfo();
                         EmpInfoUpdateStatus();
                         GetCarInfo();
@@ -228,12 +238,10 @@ namespace LiveSystem
             {
                 if (dateCheck.Count() != 8)
                     dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
-                string query = "SPGetDataOverTimeMain @date";
+                string query = "SPGetDataOverTimeMainM @date";
                 var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
 
                 lvOverTime.ItemsSource = listOTRate.DefaultView;
-                lvOverTime3.ItemsSource = listOTRate.DefaultView;
-                lvOverTime4.ItemsSource = listOTRate.DefaultView;
             }
             catch (Exception)
             {
@@ -242,15 +250,141 @@ namespace LiveSystem
             
         }
 
+        // Tỷ lệ tuyển dụng
+        private void GetRecruitmentRate()
+        {
+            try
+            {
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                string query = "SPGetDataRecruitmentMain @date";
+                var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
+
+                
+
+                lvRecruitment.ItemsSource = listOTRate.DefaultView;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error when processing recruitment data", "Error", MessageBoxButton.OK);
+            }
+
+        }
+
+        private void GetDataSafe()
+        {
+            try
+            {
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                // Lấy dữ liệu nhân viên thực tế từ Ksystem
+                string query2 = "SPGetDataSafe @date";
+
+                var listEmp = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query2, new object[] { Page_Main.dateCheck });
+                
+                foreach (DataRow row in listEmp.Rows)
+                {
+                     NumSafe = int.Parse(row["NumSafe"].ToString());
+                }
+                lbNumTN.Content = NumSafe;
+
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error in processing safe data", "Error", MessageBoxButton.OK);
+            }
+
+        }
+
+
         // Thông tin suất ăn VSIP
         private void GetVSIPMeal()
         {
             try
             {
-                string query = "SPGetDateFoodMain @date";
+                string query = "SPGetDateFoodMainM @date";
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
-                lvVSIPMeal.ItemsSource = listVSIPMeal.DefaultView;
 
+                string query1 = "SPGetDataRateWorkMainFoodM @date";
+                var listEmpWork = DataProvider.Instance.ExecuteSP(path_Ksystem20,query1, new object[] { dateCheck });
+
+                string queryYP = "SPGetDateFoodMainYenPhong @date";
+                var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
+                int Sang = 0;
+                int Trua = 0;
+                int Chieu = 0;
+                int Dem = 0;
+                
+                foreach ( DataRow item in listEmpWork.Rows)
+                {
+                    if (item["ID"].ToString() == "1")
+                    {
+                        Sang = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if(item["ID"].ToString() == "2")
+                    {
+                        Trua = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if (item["ID"].ToString() == "3")
+                    {
+                        Chieu = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else
+                    {
+                        Dem = int.Parse(item["EmpNum"].ToString());
+                    }    
+                }
+
+
+                
+                foreach(DataRow item  in listVSIPMeal.Rows)
+                {
+                    if (item["ID"].ToString() == "1")
+                    {
+                        item["EmpNum"] = Sang;
+                    }
+                    else if (item["ID"].ToString() == "2")
+                    {
+                        item["EmpNum"] = Trua;
+                    }
+                    else if (item["ID"].ToString() == "3")
+                    {
+                        item["EmpNum"] = Chieu;
+                    }
+                    else
+                    {
+                        item["EmpNum"] = Dem;
+                    }
+
+                }
+
+                foreach (DataRow item in listVSIPMeal.Rows)
+                {
+                    if(int.Parse(item["EmpNum"].ToString()) == 0)
+                    {
+                        item["Rate"] = "0";
+                    }   
+                    else
+                    {
+                        item["Rate"] = int.Parse(item["EmpFood"].ToString()) * 100 / int.Parse(item["EmpNum"].ToString());
+                    }    
+                    
+
+                }
+                foreach (DataRow item in listVSIPMeal.Rows)
+                {
+                    item["Rate"] = item["Rate"].ToString() + "%";
+                }
+
+
+
+                    DataView dv = listVSIPMeal.DefaultView;
+                dv.Sort = "ID ASC";
+
+
+                lvVSIPMeal.ItemsSource = dv;
+                
             }
             catch (Exception)
             {
@@ -280,7 +414,7 @@ namespace LiveSystem
                         Qty = s.Count()
                     }).ToList();
                 listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
-
+                
                 // Chart
                 //var _qtyCity = new ChartValues<double>();
                 //var _nameCity = new ChartValues<string>();
@@ -355,50 +489,50 @@ namespace LiveSystem
         // Lấy dữ liệu tiêm Vaccine
         private void VaccineInfo()
         {
-            try
-            {
-                // Lấy dữ liệu nhân viên thực tế từ Ksystem
-                string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
-                var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
+            //try
+            //{
+            //    // Lấy dữ liệu nhân viên thực tế từ Ksystem
+            //    string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
+            //    var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
 
-                // Lấy dữ liệu số mũi vaccine
-                string query = "select * from vacxin";
-                var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query);
+            //    // Lấy dữ liệu số mũi vaccine
+            //    string query = "select * from vacxin";
+            //    var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query);
 
-                // Join 2 table ở trên
-                var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-                    .Select(s => new Emp_Vaccine
-                    {
-                        EmpId = s.x["EmpId"].ToString(),
-                        Vtimes = int.Parse(s.x["Vtimes"].ToString())
-                    });
+            //    // Join 2 table ở trên
+            //    var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
+            //        .Select(s => new Emp_Vaccine
+            //        {
+            //            EmpId = s.x["EmpId"].ToString(),
+            //            Vtimes = int.Parse(s.x["Vtimes"].ToString())
+            //        });
 
-                // Hiển thị lên view
-                double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
-                double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
-                double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
-                double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
-                double total = listEmp.Rows.Count;
+            //    // Hiển thị lên view
+            //    double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
+            //    double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
+            //    double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
+            //    double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
+            //    double total = listEmp.Rows.Count;
 
-                lb_Vaccine1.Content = vaccine1;
-                lb_Vaccine2.Content = vaccine2;
-                lb_Vaccine3.Content = vaccine3;
-                lb_Vaccine4.Content = vaccine4;
-                lb_VaccineNo.Content = total - vaccine1;
+            //    lb_Vaccine1.Content = vaccine1;
+            //    lb_Vaccine2.Content = vaccine2;
+            //    lb_Vaccine3.Content = vaccine3;
+            //    lb_Vaccine4.Content = vaccine4;
+            //    lb_VaccineNo.Content = total - vaccine1;
 
-                if (listEmpVaccine.Count() != 0)
-                {
-                    lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
-                    lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
-                    lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
-                    lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
-                    lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error in processing vaccination data", "Error", MessageBoxButton.OK);
-            }
+            //    if (listEmpVaccine.Count() != 0)
+            //    {
+            //        lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
+            //        lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
+            //        lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
+            //        lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
+            //        lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("Error in processing vaccination data", "Error", MessageBoxButton.OK);
+            //}
             
         }
 
@@ -434,6 +568,7 @@ namespace LiveSystem
         {
             try
             {
+                //lvCar.ItemsSource = null;
                 string date1 = DateTime.Now.ToString("yyyy-MM-dd");
                 string dateKM1;
                 string dateKM2;
@@ -460,19 +595,33 @@ namespace LiveSystem
                     }
                     else
                     {
+                        
                         dateKM1 = DateTime.Now.ToString("yyyy-MM") + "-26";
                         dateKM2 = DateTime.Now.ToString("yyyy-MM") + "-31";
                     }
                 }
 
                 string query = "Call SPGetListCarForDate( @date1 , @dateKM1 , @dateKM2 )";
+                
                 var listCar = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query, new object[] { date1, dateKM1, dateKM2 });
+
+                string queryV2 = "Call SPGetListCarForDateV2( @date1 , @dateKM1 , @dateKM2 )";
+
+                var listCarV2 = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, queryV2, new object[] { date1, dateKM1, dateKM2 });
+                List<ListCarModel> listAll = new List<ListCarModel>();
                 listCar.Columns.Add("Color", typeof(string));
+                listCarV2.Columns.Add("Color", typeof(string));
                 foreach (DataRow row in listCar.Rows)
                 {
                     if (row["Status"].ToString() == "Finish")
                     {
                         row["Color"] = "DodgerBlue";
+                        row["Destination"] = "";
+                        row["OtherDestination"] = "";
+                    }
+                    else if (row["Status"].ToString() == "Order")
+                    {
+                        row["Color"] = "Yellow";
                     }
                     else
                     {
@@ -490,7 +639,80 @@ namespace LiveSystem
                     }
                 }
 
-                lvCar.ItemsSource = listCar.DefaultView;
+                foreach (DataRow row in listCarV2.Rows)
+                {
+                    if (row["Status"].ToString() == "Finish")
+                    {
+                        row["Color"] = "DodgerBlue";
+                        row["Destination"] = "";
+                        row["OtherDestination"] = "";
+                    }
+                    else if (row["Status"].ToString() == "Order")
+                    {
+                        row["Color"] = "Yellow";
+                    }
+                    else
+                    {
+                        row["Color"] = "Red";
+                    }
+
+                    if (row["Destination"].ToString() == "")
+                    {
+                        row["Destination"] = row["OtherDestination"];
+                    }
+
+                    if (row["User"].ToString() == "")
+                    {
+                        row["User"] = row["OtherOrderer"];
+                    }
+                }
+
+                foreach (DataRow row in listCar.Rows)
+                {
+                    ListCarModel carModel = new ListCarModel();
+                    carModel.CarType = row["Cartype"].ToString();
+                    carModel.EmpNm = row["EmpNm"].ToString();
+                    carModel.EmpTel = row["EmpTel"].ToString();
+                    carModel.Status = row["Status"].ToString();
+                    carModel.KMMonth = int.Parse(row["KMMonth"].ToString());
+                    carModel.Quota = int.Parse(row["Quota"].ToString());
+                    carModel.Remain = int.Parse(row["Remain"].ToString());
+                    carModel.Destination = row["Destination"].ToString();
+                    carModel.OtherDestination = row["OtherDestination"].ToString();
+                    carModel.User = row["User"].ToString();
+                    carModel.OtherOrderer = row["OtherOrderer"].ToString();
+                    carModel.Color = row["Color"].ToString();
+                    carModel.ID = int.Parse(row["ID"].ToString());
+                    carModel.Order1 = row["Order1"].ToString();
+                    listAll.Add(carModel);
+
+                }
+
+                foreach (DataRow row in listCarV2.Rows)
+                {
+                    ListCarModel carModel = new ListCarModel();
+                    carModel.CarType = row["Cartype"].ToString();
+                    carModel.EmpNm = row["EmpNm"].ToString();
+                    carModel.EmpTel = row["EmpTel"].ToString();
+                    carModel.Status = row["Status"].ToString();
+                    carModel.KMMonth = int.Parse(row["KMMonth"].ToString());
+                    carModel.Quota = int.Parse(row["Quota"].ToString());
+                    carModel.Remain = int.Parse(row["Remain"].ToString());
+                    carModel.Destination = row["Destination"].ToString();
+                    carModel.OtherDestination = row["OtherDestination"].ToString();
+                    carModel.User = row["User"].ToString();
+                    carModel.OtherOrderer = row["OtherOrderer"].ToString();
+                    carModel.Color = row["Color"].ToString();
+                    carModel.ID = int.Parse(row["ID"].ToString());
+                    carModel.Order1 = row["Order1"].ToString();
+                    listAll.Add(carModel);
+
+                }
+
+                
+
+                lvCar.ItemsSource = listAll.OrderBy(x => x.ID);
+                
             }
             catch (Exception)
             {
@@ -530,7 +752,7 @@ namespace LiveSystem
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            lb.Content = DateTime.Now.Second;
+            //lb.Content = DateTime.Now.Second;
             if(DateTime.Now.Second == 59)
             {
                 GetCarInfo();
@@ -681,7 +903,7 @@ namespace LiveSystem
             var setting1 = new JsonSerializerSettings { DateFormatString = "yyyy-MM-dd" };           
             var dt1 = JsonConvert.SerializeObject(DateTime.Parse(dpk_Check.SelectedDate.ToString()).ToString("yyyy-MM-dd"), setting1);
             dateCheck = dt1.Substring(1, dt1.Length - 2);
-            lb_Month.Content = DateTime.Parse(dateCheck).ToString("MMMM").ToUpper();
+            //lb_Month.Content = DateTime.Parse(dateCheck).ToString("MMMM").ToUpper();
         }        
 
         // Gán giá trị cho shiftCheck

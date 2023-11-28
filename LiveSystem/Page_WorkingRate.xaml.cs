@@ -157,6 +157,9 @@ namespace LiveSystem
                         case "V98":
                             rowA["Division"] = "HICUP";
                             break;
+                        case "V92"://add 2023-09-06
+                            rowA["Division"] = "SL TEAM";
+                            break;
                     }
 
                     EmpWorkingModel emp = new EmpWorkingModel();
@@ -175,8 +178,17 @@ namespace LiveSystem
                     // Bộ phận khác ALL
                     if (cbbDepatment.Text != "ALL")
                     {
+                        //Phong ban Cushion
+                        if(cbbDepatment.Text == "CUSHION" )
+                        {
+                            listAll = listAll.Where(x => x.GroupNm == "Cushion").ToList();
+                        }    
+                        else if(cbbDepatment.Text == "PRO")
+                        {
+                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.GroupNm != "Cushion").ToList();
+                        }    
                         // Phòng ban = ALL
-                        if (cbbRoom.Text == "ALL")
+                        else if (cbbRoom.Text == "ALL")
                         {
                             listAll = listAll.Where(x => x.Division == cbbDepatment.Text).ToList();
                         }
@@ -227,7 +239,7 @@ namespace LiveSystem
             try
             {
                 //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
-                string query = "SPGetDataRateWorkMain @shift , @date";
+                string query = "SPGetDataRateWorkDetail @shift , @date";
                 // Hiển thị Page_LoadingData
                 await Task.Run(() =>
                 {

@@ -247,7 +247,42 @@
     <sys:String x:Key="Khu vực màu vàng">노란색구역</sys:String>
     <sys:String x:Key="Khu vực màu xanh">파란색구역</sys:String>
     <sys:String x:Key="Tháng kiểm tra">테스트 월</sys:String>
+    <sys:String x:Key="Mã số thuế">세금코드</sys:String>
+    <sys:String x:Key="Ăn cơm">먹다</sys:String>
+    <sys:String x:Key="Tăng ca trên 40h/ tháng">월간 "잔업" 40시간 초과 인원수</sys:String>
+    <sys:String x:Key="Làm việc trên 60h/ tuần">주간 "근무시간" 60시간 초과 인원수</sys:String>
+    <sys:String x:Key="Tỷ lệ tuyển dụng">채용률</sys:String>
+    <sys:String x:Key="Vị trí tuyển dụng">담당업무</sys:String>
+    <sys:String x:Key="Ngày hoàn thành">요청일</sys:String>
+    <sys:String x:Key="Số người yêu cầu">요청 인원</sys:String>
+    <sys:String x:Key="Số người đã tuyển">충원 인원</sys:String>
+    <sys:String x:Key="Số người còn lại">잔여 인원</sys:String>
+    <sys:String x:Key="Tỷ lệ tuyển">충원율</sys:String>
+    <sys:String x:Key="Quản lý an toàn">안전 관리</sys:String>
+    <sys:String x:Key="Số ngày làm việc không có tai nạn">회사 무재해 안전 근무 일수 </sys:String>
+    <sys:String x:Key="Kết quả lần 1">상반기 결과</sys:String>
+    <sys:String x:Key="Kết quả lần 2">하반기 결과</sys:String>
+    <sys:String x:Key="Số lượng vi phạm">위반건수</sys:String>
+    <sys:String x:Key="Số lượng cải tiến">개선건수</sys:String>
+    <sys:String x:Key="Tỷ lệ cải tiến">개선율(%)</sys:String>
+    <sys:String x:Key="Kết quả đánh giá an toàn môi trường">환경안전평가 결과</sys:String>
+    <sys:String x:Key="tình trạng vi phạm và cải tiến an toàn môi trường">주간별 안전환경 위반 및 개선 현황</sys:String>
+    <sys:String x:Key="Cập nhật dữ liệu">데이터 업데이트 중</sys:String>
+    <sys:String x:Key="Tuần">주</sys:String>
+    <sys:String x:Key="Thiết bị 1">유틸리티 1</sys:String>
+    <sys:String x:Key="Thiết bị 2">유틸리티 2</sys:String>
+    <sys:String x:Key="Ngày tai nạn">사고 발생일</sys:String>
+    <sys:String x:Key="Mã nhân viên">사고 사번</sys:String>
+    <sys:String x:Key="Họ tên">이름</sys:String>
+    <sys:String x:Key="Vị trí xảy ra tai nạn">사고 발생 위치</sys:String>
+    <sys:String x:Key="Loại tai nạn">사고 종류</sys:String>
+    <sys:String x:Key="Số ngày an toàn">회사 무재해 안전 근무 일수</sys:String>
+    <sys:String x:Key="Đặt xe tiếp theo">Order</sys:String>
     
     
+
+    
+
+
 
 </ResourceDictionary>

@@ -267,6 +267,7 @@
                         <GridViewColumn Header="{DynamicResource Giới tính}" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Ngày sinh}" DisplayMemberBinding="{Binding BOD}" Width="80"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource SĐT}" DisplayMemberBinding="{Binding HpTel}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Mã số thuế}" DisplayMemberBinding="{Binding TaxCode}" Width="150"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource CMT/CCCD}" DisplayMemberBinding="{Binding ResidId}" Width="100"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Nơi cấp}" DisplayMemberBinding="{Binding ResidPlace}" Width="100"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Ngày cấp}" DisplayMemberBinding="{Binding ResidDate}" Width="80"></GridViewColumn>
@@ -285,6 +286,7 @@
                         <GridViewColumn Header="{DynamicResource Huyện(thường trú)}" DisplayMemberBinding="{Binding PermDist}" Width="150"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Xã(thường trú)}" DisplayMemberBinding="{Binding PermComm}" Width="150"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Thôn(thường trú)}" DisplayMemberBinding="{Binding PermVilla}" Width="150"></GridViewColumn>
+                        
                     </GridView>
                 </ListView.View>
             </ListView>

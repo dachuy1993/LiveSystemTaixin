@@ -37,6 +37,8 @@ namespace LiveSystem
         #region Khai báo
         public static string path_TaixinAccessManager = "Data Source=192.168.2.5\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         string path_Ksystem = "Data Source=192.168.2.20;Initial Catalog=TAIXINERP;Persist Security Info=True;User ID=sa;Password= Ksystem@123";
+        public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
+
         List<Helper_Employee> List_Person_Total = new List<Helper_Employee>();
         List<Helper_Employee> List_Depatment_Total = new List<Helper_Employee>();
         List<Helper_Employee> List_Depatment_Per = new List<Helper_Employee>();
@@ -110,6 +112,9 @@ namespace LiveSystem
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinAccessManager, query1, new object[] { dateCheck, shift });
                 //var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
 
+                string query2 = "SPGetDateFoodMainDetailYenPhong @date , @shift";
+                //string query2 = "select * from update_employee";
+                var listVSIPMealYP = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinYP, query2, new object[] { dateCheck, shift });
                 // Kết hợp và bổ sung thông tin cho danh sách
                 List<EmpVSIPMealModel> listAll = new List<EmpVSIPMealModel>();
                 foreach (DataRow rowA in listVSIPMeal.Rows)
@@ -129,6 +134,8 @@ namespace LiveSystem
                     emp.Division = rowA["Division"].ToString();
                     emp.DeptNm = rowA["DeptNm"].ToString();
                     emp.GroupNm = rowA["GroupNm"].ToString();
+                    emp.TimeScan = rowA["TimeScan"].ToString();
+                    emp.Times = rowA["Times"].ToString();
                     switch (emp.Division)
                     {
                         case "V93":
@@ -149,8 +156,25 @@ namespace LiveSystem
                         case "V98":
                             emp.Division = "HICUP";
                             break;
-
+                        case "V92":
+                            emp.Division = "SL TEAM";
+                            break;
                     }
+                    listAll.Add(emp);
+                }
+
+                foreach (DataRow rowA in listVSIPMealYP.Rows)
+                {
+                    EmpVSIPMealModel emp = new EmpVSIPMealModel();
+
+                    emp.EmpId = rowA["EmpID"].ToString();
+                    emp.EmpNm = rowA["EmpName"].ToString();
+                    emp.Division = rowA["Division"].ToString();
+                    emp.DeptNm = rowA["DeptNm"].ToString();
+                    emp.GroupNm = rowA["GroupNm"].ToString();
+                    emp.TimeScan = rowA["TimeScan"].ToString();
+                    emp.Times = rowA["Times"].ToString();
+                    emp.Division = "CUSHION";
                     listAll.Add(emp);
                 }
 
@@ -164,6 +188,10 @@ namespace LiveSystem
                         {
                             listAll = listAll.Where(x => x.Division == "ETC").ToList();
                         }
+                        else if (cbbDepatment.Text == "CUSHION")
+                        {
+                            listAll = listAll.Where(x => x.Division == "CUSHION").ToList();
+                        }    
                         else
                         {
                             // Phòng ban == ALL
@@ -194,8 +222,9 @@ namespace LiveSystem
                     listAll = listAll.Where(x => x.EmpId.Trim().ToUpper() == txtName.Text.Trim().ToUpper()).ToList();
                 }
 
+                listAll = listAll.OrderByDescending(x => x.Times).ToList();
                 // Sắp xếp và thêm STT
-                listAll = listAll.OrderBy(x => x.EmpId).ToList();
+                //listAll = listAll.OrderBy(x => x.EmpId).ToList();
                 int i = 1;
                 listAll.ForEach(x =>
                 {
@@ -208,7 +237,7 @@ namespace LiveSystem
             }
             catch (Exception)
             {
-                MessageBox.Show("Error", "Error processing meal data", MessageBoxButton.OK);
+                MessageBox.Show("Error", "Error processing meal data Details", MessageBoxButton.OK);
             }
             
         }
@@ -227,7 +256,51 @@ namespace LiveSystem
                 string query = "SPGetDateFoodMain @date";
                 //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
-                lvVSIPMealDetail.ItemsSource = listVSIPMeal.DefaultView;
+
+                string queryYP = "SPGetDateFoodMainYenPhong @date";
+                var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
+                string EmpId = "";
+                string EmpNm = "";
+                int Sang = 0;
+                int Trua = 0;
+                int Chieu = 0;
+                int Dem = 0;
+                string Insdt = "";
+
+                foreach (DataRow item in listYPMealYenPhong.Rows)
+                {
+                    EmpId = item["EmpId"].ToString();
+                    EmpNm = item["EmpNm"].ToString();
+                    Sang = int.Parse(item["Qty_Sang"].ToString());
+                    Trua = int.Parse(item["Qty_Trua"].ToString());
+                    Chieu = int.Parse(item["Qty_Chieu"].ToString());
+                    Dem = int.Parse(item["Qty_Dem"].ToString());
+                    Insdt = item["Insdt"].ToString();
+                }
+
+                listVSIPMeal.Rows.Add(EmpId, EmpNm, Sang, Trua, Chieu, Dem, Insdt);
+
+
+
+                foreach (DataRow item in listVSIPMeal.Rows)
+                {
+                    if (item["EmpNm"].ToString() == "TOTAL")
+                    {
+                        item["Qty_Sang"] = int.Parse(item["Qty_Sang"].ToString()) + Sang;
+                        item["Qty_Trua"] = int.Parse(item["Qty_Trua"].ToString()) + Trua;
+                        item["Qty_Chieu"] = int.Parse(item["Qty_Chieu"].ToString()) + Chieu;
+                        item["Qty_Dem"] = int.Parse(item["Qty_Dem"].ToString()) + Dem;
+                    }
+                }
+
+
+                DataView dv = listVSIPMeal.DefaultView;
+                dv.Sort = "EmpId ASC";
+
+
+                lvVSIPMealDetail.ItemsSource = dv;
+
+
 
                 // Chart
                 var _qtyCity = new ChartValues<double>();
@@ -278,7 +351,7 @@ namespace LiveSystem
             }
             catch (Exception)
             {
-                MessageBox.Show("Error", "Error processing meal detail data", MessageBoxButton.OK);
+                MessageBox.Show("Error", "Error processing meal detail data Main", MessageBoxButton.OK);
             }
             
         }
@@ -426,6 +499,7 @@ namespace LiveSystem
                     ws.Column(4).Width = 30; //nhom
                     ws.Column(5).Width = 10;//Mã NV
                     ws.Column(6).Width = 30;
+                    ws.Column(7).Width = 50;
 
                     ws.Row(1).Height = 10;
                     ws.Row(2).Height = 40;
@@ -436,7 +510,7 @@ namespace LiveSystem
 
                     for (int i = 1; i < numberRow; i++)
                     {
-                        string strCell = "A" + i.ToString() + ":" + "F" + i.ToString();
+                        string strCell = "A" + i.ToString() + ":" + "G" + i.ToString();
                         var cell = ws.Cells[strCell];
                         var border = cell.Style.Border;
                         border.Bottom.Style =
@@ -449,7 +523,7 @@ namespace LiveSystem
                     }
                     for (int i = 5; i < numberRow; i++)
                     {
-                        string strCell = "A" + i.ToString() + ":" + "F" + i.ToString();
+                        string strCell = "A" + i.ToString() + ":" + "G" + i.ToString();
                         var cell = ws.Cells[strCell];
                         ws.Row(i).Height = 25;
                         cell.Style.Font.Size = 11;
@@ -472,13 +546,16 @@ namespace LiveSystem
                         //--
                         string strCell6 = "F" + i.ToString() + ":" + "F" + i.ToString();
                         ws.Cells[strCell6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        //--
+                        string strCell7 = "G" + i.ToString() + ":" + "G" + i.ToString();
+                        ws.Cells[strCell7].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     }
 
                     for (int i = 5; i < numberRow; i++)
                     {
                         if (i % 2 == 0)
                         {
-                            string strCell = "A" + i.ToString() + ":" + "F" + i.ToString();
+                            string strCell = "A" + i.ToString() + ":" + "G" + i.ToString();
                             var cell = ws.Cells[strCell];
                             var fill = cell.Style.Fill;
                             fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
@@ -489,11 +566,11 @@ namespace LiveSystem
                     //Bôi den backgroud
                     //
 
-                    ws.Cells["A2:F2"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                    ws.Cells["A2:F2"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Azure);
+                    ws.Cells["A2:G2"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A2:G2"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Azure);
 
-                    ws.Cells["A4:F4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                    ws.Cells["A4:F4"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Ivory);
+                    ws.Cells["A4:G4"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A4:G4"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Ivory);
 
 
                     ws.Cells["A1:A1"].Value = "";
@@ -503,25 +580,26 @@ namespace LiveSystem
 
 
                     ws.Cells["A2:A2"].Value = "DANH SÁCH NHÂN VIÊN ĂN CƠM VSIP";
-                    ws.Cells["A2:F2"].Merge = true;
+                    ws.Cells["A2:G2"].Merge = true;
                     ws.Cells["A2:A2"].Style.Font.Size = 22;
                     ws.Cells["A2:A2"].Style.Font.Bold = true;
 
                     //Ngày SX
                     ws.Cells["A3:A3"].Value = "Ngày : " + DateTime.Now.ToString("dd/MM/yyyy") + "  Số lượng : " + (numberRow - 5);
-                    ws.Cells["A3:F3"].Merge = true;
+                    ws.Cells["A3:G3"].Merge = true;
                     ws.Cells["A3:A3"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     ws.Cells["A3:A3"].Style.Font.Bold = true;
 
                     //Head                  
-                    ws.Cells["A4:F4"].Style.Font.Size = 12;
-                    ws.Cells["A4:F4"].Style.Font.Bold = true;
+                    ws.Cells["A4:G4"].Style.Font.Size = 12;
+                    ws.Cells["A4:G4"].Style.Font.Bold = true;
                     ws.Cells["A4:A4"].Value = "STT";
                     ws.Cells["B4:B4"].Value = "Bộ phận";
                     ws.Cells["C4:C4"].Value = "Phòng ban";
                     ws.Cells["D4:D4"].Value = "Nhóm";
                     ws.Cells["E4:E4"].Value = "Mã NV";
                     ws.Cells["F4:F4"].Value = "Họ và tên";
+                    ws.Cells["G4:G4"].Value = "Thời gian";
 
                     int index = 4;
                     int stt = 0;
@@ -550,13 +628,16 @@ namespace LiveSystem
                             //--
                             string strCell6 = "F" + index.ToString() + ":" + "F" + index.ToString();
                             ws.Cells[strCell6].Value = item.EmpNm;
+                            //--
+                            string strCell7 = "G" + index.ToString() + ":" + "G" + index.ToString();
+                            ws.Cells[strCell7].Value = item.TimeScan;
                         }
                     }
 
                     ws.PrinterSettings.PaperSize = ePaperSize.A4;
                     ws.PrinterSettings.Orientation = eOrientation.Landscape;
                     ws.PrinterSettings.FitToPage = true;
-                    ws.Cells["A4:F4"].AutoFilter = true;
+                    ws.Cells["A4:G4"].AutoFilter = true;
                     ws.PrinterSettings.TopMargin = Decimal.Parse("0");
                     ws.PrinterSettings.LeftMargin = Decimal.Parse("0.25");
                     ws.PrinterSettings.BottomMargin = Decimal.Parse("0.25");
@@ -623,6 +704,11 @@ namespace LiveSystem
                     case "KOREA":
                         {
                             code = "7";
+                            break;
+                        }
+                    case "SL TEAM": //add 2023-09-06
+                        {
+                            code = "8";
                             break;
                         }
 

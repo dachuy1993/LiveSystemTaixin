@@ -14,5 +14,7 @@ namespace LiveSystem.Model
         public string GroupNm { get; set; }
         public string EmpId { get; set; }
         public string EmpNm { get; set; }
+        public string TimeScan { get;set; }
+        public string Times { get; set; }
     }
 }

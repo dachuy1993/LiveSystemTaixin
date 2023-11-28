@@ -45,7 +45,9 @@
                 <ComboBoxItem Content="MAR"></ComboBoxItem>
                 <ComboBoxItem Content="PRO"></ComboBoxItem>
                 <ComboBoxItem Content="QC"></ComboBoxItem>
+                <ComboBoxItem Content="SL TEAM"></ComboBoxItem><!--//add 2023-09-06-->
                 <ComboBoxItem Content="VENDOR"></ComboBoxItem>
+                <ComboBoxItem Content="CUSHION"></ComboBoxItem>
                 <ComboBoxItem Content="OTHER"></ComboBoxItem>
             </ComboBox>
             <Label Content="{DynamicResource Phòng ban}" VerticalContentAlignment="Center"></Label>
@@ -115,6 +117,7 @@
                         <GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding GroupNm}" Width="200"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="90"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Họ và tên}" DisplayMemberBinding="{Binding EmpNm}" Width="200"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Thời gian}" DisplayMemberBinding="{Binding TimeScan}" Width="200"></GridViewColumn>
                         <!--<GridViewColumn Header="{DynamicResource Ca}" DisplayMemberBinding="{Binding Shift}" Width="100"></GridViewColumn>-->
                         <!--<GridViewColumn Header="{DynamicResource Ca làm việc}" DisplayMemberBinding="{Binding Time}" Width="150"></GridViewColumn>-->
                         <!--<GridViewColumn Header="" DisplayMemberBinding="{Binding BOD}" Width="1500"></GridViewColumn>-->

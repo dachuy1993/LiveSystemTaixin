@@ -1,0 +1,79 @@
+﻿<Window x:Class="LiveSystem.Window_EnvironmentWeekData"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LiveSystem"
+        mc:Ignorable="d"
+        Title="Danh sách kiểm tra an toàn tuần" Height="450" Width="1500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleResourceDictionary.xaml"/>
+                <ResourceDictionary Source="Lang\korea.xaml"/>
+                <ResourceDictionary Source="Lang\vietnam.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="44*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" Visibility="Visible" Grid.ColumnSpan="3">
+            <Label Content="{DynamicResource Năm kiểm tra}" VerticalAlignment="Center"></Label>
+            <ComboBox Name="cbbYearTab3" Width="100" VerticalContentAlignment="Center" SelectedIndex="0" Margin="0,0,20,0" SelectionChanged="cbbYearChange" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding .}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="btnTimKiem" Width="100" Margin="20,0,5,0" Click="btnTimKiem_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="Image/Edit/search.png" Height="20" Width="20"></Image>
+                    <Label Content="{DynamicResource Tìm kiếm}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <!--<GroupBox Grid.Row="1" Header="{DynamicResource }" BorderBrush="Gray" Margin="2,2,2,2">-->
+        <Grid Grid.Row="1" Margin="0,5,0,0" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="lvErrManager" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{DynamicResource STT}"  DisplayMemberBinding="{Binding STT}" Width="30"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Năm đánh giá}"     DisplayMemberBinding="{Binding YearRv}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Tuần}"    DisplayMemberBinding="{Binding WeekRv}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource PCCC 1}"    DisplayMemberBinding="{Binding PCCCErr}" Width="50"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Điện 1}"    DisplayMemberBinding="{Binding ElecErr}" Width="50"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource An toàn 1}"    DisplayMemberBinding="{Binding SafeErr}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Sức khoẻ 1}"    DisplayMemberBinding="{Binding HealtErr}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Môi trường 1}"    DisplayMemberBinding="{Binding EnviroErr}" Width="90"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Thiết bị 1}"    DisplayMemberBinding="{Binding ULErr}" Width="90"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Tổng lỗi KV}"    DisplayMemberBinding="{Binding TotalErr}" Width="100"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource PCCC 2}"    DisplayMemberBinding="{Binding PCCCImp}" Width="50"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Điện 2}"    DisplayMemberBinding="{Binding ElecImp}" Width="50"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource An toàn 2}"    DisplayMemberBinding="{Binding SafeImp}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Sức khoẻ 2}"    DisplayMemberBinding="{Binding HealtImp}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Môi trường 2}"    DisplayMemberBinding="{Binding EnviroImp}" Width="90"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Thiết bị 2}"    DisplayMemberBinding="{Binding ULImp}" Width="90"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Tổng cải tiến KV}"    DisplayMemberBinding="{Binding TotalImp}" Width="120"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Tỉ lệ cải tiến KV}"    DisplayMemberBinding="{Binding RateImp}" Width="100"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Frame  Grid.Row="1" x:Name="frameChart_Tinh" NavigationUIVisibility="Hidden"></Frame>
+        </Grid>
+        <!--</GroupBox>-->
+    </Grid>
+</Window>
