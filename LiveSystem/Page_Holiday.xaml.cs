@@ -231,7 +231,15 @@ namespace LiveSystem
                     {//add 2023-09-06
                         if (Row["Rate"].ToString() != "0%")
                         {
-                            _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                            if (Row["Rate"].ToString().Length > 2)
+                            {
+                                _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 2).ToString()));
+                            }
+                            else
+                            {
+                                _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, 1).ToString()));
+                            }    
+                            
                         }
                         else
                         {
@@ -239,6 +247,8 @@ namespace LiveSystem
                         }
 
                     }
+
+
                     //if (Row["Rate"].ToString().IndexOf(",") > 0)
                     //{
                     //    _qtyOT.Add(double.Parse(Row["Rate"].ToString().Substring(0, Row["Rate"].ToString().IndexOf(",") + 2)));

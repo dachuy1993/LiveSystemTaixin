@@ -4,6 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:LiveSystem"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1100"
       Title="Page_Main">
@@ -51,25 +53,17 @@
                     <Label Content="{DynamicResource Excel}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
                 </StackPanel>
             </Button>-->
-            <GroupBox Header="{DynamicResource Quản lý an toàn}" BorderBrush="Gray" Visibility="Visible" Width="250" HorizontalAlignment ="Left" Height="50" VerticalAlignment="Top" >
-                <StackPanel Orientation="Horizontal" >
-                    <Label Content="{DynamicResource Số ngày làm việc không có tai nạn}"/>
-                    <Label Name="lbNumTN" FontWeight="Bold"/>
-                </StackPanel>
-            </GroupBox>
+            
         </StackPanel>
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2" Name="gridMain1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="285"/>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="390"/>
-                <ColumnDefinition Width="620">
-                
-                </ColumnDefinition>
-                
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="560"/>
+                <ColumnDefinition Width="230"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -106,7 +100,8 @@
                     <ListView x:Name="lvVSIPMeal" Grid.Column="0" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" GridViewColumnHeader.Click="GridViewColumnHeader_Food">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="{DynamicResource Phân loại}"  DisplayMemberBinding="{Binding ShiftType}"  Width="60"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Ca ăn}"  DisplayMemberBinding="{Binding ShiftType}"  Width="48"></GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Phân loại}"  DisplayMemberBinding="{Binding TypeNV}"  Width="60"></GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource Đi làm}"     DisplayMemberBinding="{Binding EmpNum}" Width="50"></GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource Ăn cơm}"     DisplayMemberBinding="{Binding EmpFood}" Width="50"></GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource Tỷ lệ}"    DisplayMemberBinding="{Binding Rate}"  Width="50"></GridViewColumn>
@@ -161,10 +156,10 @@
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="{DynamicResource Bộ phận}"     DisplayMemberBinding="{Binding DeptNm}" Width="60"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Vị trí tuyển dụng}"    DisplayMemberBinding="{Binding RecNm}" Width="150"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Vị trí tuyển dụng}"    DisplayMemberBinding="{Binding RecNm}" Width="110"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Ngày hoàn thành}"   DisplayMemberBinding="{Binding RecDate}" Width="110"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Số người yêu cầu}"   DisplayMemberBinding="{Binding NumReg}" Width="70"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Số người đã tuyển}"   DisplayMemberBinding="{Binding NumRec}" Width="70"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Số người yêu cầu}"   DisplayMemberBinding="{Binding NumReg}" Width="60"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Số người đã tuyển}"   DisplayMemberBinding="{Binding NumRec}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Số người còn lại}"   DisplayMemberBinding="{Binding NumEnd}" Width="60"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Tỷ lệ}"   DisplayMemberBinding="{Binding Rate}" Width="50"></GridViewColumn>
                                 </GridView>
@@ -198,24 +193,37 @@
                     <!--<Frame  Grid.Column="1" x:Name="frameChart_Holiday" NavigationUIVisibility="Hidden"></Frame>-->
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="6" Header="{DynamicResource Cập nhật địa chỉ}"  Margin="2" BorderBrush="Gray" Width="150" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="{DynamicResource OK}"></Label>
-                        <Label Content="{DynamicResource NG}"></Label>
-                        <Label Content="{DynamicResource Tổng số}"    ></Label>
+            <Grid Grid.Row="1" Grid.Column="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="{DynamicResource Quản lý an toàn}" BorderBrush="Gray" Visibility="Visible" Width="230" HorizontalAlignment ="Left" Height="50" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="{DynamicResource Số ngày làm việc không có tai nạn}"/>
+                        <Label Name="lbNumTN" FontWeight="Bold"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Vertical">
-                        <Label Name="lb_UpdateDiaChi_OK" FontWeight="Bold"></Label>
-                        <Label Name="lb_UpdateDiaChi_NG"  FontWeight="Bold" Foreground="Red"></Label>
-                        <Label Name="lb_Total"  FontWeight="Bold"></Label>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Header="{DynamicResource Cập nhật địa chỉ}" BorderBrush="Gray" Width="230" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="{DynamicResource OK}"></Label>
+                            <Label Content="{DynamicResource NG}"></Label>
+                            <Label Content="{DynamicResource Tổng số}"    ></Label>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <Label Name="lb_UpdateDiaChi_OK" FontWeight="Bold"></Label>
+                            <Label Name="lb_UpdateDiaChi_NG"  FontWeight="Bold" Foreground="Red"></Label>
+                            <Label Name="lb_Total"  FontWeight="Bold"></Label>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+            
             <!--<GroupBox Grid.Column="1" Header="Điều xe" BorderBrush="Gray" Margin="2" Visibility="Hidden">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -377,6 +385,7 @@
 
         <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" Name="stackLoading" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Frame x:Name="frameLoading" NavigationUIVisibility="Hidden"></Frame>
+            
         </Grid>
         <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" Name="stackData" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Frame x:Name="frameData" NavigationUIVisibility="Hidden"></Frame>

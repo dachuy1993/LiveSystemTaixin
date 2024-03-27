@@ -195,7 +195,7 @@ namespace LiveSystem
         private void SearchTab3()
         {
             string year = cbbYearTab3.Text;
-            string week = cbbWeekTab3.Text;
+            string week = cbbWeekTab3.SelectedItem.ToString();
             string query = "SPGetDataEnviroTab3 @Year , @Week , @Language ";
             // Lấy dữ liệu và hiển thị
 

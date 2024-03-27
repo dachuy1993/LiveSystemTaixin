@@ -36,6 +36,7 @@
                             </LinearGradientBrush>
                         </local:DonutSpinner.SpinnerColor>
                     </local:DonutSpinner>-->
+                    
                     <Image Source="Image\Edit\load.png" Height="70" Width="70" Margin="0,0"></Image>
                     <TextBlock Name="txb_Loading" Foreground="DodgerBlue" FontSize="13" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>

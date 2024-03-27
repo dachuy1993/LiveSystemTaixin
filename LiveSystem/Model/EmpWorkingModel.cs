@@ -15,5 +15,7 @@ namespace LiveSystem.Model
         public string EmpId { get; set; }
         public string EmpNm { get; set; }
         public string Remark { get; set; }
+        public string TimeIn { get; set; }
+        public string TimeOut { get; set; }
     }
 }

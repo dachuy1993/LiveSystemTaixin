@@ -5,24 +5,27 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:LiveSystem"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="800"
       Title="Page_EmpIn">
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="360"/>
             <ColumnDefinition Width="360"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="3">
             <Label VerticalContentAlignment="Center" Content="Ngày đăng ký"></Label>
             <DatePicker HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Name="dp_Check" Margin="5,0" SelectedDateChanged="dp_Check_SelectedDateChanged"></DatePicker>
+            
+            <Button x:Name="BtnToKsys" Content="Xử lý thông tin ứng viên" Height="30" Width="150" HorizontalAlignment="Right" Margin="150,0,0,0" Click="BtnToKsys_Click" ></Button>
+            
         </StackPanel>
 
         <TextBlock Grid.Row="1" Text="CA NGÀY" TextAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"></TextBlock>
@@ -44,6 +47,7 @@
                 <Label Margin="3" Height="25">IT</Label>
                 <Label Margin="3" Height="25">JW</Label>
                 <Label Margin="3" Height="25">Sunflower</Label>
+                <Label Margin="3" Height="25">HMP</Label>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
                 <Label Margin="3" FontWeight="Bold">Nhân sự ĐK</Label>
@@ -55,6 +59,7 @@
                 <TextBox Margin="3" Height="25" Name="txt_It" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Jw" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Sf" VerticalContentAlignment="Center">0</TextBox>
+                <TextBox Margin="3" Height="25" Name="txt_HMP" VerticalContentAlignment="Center">0</TextBox>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="2" Margin="5">
                 <Label Margin="3" FontWeight="Bold">Nhân sự thực tế</Label>
@@ -66,6 +71,7 @@
                 <TextBox Margin="3" Height="25" Name="txt_Real_It" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Real_Jw" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Real_Sf" VerticalContentAlignment="Center">0</TextBox>
+                <TextBox Margin="3" Height="25" Name="txt_Real_HMP" VerticalContentAlignment="Center">0</TextBox>
                 <Button Name="btnAdd" Content="Đăng ký ETC" Margin="3,20,3,3" Height="30" Click="btnAdd_Click"></Button>
             </StackPanel>
         </Grid>
@@ -84,7 +90,8 @@
                 <TextBox Margin="3" Height="25" Name="txt_It_Dem" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Jw_Dem" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Sf_Dem" VerticalContentAlignment="Center">0</TextBox>
-               
+                <TextBox Margin="3" Height="25" Name="txt_HMP_Dem" VerticalContentAlignment="Center">0</TextBox>
+                
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
                 <Label Margin="3" FontWeight="Bold">Nhân sự thực tế</Label>
@@ -95,7 +102,8 @@
                 <TextBox Margin="3" Height="25" Name="txt_Real_Cocgiay_Dem" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Real_It_Dem" VerticalContentAlignment="Center">0</TextBox>
                 <TextBox Margin="3" Height="25" Name="txt_Real_Jw_Dem" VerticalContentAlignment="Center">0</TextBox>
-                <TextBox Margin="3" Height="25" Name="txt_Real_Sf_Dem" VerticalContentAlignment="Center">0</TextBox>               
+                <TextBox Margin="3" Height="25" Name="txt_Real_Sf_Dem" VerticalContentAlignment="Center">0</TextBox>
+                <TextBox Margin="3" Height="25" Name="txt_Real_HMP_Dem" VerticalContentAlignment="Center">0</TextBox>
                 <Button Name="btnAddVendor" Content="Đăng ký Vendor" Margin="3,20,3,3" Height="30" Click="btnAddVendor_Click"></Button>
             </StackPanel>
         </Grid>

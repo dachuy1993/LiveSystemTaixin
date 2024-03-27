@@ -75,6 +75,19 @@ namespace LiveSystem
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            if(NetworkInterface.GetIsNetworkAvailable())
+            {
+                Ping ping = new Ping();
+                PingReply pingReply = ping.Send("www.google.com");
+                if(pingReply.Status == IPStatus.Success)
+                {
+                    _checkInternet = "Success";
+                }
+                else
+                {
+                    MessageBox.Show("Internet is not available", "Error", MessageBoxButton.OK);
+                }
+            }    
             //GetLanguageLogin();
             //if (languageLogin == "")
             //    language = "vi-VN";
@@ -170,72 +183,65 @@ namespace LiveSystem
                     ImageSource = "Image/Dep/HR.png",
                     BackGroundColor = PinValue.OFF
                 });
-                //ListButton_Header.Add(new Helper_DataButton
-                //{
-                //    ID = 3,
-                //    ContentButton = "Y tế",
-                //    ImageSource = "Image/Dep/yte.png",
-                //    BackGroundColor = PinValue.OFF
-                //});
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 4,
+                    ID = 3,
                     ContentButton = "Vacxin",
                     ImageSource = "Image/Dep/vaccine1.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 5,
+                    ID = 4,
                     ContentButton = "Bản đồ",
                     ImageSource = "Image/Dep/map.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 6,
+                    ID = 5,
                     ContentButton = "Tỷ lệ đi làm",
                     ImageSource = "Image/Dep/Time2.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 7,
+                    ID = 6,
                     ContentButton = "Tỷ lệ ăn cơm VSIP",
                     ImageSource = "Image/Dep/Restaurant.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 8,
+                    ID = 7,
                     ContentButton = "Tỷ lệ phép năm",
                     ImageSource = "Image/Dep/Holiday.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 9,
+                    ID = 8,
                     ContentButton = "Tỷ lệ tăng ca",
                     ImageSource = "Image/Dep/overtime.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 10,
+                    ID = 9,
                     ContentButton = "Lịch trình",
                     ImageSource = "Image/Dep/note.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 11,
+                    ID = 10,
                     ContentButton = "Đào tạo",
                     ImageSource = "Image/Dep/training.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 12,
+                    ID = 11,
                     ContentButton = "An toàn",
                     ImageSource = "Image/Dep/Safe.png",
                     BackGroundColor = PinValue.OFF
@@ -258,72 +264,65 @@ namespace LiveSystem
                     ImageSource = "Image/Dep/HR.png",
                     BackGroundColor = PinValue.OFF
                 });
-                //ListButton_Header.Add(new Helper_DataButton
-                //{
-                //    ID = 3,
-                //    ContentButton = "의료신고",
-                //    ImageSource = "Image/Dep/yte.png",
-                //    BackGroundColor = PinValue.OFF
-                //});
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 4,
+                    ID = 3,
                     ContentButton = "백신 정보",
                     ImageSource = "Image/Dep/vaccine1.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 5,
+                    ID = 4,
                     ContentButton = "지도",
                     ImageSource = "Image/Dep/map.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 6,
+                    ID = 5,
                     ContentButton = "출근율",
                     ImageSource = "Image/Dep/Time2.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 7,
+                    ID = 6,
                     ContentButton = "VSIP 식수현황",
                     ImageSource = "Image/Dep/Restaurant.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 8,
+                    ID = 7,
                     ContentButton = "연차사용현황",
                     ImageSource = "Image/Dep/Holiday.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 9,
+                    ID = 8,
                     ContentButton = "잔업비율",
                     ImageSource = "Image/Dep/overtime.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 10,
+                    ID = 9,
                     ContentButton = "일정",
                     ImageSource = "Image/Dep/note.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 11,
+                    ID = 10,
                     ContentButton = "교육",
                     ImageSource = "Image/Dep/training.png",
                     BackGroundColor = PinValue.OFF
                 });
                 ListButton_Header.Add(new Helper_DataButton
                 {
-                    ID = 12,
+                    ID = 11,
                     ContentButton = "안전한",
                     ImageSource = "Image/Dep/Safe.png",
                     BackGroundColor = PinValue.OFF
@@ -368,11 +367,6 @@ namespace LiveSystem
                             frameMain.Navigate(tt);
                             //frameMain.Navigate(OT);
                             //frameMain.Navigate(safe);
-                            break;
-                        }
-                    case "Y tế":
-                        {
-                            frameMain.Navigate(yte);
                             break;
                         }
                     case "Vacxin":
@@ -457,11 +451,11 @@ namespace LiveSystem
                                 frameMain.Navigate(tt);
                                 break;
                             }
-                        case "의료신고":
-                            {
-                                frameMain.Navigate(yte);
-                                break;
-                            }
+                        //case "의료신고":
+                        //    {
+                        //        frameMain.Navigate(yte);
+                        //        break;
+                        //    }
                         case "백신 정보":
                             {
                                 frameMain.Navigate(vac);
@@ -561,12 +555,6 @@ namespace LiveSystem
                                     //frameMain.Navigate(safe);
                                     break;
                                 }
-                            case "Y tế":
-                                {
-                                    Page_Covid yte = new Page_Covid();
-                                    frameMain.Navigate(yte);
-                                    break;
-                                }
                             case "Vacxin":
                                 {
                                     Page_Covid vac = new Page_Covid();
@@ -580,13 +568,6 @@ namespace LiveSystem
                                     frameMain.Navigate(map);
                                     break;
                                 }
-                            case "Điều xe":
-                                {
-                                    Page_Car car = new Page_Car();
-                                    frameMain.Navigate(car);
-                                    break;
-                                }
-
                             case "Tỷ lệ đi làm":
                                 {
                                     Page_WorkingRate work = new Page_WorkingRate();
@@ -658,12 +639,6 @@ namespace LiveSystem
                                         frameMain.Navigate(tt);
                                         break;
                                     }
-                                case "의료신고":
-                                    {
-                                        Page_Covid yte = new Page_Covid();
-                                        frameMain.Navigate(yte);
-                                        break;
-                                    }
                                 case "백신 정보":
                                     {
                                         Page_Covid vac = new Page_Covid();
@@ -674,12 +649,6 @@ namespace LiveSystem
                                     {
                                         Page_Map map = new Page_Map();
                                         frameMain.Navigate(map);
-                                        break;
-                                    }
-                                case "자동차 매니저":
-                                    {
-                                        Page_Car car = new Page_Car();
-                                        frameMain.Navigate(car);
                                         break;
                                     }
 
@@ -727,14 +696,6 @@ namespace LiveSystem
                                     }
 
                             }
-                            //foreach (var button1 in ListButton_Header)
-                            //{
-                            //    button1.BackGroundColor = PinValue.OFF;
-                            //    if (button1.ContentButton == clickItem.ContentButton)
-                            //    {
-                            //        button1.BackGroundColor = PinValue.ON;
-                            //    }
-                            //}
 
                         }
                     }
@@ -748,7 +709,7 @@ namespace LiveSystem
         private void rb_langKr_Click(object sender, RoutedEventArgs e)
         {
             language = "kr-KR";
-            SaveUserIPLogin();
+            //SaveUserIPLogin();
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
             ApplyLanguage(language);   
             CreatButton_Header();
@@ -758,27 +719,27 @@ namespace LiveSystem
         private void rb_langVn_Click(object sender, RoutedEventArgs e)
         {
             language = "vi-VN";
-            SaveUserIPLogin();
+            //SaveUserIPLogin();
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language);
             ApplyLanguage(language);          
             CreatButton_Header();
             Button_Click();
         }
 
-        private void SaveUserIPLogin()
-        {
-            using (SqlConnection conn = new SqlConnection(path_Ksystem20))
-            {
-                conn.Open();
-                var command = "Insert TblLanguageLogin(IPUser, DateLogin, LanguageVN) values('" + IPUser + "', CONVERT(CHAR(8),GETDATE(),112),'" + language + "')";
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    cmd.CommandText = command;
-                    cmd.ExecuteNonQuery();
-                }
-                conn.Close();
-            }
-        }
+        //private void SaveUserIPLogin()
+        //{
+        //    using (SqlConnection conn = new SqlConnection(path_Ksystem20))
+        //    {
+        //        conn.Open();
+        //        var command = "Insert TblLanguageLogin(IPUser, DateLogin, LanguageVN) values('" + IPUser + "', CONVERT(CHAR(8),GETDATE(),112),'" + language + "')";
+        //        using (SqlCommand cmd = new SqlCommand(command, conn))
+        //        {
+        //            cmd.CommandText = command;
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //        conn.Close();
+        //    }
+        //}
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

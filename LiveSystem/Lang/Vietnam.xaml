@@ -279,6 +279,8 @@
     <sys:String x:Key="Loại tai nạn">Loại tai nạn</sys:String>
     <sys:String x:Key="Số ngày an toàn">Số ngày an toàn</sys:String>
     <sys:String x:Key="Đặt xe tiếp theo">Đặt xe tiếp theo</sys:String>
+    <sys:String x:Key="Danh sách an toàn">Danh sách an toàn</sys:String>
+    <sys:String x:Key="Ca ăn">Ca ăn</sys:String>
 
 
 

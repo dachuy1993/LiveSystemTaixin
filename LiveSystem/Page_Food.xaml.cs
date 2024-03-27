@@ -186,7 +186,7 @@ namespace LiveSystem
                     {
                         if (cbbDepatment.Text == "OTHER")
                         {
-                            listAll = listAll.Where(x => x.Division == "ETC").ToList();
+                            listAll = listAll.Where(x => x.Division == "ETC" || x.Division == "OTHER").ToList();
                         }
                         else if (cbbDepatment.Text == "CUSHION")
                         {
@@ -480,7 +480,7 @@ namespace LiveSystem
                     int numberRow = 0;
                     foreach (var item in list_Excel)
                     {
-                        if (item.EmpId != "")
+                        if (item.Division != "")
                         {
                             numberRow++;
                         }
@@ -606,7 +606,7 @@ namespace LiveSystem
 
                     foreach (var item in list_Excel)
                     {
-                        if (item.EmpId != "")
+                        if (item.Division != "")
                         {
                             index++;
                             stt++;

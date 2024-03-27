@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LiveSystem"
         mc:Ignorable="d"
-        Title="Đăng ký nhân sự" Height="470" Width="660" WindowStartupLocation="CenterScreen">
+        Title="Đăng ký nhân sự" Height="570" Width="660" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

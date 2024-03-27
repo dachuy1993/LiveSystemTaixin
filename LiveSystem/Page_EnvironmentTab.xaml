@@ -68,10 +68,12 @@
                     <Setter Property="Margin" Value="0,0,0,0"/>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Danh sách an toàn" IsSelected="True" Height="30">
+            <TabItem Header="{DynamicResource Danh sách an toàn}" IsSelected="True" Height="30">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="275"/>
+                        <ColumnDefinition Width="118.4"/>
+                        <ColumnDefinition Width="236.6"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
@@ -80,7 +82,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.ColumnSpan="3" Header="{DynamicResource Tính năng}" BorderBrush="Gray"  Width="590" HorizontalAlignment="Left" Foreground="Black">
+                    <GroupBox Header="{DynamicResource Tính năng}" BorderBrush="Gray"  Width="630" HorizontalAlignment="Left" Foreground="Black" Grid.ColumnSpan="3">
                         <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal">
                             <Button x:Name="BtnSearchData1" Width="150" Margin="20,5,5,0" Click="BtnSearchData1_Click" Height="40" >
                                 <StackPanel Orientation="Horizontal">
@@ -96,8 +98,8 @@
                             </Button>
                         </StackPanel>
                     </GroupBox>
-                    
-                    <StackPanel Grid.Row="2">
+
+                    <StackPanel Grid.Row="2" Grid.ColumnSpan="3">
                         <ListView x:Name="lvSafeTab1" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2"  >
                             <ListView.View>
                                 <GridView>
@@ -115,7 +117,7 @@
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="700"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -157,13 +159,13 @@
                                 </Button>
                             </StackPanel>
                         </GroupBox>
-                        <ListView Grid.Row="2" x:Name="lvSafeTab2" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2"  Margin="0,0,255,0" Grid.ColumnSpan="2">
+                        <ListView Grid.Column="0" Grid.Row="2" x:Name="lvSafeTab2" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2"  Margin="0,0,0,0" >
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="{DynamicResource STT}"  DisplayMemberBinding="{Binding ID}" Width="30"></GridViewColumn>
                                     <GridViewColumn Header="{DynamicResource Khu vực}"  DisplayMemberBinding="{Binding area}" Width="375"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Kết quả lần 1}"     DisplayMemberBinding="{Binding Point1}" Width="100"></GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource Kết quả lần 2}"     DisplayMemberBinding="{Binding Point2}" Width="100"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Kết quả lần 1}"     DisplayMemberBinding="{Binding Point1}" Width="140"></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource Kết quả lần 2}"     DisplayMemberBinding="{Binding Point2}" Width="140"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -174,16 +176,17 @@
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="900"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="80"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <GroupBox Grid.ColumnSpan="5" Header="{DynamicResource Tính năng}" BorderBrush="Gray" HorizontalAlignment="Left" Foreground="Black">
+                        <GroupBox Header="{DynamicResource Tính năng}" BorderBrush="Gray" HorizontalAlignment="Left" Foreground="Black" Grid.Column="0">
                             <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal">
                                 <Label Content="{DynamicResource Năm kiểm tra}" VerticalAlignment="Center"></Label>
                                 <ComboBox Name="cbbYearTab3" Width="100" Margin="10,5,5,0" VerticalContentAlignment="Center" SelectedIndex="0" SelectionChanged="cbbYearTab3_SelectionChanged" Height="40">
@@ -225,7 +228,7 @@
                                 </Button>
                             </StackPanel>
                         </GroupBox>
-                        <ListView Grid.Row="2" Width="835" Grid.ColumnSpan="2" HorizontalAlignment="Left" x:Name="lvSafeTab3" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2"  Margin="0,0,0,0">
+                        <ListView Grid.Row="2"  HorizontalAlignment="Left" x:Name="lvSafeTab3" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="{DynamicResource STT}"  DisplayMemberBinding="{Binding ID}" Width="30"></GridViewColumn>

@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+﻿using LiveSystem.DAO;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -24,9 +25,9 @@ namespace LiveSystem
     {
         public Page_EmpIn()
         {
-            InitializeComponent();           
+            InitializeComponent();
             dp_Check.SelectedDate = DateTime.Now;
-          
+
         }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -109,16 +110,21 @@ namespace LiveSystem
         {
             int jw1 = int.Parse(txt_Jw.Text);
             int sf1 = int.Parse(txt_Sf.Text);
+            int HMP1 = int.Parse(txt_HMP.Text);
             int jw2 = int.Parse(txt_Real_Jw.Text);
             int sf2 = int.Parse(txt_Real_Sf.Text);
+            int HMP2 = int.Parse(txt_Real_HMP.Text);
             int jw1_D = int.Parse(txt_Jw_Dem.Text);
             int sf1_D = int.Parse(txt_Sf_Dem.Text);
+            int HMP1_D = int.Parse(txt_HMP_Dem.Text);
             int jw2_D = int.Parse(txt_Real_Jw_Dem.Text);
             int sf2_D = int.Parse(txt_Real_Sf_Dem.Text);
+            int HMP2_D = int.Parse(txt_Real_HMP_Dem.Text);
             List<Dept> list_Dept = new List<Dept>();
 
             list_Dept.Add(new Dept() { Name = "JW", QtySignDay = jw1, QtyRealDay = jw2, QtySignNight = jw1_D, QtyRealNight = jw2_D });
             list_Dept.Add(new Dept() { Name = "SF", QtySignDay = sf1, QtyRealDay = sf2, QtySignNight = sf1_D, QtyRealNight = sf2_D });
+            list_Dept.Add(new Dept() { Name = "HMP", QtySignDay = HMP1, QtyRealDay = HMP2, QtySignNight = HMP1_D, QtyRealNight = HMP2_D });
 
             string date = DateTime.Parse(dp_Check.ToString()).ToString("yyyy-MM-dd");
 
@@ -126,7 +132,7 @@ namespace LiveSystem
             {
                 conn.Open();
                 //var command = "Delete tmmempetc where date='" + date + "' and (Dept='JW' or Dept ='SF')";
-                var command = "Delete TDAEmpETC where DateEtc='" + date + "' and (DeptNm='JW' or DeptNm ='SF')";
+                var command = "Delete TDAEmpETC where DateEtc='" + date + "' and (DeptNm='JW' or DeptNm ='SF' or DeptNm ='HMP')";
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
                     cmd.ExecuteNonQuery();
@@ -238,6 +244,13 @@ namespace LiveSystem
                         txt_Sf_Dem.Text = item.QtySignNight.ToString();
                         txt_Real_Sf_Dem.Text = item.QtyRealNight.ToString();
                     }
+                    if (item.Name == "HMP")
+                    {
+                        txt_HMP.Text = item.QtySignDay.ToString();
+                        txt_Real_HMP.Text = item.QtyRealDay.ToString();
+                        txt_HMP_Dem.Text = item.QtySignNight.ToString();
+                        txt_Real_HMP_Dem.Text = item.QtyRealNight.ToString();
+                    }
                 }
                 conn.Close();
             }
@@ -249,16 +262,53 @@ namespace LiveSystem
             dateCheck = DateTime.Parse(dp_Check.SelectedDate.ToString()).ToString("yyyy-MM-dd");
             Db_Read_ETC(dateCheck);
         }
-    }
 
-    public class Dept
-    {
-        public string Name { get; set; }
-        public int QtySignDay { get; set; }
-        public int QtyRealDay { get; set; }
-        public int QtySignNight { get; set; }
-        public int QtyRealNight { get; set; }
-        public string TypeShift { get; set; }
+        private void btnUploadEmp_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "SPGetDataAutoTimekeepingDay";
+                //string query2 = "select * from update_employee";
+                var listInsertData = DataProvider.Instance.ExecuteSP(Page_Main.path_Taixin, query);
+
+                string queryToMysql = "SPGetDataAutoTimekeepingDayV2";
+                //string query2 = "select * from update_employee";
+                var listInsertDataV2 = DataProvider.Instance.ExecuteSP(Page_Main.path_Taixin, queryToMysql);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Upload Data to Mysql");
+            }
+        }
+
+
+        public class Dept
+        {
+            public string Name { get; set; }
+            public int QtySignDay { get; set; }
+            public int QtyRealDay { get; set; }
+            public int QtySignNight { get; set; }
+            public int QtyRealNight { get; set; }
+            public string TypeShift { get; set; }
+        }
+
+        private void BtnToKsys_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "GetDataEmpInfoFromMYSQL";
+                //string query2 = "select * from update_employee";
+                var listInsertData = DataProvider.Instance.ExecuteSP(Page_Main.path_Taixin, query);
+
+                string queryToKsys = "GetDataEmpInfoToKsys";
+                //string query2 = "select * from update_employee";
+                var listInsertDataV2 = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, queryToKsys);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Upload Data to Ksystem");
+            }
+        }
     }
 
 }

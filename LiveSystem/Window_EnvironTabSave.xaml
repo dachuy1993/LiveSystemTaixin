@@ -72,12 +72,12 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="26,3,104,7" Grid.ColumnSpan="2">
                     <Label Margin="3" FontWeight="Bold">Số lượng lỗi</Label>
-                    <TextBox Margin="3" Height="25" Name="txt_PCCC" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Elec" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Safe" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Health" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Envico" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_UL" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_PCCC" VerticalContentAlignment="Center" PreviewTextInput="txt_PCCC_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Elec" VerticalContentAlignment="Center" PreviewTextInput="txt_Elec_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Safe" VerticalContentAlignment="Center" PreviewTextInput="txt_Safe_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Health" VerticalContentAlignment="Center" PreviewTextInput="txt_Health_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Envico" VerticalContentAlignment="Center" PreviewTextInput="txt_Envico_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_UL" VerticalContentAlignment="Center" PreviewTextInput="txt_UL_PreviewTextInput">0</TextBox>
                     <Label Margin="3" Height="25"></Label>
                     <Button Name="btnAdd" Content="THÊM" Margin="3,20,3,3" Height="30" Click="btnAdd_Click"></Button>
                 </StackPanel>
@@ -92,18 +92,18 @@
                 </StackPanel>
                 <StackPanel Grid.Column="3" Margin="5">
                     <Label Margin="3" FontWeight="Bold">Số lượng cả tiến</Label>
-                    <TextBox Margin="3" Height="25" Name="txt_Imp_PCCC" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Imp_Elec" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Imp_Safe" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Imp_Heal" VerticalContentAlignment="Center">0</TextBox>
-                    <TextBox Margin="3" Height="25" Name="txt_Imp_Envico" VerticalContentAlignment="Center">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_PCCC" VerticalContentAlignment="Center" PreviewTextInput="txt_Imp_PCCC_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Elec" VerticalContentAlignment="Center" PreviewTextInput="txt_Imp_Elec_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Safe" VerticalContentAlignment="Center" PreviewTextInput="txt_Imp_Safe_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Heal" VerticalContentAlignment="Center" PreviewTextInput="txt_Imp_Heal_PreviewTextInput">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Imp_Envico" VerticalContentAlignment="Center" PreviewTextInput="txt_Imp_Envico_PreviewTextInput">0</TextBox>
                     <TextBox Margin="3" Height="25" Name="txt_Imp_UL" VerticalContentAlignment="Center">0</TextBox>
                     <Label Margin="3" Height="25"></Label>
                     <Button Name="btnEdit" Content="SỬA" Margin="3,20,3,3" Height="30" Click="btnEdit_Click"></Button>
                 </StackPanel>
                 <StackPanel Grid.Column="4" Orientation="Vertical" Margin="5,5,0,5">
                     <Label Margin="3" FontWeight="Bold" HorizontalAlignment="Center" Height="25">Tuần</Label>
-                    <TextBox Margin="3" Height="25" Name="txt_Week" VerticalContentAlignment="Center" Width="120">0</TextBox>
+                    <TextBox Margin="3" Height="25" Name="txt_Week" VerticalContentAlignment="Center" Width="120" PreviewTextInput="txt_Week_PreviewTextInput">0</TextBox>
                     <Label Margin="3" Height="25"></Label>
                     <Label Margin="3" Height="25"></Label>
                     <Label Margin="3" Height="25"></Label>

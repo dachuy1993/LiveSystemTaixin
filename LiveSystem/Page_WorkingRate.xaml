@@ -171,6 +171,20 @@
                                     <GridViewColumnHeader Content="{DynamicResource Ca}"></GridViewColumnHeader>
                                 </GridViewColumn.Header>
                             </GridViewColumn>
+
+                            <!--<GridViewColumn  DisplayMemberBinding="{Binding TimeIn}" Width="120">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Content="Giờ vào làm việc"></GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+
+                            <GridViewColumn  DisplayMemberBinding="{Binding TimeOut}" Width="100">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Content="Giờ về"></GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>-->
+                            
+                            
                             <!--<GridViewColumn Header="{DynamicResource Ca làm việc}" DisplayMemberBinding="{Binding Time}" Width="150"></GridViewColumn>-->
                             <!--<GridViewColumn Header="" DisplayMemberBinding="{Binding BOD}" Width="auto"></GridViewColumn>-->
                             <!--<GridViewColumn Header="{DynamicResource Giới tính}" DisplayMemberBinding="{Binding SexCd}" Width="60"></GridViewColumn>

@@ -46,6 +46,7 @@ namespace LiveSystem
         public static string path_TaixinAccessManager_1 = "Data Source=192.168.2.20\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_Ksystem25 = "Data Source=192.168.2.5;Initial Catalog=LiveSystem;Persist Security Info=True;User ID=sa;Password= oneuser1!";
         public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
+        public static string path_Taixin = "Data Source=192.168.2.10;Initial Catalog=taixin_db;Persist Security Info=True;User ID=sa;Password=oneuser1!";
 
 
         bool checkWorking = false;
@@ -102,13 +103,16 @@ namespace LiveSystem
             {
                 string query = "SPGetDataRateWorkMainM @date";
                 //string query = "SELECT * from tmmwrate where Shift = @shift and Insdt = @date";
-
+                Page_LoadingData page_Loading = new Page_LoadingData();
+                stackLoading.Visibility = Visibility.Visible;
+                frameLoading.Navigate(page_Loading);
+                checkWorking = true;
                 // Hiển thị Page_LoadingData
                 await Task.Run(() =>
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        Page_LoadingData page_Loading = new Page_LoadingData();
+                        //Page_LoadingData page_Loading = new Page_LoadingData();
                         stackLoading.Visibility = Visibility.Visible;
                         frameLoading.Navigate(page_Loading);
                         checkWorking = true;
@@ -153,7 +157,7 @@ namespace LiveSystem
                 });
                 lvWorkingRate.ItemsSource = listWorkingRate.DefaultView;
 
-                // Đóng Page_LoadingData
+                //Đóng Page_LoadingData
                 await Task.Run(() =>
                 {
                     this.Dispatcher.Invoke(() =>
@@ -162,6 +166,8 @@ namespace LiveSystem
                         checkWorking = false;
                     }, System.Windows.Threading.DispatcherPriority.ContextIdle);
                 });
+
+
 
             }
             catch (Exception ex)
@@ -311,50 +317,122 @@ namespace LiveSystem
 
                 string queryYP = "SPGetDateFoodMainYenPhong @date";
                 var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
-                int Sang = 0;
-                int Trua = 0;
-                int Chieu = 0;
-                int Dem = 0;
-                
+                int SangTx = 0;
+                int TruaTx = 0;
+                int ChieuTx = 0;
+                int DemTx = 0;
+
+                int SangWYP = 0;
+                int TruaWYP = 0;
+                int ChieuWYP = 0;
+                int DemWYP = 0;
+
+                int SangFYP = 0;
+                int TruaFYP = 0;
+                int ChieuFYP = 0;
+                int DemFYP = 0;
+
+
                 foreach ( DataRow item in listEmpWork.Rows)
                 {
                     if (item["ID"].ToString() == "1")
                     {
-                        Sang = int.Parse(item["EmpNum"].ToString());
+                        SangTx = int.Parse(item["EmpNum"].ToString());
                     }
                     else if(item["ID"].ToString() == "2")
                     {
-                        Trua = int.Parse(item["EmpNum"].ToString());
+                        SangWYP = int.Parse(item["EmpNum"].ToString());
                     }
                     else if (item["ID"].ToString() == "3")
                     {
-                        Chieu = int.Parse(item["EmpNum"].ToString());
+                        TruaTx = int.Parse(item["EmpNum"].ToString());
                     }
-                    else
+                    else if (item["ID"].ToString() == "4")
                     {
-                        Dem = int.Parse(item["EmpNum"].ToString());
-                    }    
+                        TruaWYP = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if (item["ID"].ToString() == "5")
+                    {
+                        ChieuTx = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if (item["ID"].ToString() == "6")
+                    {
+                        ChieuWYP = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if (item["ID"].ToString() == "7")
+                    {
+                        DemTx = int.Parse(item["EmpNum"].ToString());
+                    }
+                    else if (item["ID"].ToString() == "8")
+                    {
+                        DemWYP = int.Parse(item["EmpNum"].ToString());
+                    }
+                }
+
+                foreach (DataRow item in listYPMealYenPhong.Rows)
+                {
+                    SangFYP = int.Parse(item["Qty_Sang"].ToString());
+                    
+                    TruaFYP = int.Parse(item["Qty_Trua"].ToString());
+                    
+                    ChieuFYP = int.Parse(item["Qty_Chieu"].ToString());
+                    
+                    DemFYP = int.Parse(item["Qty_Dem"].ToString());
+                    
                 }
 
 
-                
-                foreach(DataRow item  in listVSIPMeal.Rows)
+
+                foreach (DataRow item  in listVSIPMeal.Rows)
                 {
                     if (item["ID"].ToString() == "1")
                     {
-                        item["EmpNum"] = Sang;
+                        item["EmpNum"] = SangTx;
                     }
                     else if (item["ID"].ToString() == "2")
                     {
-                        item["EmpNum"] = Trua;
+                        item["EmpNum"] = SangWYP;
                     }
                     else if (item["ID"].ToString() == "3")
                     {
-                        item["EmpNum"] = Chieu;
+                        item["EmpNum"] = TruaTx;
                     }
-                    else
+                    else if (item["ID"].ToString() == "4")
                     {
-                        item["EmpNum"] = Dem;
+                        item["EmpNum"] = TruaWYP;
+                    }
+                    else if (item["ID"].ToString() == "5")
+                    {
+                        item["EmpNum"] = ChieuTx;
+                    }
+                    else if (item["ID"].ToString() == "6")
+                    {
+                        item["EmpNum"] = ChieuWYP;
+                    }
+                    else if (item["ID"].ToString() == "7")
+                    {
+                        item["EmpNum"] = DemTx;
+                    }
+                    else if (item["ID"].ToString() == "8")
+                    {
+                        item["EmpNum"] = DemWYP;
+                    }
+
+                    if (item["ID"].ToString() == "2")
+                    {
+                        item["EmpFood"] = SangFYP;
+                    }
+                    else if (item["ID"].ToString() == "4")
+                    {
+                        item["EmpFood"] = TruaFYP;
+                    }
+                    else if (item["ID"].ToString() == "6")
+                    {
+                        item["EmpFood"] = ChieuFYP;
+                    }
+                    else if (item["ID"].ToString() == "8")
+                    {
+                        item["EmpFood"] = DemFYP;
                     }
 
                 }
@@ -667,7 +745,7 @@ namespace LiveSystem
                     }
                 }
 
-                foreach (DataRow row in listCar.Rows)
+                 foreach (DataRow row in listCar.Rows)
                 {
                     ListCarModel carModel = new ListCarModel();
                     carModel.CarType = row["Cartype"].ToString();

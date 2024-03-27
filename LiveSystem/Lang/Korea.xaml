@@ -267,7 +267,7 @@
     <sys:String x:Key="Tỷ lệ cải tiến">개선율(%)</sys:String>
     <sys:String x:Key="Kết quả đánh giá an toàn môi trường">환경안전평가 결과</sys:String>
     <sys:String x:Key="tình trạng vi phạm và cải tiến an toàn môi trường">주간별 안전환경 위반 및 개선 현황</sys:String>
-    <sys:String x:Key="Cập nhật dữ liệu">데이터 업데이트 중</sys:String>
+    <sys:String x:Key="Cập nhật dữ liệu">데이터 업데이트</sys:String>
     <sys:String x:Key="Tuần">주</sys:String>
     <sys:String x:Key="Thiết bị 1">유틸리티 1</sys:String>
     <sys:String x:Key="Thiết bị 2">유틸리티 2</sys:String>
@@ -277,7 +277,10 @@
     <sys:String x:Key="Vị trí xảy ra tai nạn">사고 발생 위치</sys:String>
     <sys:String x:Key="Loại tai nạn">사고 종류</sys:String>
     <sys:String x:Key="Số ngày an toàn">회사 무재해 안전 근무 일수</sys:String>
-    <sys:String x:Key="Đặt xe tiếp theo">Order</sys:String>
+    <sys:String x:Key="Đặt xe tiếp theo">배차 예약</sys:String>
+    <sys:String x:Key="Danh sách an toàn">안전 구역 리스트</sys:String>
+    <sys:String x:Key="Ca ăn">식사</sys:String>
+    
     
     
 
