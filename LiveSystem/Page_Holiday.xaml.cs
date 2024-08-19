@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System.Threading;
 using LiveSystem.DAO;
 using LiveSystem.Model;
@@ -98,7 +98,7 @@ namespace LiveSystem
                             rowA["MinorCd"] = "HICUP";
                             break;
                         case "V92"://add 2023-09-06
-                            rowA["MinorCd"] = "SL TEAM";
+                            rowA["MinorCd"] = "AUTO TEAM";
                             break;
                     }
 

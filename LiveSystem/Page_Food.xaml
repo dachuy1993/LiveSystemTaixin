@@ -45,7 +45,7 @@
                 <ComboBoxItem Content="MAR"></ComboBoxItem>
                 <ComboBoxItem Content="PRO"></ComboBoxItem>
                 <ComboBoxItem Content="QC"></ComboBoxItem>
-                <ComboBoxItem Content="SL TEAM"></ComboBoxItem><!--//add 2023-09-06-->
+                <ComboBoxItem Content="AUTO TEAM"></ComboBoxItem><!--//add 2023-09-06-->
                 <ComboBoxItem Content="VENDOR"></ComboBoxItem>
                 <ComboBoxItem Content="CUSHION"></ComboBoxItem>
                 <ComboBoxItem Content="OTHER"></ComboBoxItem>

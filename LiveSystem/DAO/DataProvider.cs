@@ -159,6 +159,7 @@ namespace LiveSystem.DAO
                 string[] listpara = query.Split(' ');
                 SqlCommand cmd = new SqlCommand(listpara[0], con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
                 if (parameter != null)
                 {
                     int i = 0;

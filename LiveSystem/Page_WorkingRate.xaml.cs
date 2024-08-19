@@ -158,7 +158,7 @@ namespace LiveSystem
                             rowA["Division"] = "HICUP";
                             break;
                         case "V92"://add 2023-09-06
-                            rowA["Division"] = "SL TEAM";
+                            rowA["Division"] = "AUTO TEAM";
                             break;
                     }
 
@@ -187,7 +187,45 @@ namespace LiveSystem
                         }    
                         else if(cbbDepatment.Text == "PRO")
                         {
-                            listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.GroupNm != "Cushion").ToList();
+                            // Nhóm = ALL
+                            if (cbbRoom.Text == "ALL")
+                            {
+                                listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.GroupNm != "Cushion").ToList();
+                            }
+                            else
+                            {
+                                if(cbbTeam.Text == "ALL")
+                                {
+                                    listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text).ToList();
+                                }   
+                                else
+                                {
+                                    listAll = listAll.Where(x => x.Division == cbbDepatment.Text && x.DeptNm == cbbRoom.Text && x.GroupNm == cbbTeam.Text).ToList();
+                                }    
+                                
+                            }
+
+
+                            
+                        }    
+                        else if(cbbDepatment.Text == "VENDOR")
+                        {
+                            if(cbbRoom.Text == "ALL")
+                            {
+                                listAll = listAll.Where(x => x.Division == "JWV" || x.Division == "SUN" || x.Division == "HMP").ToList();
+                            }
+                            else
+                            {
+                                if(cbbRoom.Text == "JW")
+                                {
+                                    listAll = listAll.Where(x => x.Division == "JWV").ToList();
+                                }    
+                                else
+                                {
+                                    listAll = listAll.Where(x => x.Division == cbbRoom.Text).ToList();
+                                }    
+                            }
+                            
                         }    
                         // Phòng ban = ALL
                         else if (cbbRoom.Text == "ALL")
@@ -442,6 +480,7 @@ namespace LiveSystem
         {
             try
             {
+               
                 using (ExcelPackage p = new ExcelPackage())
                 {
                     int numberRow = 0;
@@ -704,6 +743,7 @@ namespace LiveSystem
             {
                 //_tempRoom.Clear();
                 //_tempTeam.Clear();
+                
                 var click = sender as ComboBox;
                 var clickItem = click.SelectedItem;
                 cbbRoom.ClearValue(ComboBox.ItemsSourceProperty);
@@ -729,6 +769,15 @@ namespace LiveSystem
                         }
                         cbbRoom.ItemsSource = listResultRoom.Select(x =>x.Deptlv2).ToList();
                         cbbRoom.SelectedIndex = 0;
+
+                        if(depatment == "VENDOR")
+                        {
+                            BtnSkipVendor.Visibility = Visibility.Visible;
+                        }  
+                        else
+                        {
+                            BtnSkipVendor.Visibility = Visibility.Hidden;
+                        }    
                     }
                     else
                     {
@@ -747,7 +796,7 @@ namespace LiveSystem
 
         private async void GetDataCmbDept()
         {
-            string query = "SPGetDataCmbDept ";
+            string query = "SPGetDataCmbDeptWork ";
             // Lấy dữ liệu và hiển thị
             DataTable listCmb = new DataTable();
 
@@ -762,6 +811,10 @@ namespace LiveSystem
             cbbDepatment.ItemsSource = listResult;
         }
 
-     
+        private void BtnSkipVendor_Click(object sender, RoutedEventArgs e)
+        {
+            Window_RegWorkShift emp = new Window_RegWorkShift();
+            emp.Show();
+        }
     }
 }

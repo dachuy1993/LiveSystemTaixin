@@ -77,14 +77,15 @@
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180*"/>
+                <ColumnDefinition Width="165*"/>
+                <ColumnDefinition Width="15*"/>
                 <ColumnDefinition Width="55*"/>
                 <ColumnDefinition Width="32*"/>
                 <ColumnDefinition Width="18*"/>
                 <ColumnDefinition Width="515*"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="{DynamicResource Tỷ lệ phép năm }" BorderBrush="Gray" Margin="2,2,2,2" Visibility="Visible" Grid.ColumnSpan="3">
+            <GroupBox Header="{DynamicResource Tỷ lệ phép năm }" BorderBrush="Gray" Margin="2,2,2,2" Visibility="Visible" Grid.ColumnSpan="4">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -104,11 +105,11 @@
                     <Frame  Grid.Row="1" x:Name="frameChart_Holiday" NavigationUIVisibility="Hidden"></Frame>
                 </Grid>
             </GroupBox>
-            <ListView x:Name="lvThongTin" Grid.Column="3" Margin="5,5,5,5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" Grid.ColumnSpan="2">
+            <ListView x:Name="lvThongTin" Grid.Column="4" Margin="5,5,5,5" ItemContainerStyle="{StaticResource styleConvertColorRowListView}" AlternationCount="2" Grid.ColumnSpan="2">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="{DynamicResource STT}" DisplayMemberBinding="{Binding ID}" Width="50"></GridViewColumn>
-                        <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Division}" Width="70"></GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Division}" Width="120"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding DeptNm}" Width="200"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding GroupNm}" Width="200"></GridViewColumn>
                         <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="70"></GridViewColumn>

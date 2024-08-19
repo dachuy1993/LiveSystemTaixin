@@ -24,7 +24,7 @@ using System.IO;
 using LiveCharts;
 using LiveCharts.Wpf;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf.Charts.Base;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;

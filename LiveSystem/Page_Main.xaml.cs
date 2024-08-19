@@ -3,8 +3,8 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
@@ -45,7 +45,7 @@ namespace LiveSystem
         public static string path_TaixinAccessManager = "Data Source=192.168.2.5\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_TaixinAccessManager_1 = "Data Source=192.168.2.20\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_Ksystem25 = "Data Source=192.168.2.5;Initial Catalog=LiveSystem;Persist Security Info=True;User ID=sa;Password= oneuser1!";
-        public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
+        //public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
         public static string path_Taixin = "Data Source=192.168.2.10;Initial Catalog=taixin_db;Persist Security Info=True;User ID=sa;Password=oneuser1!";
 
 
@@ -309,6 +309,8 @@ namespace LiveSystem
         {
             try
             {
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
                 string query = "SPGetDateFoodMainM @date";
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
 
@@ -316,7 +318,7 @@ namespace LiveSystem
                 var listEmpWork = DataProvider.Instance.ExecuteSP(path_Ksystem20,query1, new object[] { dateCheck });
 
                 string queryYP = "SPGetDateFoodMainYenPhong @date";
-                var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
+                //var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
                 int SangTx = 0;
                 int TruaTx = 0;
                 int ChieuTx = 0;
@@ -369,17 +371,17 @@ namespace LiveSystem
                     }
                 }
 
-                foreach (DataRow item in listYPMealYenPhong.Rows)
-                {
-                    SangFYP = int.Parse(item["Qty_Sang"].ToString());
+                //foreach (DataRow item in listYPMealYenPhong.Rows)
+                //{
+                //    SangFYP = int.Parse(item["Qty_Sang"].ToString());
                     
-                    TruaFYP = int.Parse(item["Qty_Trua"].ToString());
+                //    TruaFYP = int.Parse(item["Qty_Trua"].ToString());
                     
-                    ChieuFYP = int.Parse(item["Qty_Chieu"].ToString());
+                //    ChieuFYP = int.Parse(item["Qty_Chieu"].ToString());
                     
-                    DemFYP = int.Parse(item["Qty_Dem"].ToString());
+                //    DemFYP = int.Parse(item["Qty_Dem"].ToString());
                     
-                }
+                //}
 
 
 
@@ -418,22 +420,22 @@ namespace LiveSystem
                         item["EmpNum"] = DemWYP;
                     }
 
-                    if (item["ID"].ToString() == "2")
-                    {
-                        item["EmpFood"] = SangFYP;
-                    }
-                    else if (item["ID"].ToString() == "4")
-                    {
-                        item["EmpFood"] = TruaFYP;
-                    }
-                    else if (item["ID"].ToString() == "6")
-                    {
-                        item["EmpFood"] = ChieuFYP;
-                    }
-                    else if (item["ID"].ToString() == "8")
-                    {
-                        item["EmpFood"] = DemFYP;
-                    }
+                    //if (item["ID"].ToString() == "2")
+                    //{
+                    //    item["EmpFood"] = SangFYP;
+                    //}
+                    //else if (item["ID"].ToString() == "4")
+                    //{
+                    //    item["EmpFood"] = TruaFYP;
+                    //}
+                    //else if (item["ID"].ToString() == "6")
+                    //{
+                    //    item["EmpFood"] = ChieuFYP;
+                    //}
+                    //else if (item["ID"].ToString() == "8")
+                    //{
+                    //    item["EmpFood"] = DemFYP;
+                    //}
 
                 }
 

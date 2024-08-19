@@ -303,7 +303,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="{DynamicResource STT}" DisplayMemberBinding="{Binding ID}" Width="60"></GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Division}" Width="70"></GridViewColumn>
+                            <GridViewColumn Header="{DynamicResource Bộ phận}" DisplayMemberBinding="{Binding Division}" Width="150"></GridViewColumn>
                             <GridViewColumn Header="{DynamicResource Phòng ban}" DisplayMemberBinding="{Binding DeptNm}" Width="200"></GridViewColumn>
                             <GridViewColumn Header="{DynamicResource Nhóm}" DisplayMemberBinding="{Binding GroupNm}" Width="200"></GridViewColumn>                            
                             <GridViewColumn Header="{DynamicResource Mã NV}" DisplayMemberBinding="{Binding EmpId}" Width="60"></GridViewColumn>

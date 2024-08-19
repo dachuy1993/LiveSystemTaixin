@@ -1,5 +1,5 @@
 ﻿using LiveSystem.DAO;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -23,6 +23,7 @@ namespace LiveSystem
     /// </summary>
     public partial class Page_EmpIn : Page
     {
+        bool checkWorking = false;
         public Page_EmpIn()
         {
             InitializeComponent();
@@ -120,11 +121,13 @@ namespace LiveSystem
             int jw2_D = int.Parse(txt_Real_Jw_Dem.Text);
             int sf2_D = int.Parse(txt_Real_Sf_Dem.Text);
             int HMP2_D = int.Parse(txt_Real_HMP_Dem.Text);
+
             List<Dept> list_Dept = new List<Dept>();
 
             list_Dept.Add(new Dept() { Name = "JW", QtySignDay = jw1, QtyRealDay = jw2, QtySignNight = jw1_D, QtyRealNight = jw2_D });
             list_Dept.Add(new Dept() { Name = "SF", QtySignDay = sf1, QtyRealDay = sf2, QtySignNight = sf1_D, QtyRealNight = sf2_D });
             list_Dept.Add(new Dept() { Name = "HMP", QtySignDay = HMP1, QtyRealDay = HMP2, QtySignNight = HMP1_D, QtyRealNight = HMP2_D });
+
 
             string date = DateTime.Parse(dp_Check.ToString()).ToString("yyyy-MM-dd");
 
@@ -251,6 +254,27 @@ namespace LiveSystem
                         txt_HMP_Dem.Text = item.QtySignNight.ToString();
                         txt_Real_HMP_Dem.Text = item.QtyRealNight.ToString();
                     }
+                    if (item.Name == "JWVSIP")
+                    {
+                        txt_JwVSIP.Text = item.QtySignDay.ToString();
+                        txt_Real_JwVSIP.Text = item.QtyRealDay.ToString();
+                        txt_Jw_DemVSIP.Text = item.QtySignNight.ToString();
+                        txt_Real_Jw_DemVSIP.Text = item.QtyRealNight.ToString();
+                    }
+                    if (item.Name == "SFVSIP")
+                    {
+                        txt_SfVSIP.Text = item.QtySignDay.ToString();
+                        txt_Real_SfVSIP.Text = item.QtyRealDay.ToString();
+                        txt_Sf_DemVSIP.Text = item.QtySignNight.ToString();
+                        txt_Real_Sf_DemVSIP.Text = item.QtyRealNight.ToString();
+                    }
+                    if (item.Name == "HMPVSIP")
+                    {
+                        txt_HMPVSIP.Text = item.QtySignDay.ToString();
+                        txt_Real_HMPVSIP.Text = item.QtyRealDay.ToString();
+                        txt_HMP_DemVSIP.Text = item.QtySignNight.ToString();
+                        txt_Real_HMP_DemVSIP.Text = item.QtyRealNight.ToString();
+                    }
                 }
                 conn.Close();
             }
@@ -303,11 +327,121 @@ namespace LiveSystem
                 string queryToKsys = "GetDataEmpInfoToKsys";
                 //string query2 = "select * from update_employee";
                 var listInsertDataV2 = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, queryToKsys);
+
+                MessageBox.Show("Xử lý thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error Upload Data to Ksystem");
             }
+        }
+
+        private async void BtnTimeKeeping_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Page_LoadingData page_Loading = new Page_LoadingData();
+                stackLoading.Visibility = Visibility.Visible;
+                frameLoading.Navigate(page_Loading);
+                checkWorking = true;
+                await Task.Run(() =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        //Page_LoadingData page_Loading = new Page_LoadingData();
+                        stackLoading.Visibility = Visibility.Visible;
+                        frameLoading.Navigate(page_Loading);
+                        checkWorking = true;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+
+                });
+                await Task.Run(() =>
+                {
+                    string query = "SPGetDataAutoTimekeepingDay";
+                    //string query2 = "select * from update_employee";
+                    var listInsertData = DataProvider.Instance.ExecuteSP(Page_Main.path_Taixin, query);
+
+                    string queryToKsys = "SPGetDataAutoTimekeepingDayV2";
+                    //string query2 = "select * from update_employee";
+                    var listInsertDataV2 = DataProvider.Instance.ExecuteSP(Page_Main.path_Taixin, queryToKsys);
+                });
+
+                //Đóng Page_LoadingData
+                await Task.Run(() =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        stackLoading.Visibility = Visibility.Hidden;
+                        checkWorking = false;
+                    }, System.Windows.Threading.DispatcherPriority.ContextIdle);
+                });
+                MessageBox.Show("Xử lý thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Upload Data to Web");
+            }
+        }
+
+        private void btnAddVendorVSIP_Click(object sender, RoutedEventArgs e)
+        {
+
+            int jw1VSIP = int.Parse(txt_JwVSIP.Text);
+            int sf1VSIP = int.Parse(txt_SfVSIP.Text);
+            int HMP1VSIP = int.Parse(txt_HMPVSIP.Text);
+            int jw2VSIP = int.Parse(txt_Real_JwVSIP.Text);
+            int sf2VSIP = int.Parse(txt_Real_SfVSIP.Text);
+            int HMP2VSIP = int.Parse(txt_Real_HMPVSIP.Text);
+            int jw1_DVSIP = int.Parse(txt_Jw_DemVSIP.Text);
+            int sf1_DVSIP = int.Parse(txt_Sf_DemVSIP.Text);
+            int HMP1_DVSIP = int.Parse(txt_HMP_DemVSIP.Text);
+            int jw2_DVSIP = int.Parse(txt_Real_Jw_DemVSIP.Text);
+            int sf2_DVSIP = int.Parse(txt_Real_Sf_DemVSIP.Text);
+            int HMP2_DVSIP = int.Parse(txt_Real_HMP_DemVSIP.Text);
+
+            List<Dept> list_Dept = new List<Dept>();
+
+            list_Dept.Add(new Dept() { Name = "JWVSIP", QtySignDay = jw1VSIP, QtyRealDay = jw2VSIP, QtySignNight = jw1_DVSIP, QtyRealNight = jw2_DVSIP });
+            list_Dept.Add(new Dept() { Name = "SFVSIP", QtySignDay = sf1VSIP, QtyRealDay = sf2VSIP, QtySignNight = sf1_DVSIP, QtyRealNight = sf2_DVSIP });
+            list_Dept.Add(new Dept() { Name = "HMPVSIP", QtySignDay = HMP1VSIP, QtyRealDay = HMP2VSIP, QtySignNight = HMP1_DVSIP, QtyRealNight = HMP2_DVSIP });
+
+
+            string date = DateTime.Parse(dp_Check.ToString()).ToString("yyyy-MM-dd");
+
+            using (SqlConnection conn = new SqlConnection(Page_Main.path_Ksystem25))
+            {
+                conn.Open();
+                //var command = "Delete tmmempetc where date='" + date + "' and (Dept='JW' or Dept ='SF')";
+                var command = "Delete TDAEmpETC where DateEtc='" + date + "' and (DeptNm='JWVSIP' or DeptNm ='SFVSIP' or DeptNm ='HMPVSIP')";
+                using (SqlCommand cmd = new SqlCommand(command, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+
+            foreach (var item in list_Dept)
+            {
+
+                using (SqlConnection conn = new SqlConnection(Page_Main.path_Ksystem25))
+                {
+                    conn.Open();
+                    //var command = "INSERT tmmempetc(Dept,qtySignDay,qtyRealDay,qtySignNight,qtyRealNight,date,insdt) VALUES(N'" + item.Name + "','" + item.QtySignDay + "','" + item.QtyRealDay + "','" + item.QtySignNight + "','" + item.QtyRealNight + "','" + date + "','" + DateTime.Now.ToString() + "')";
+                    var command = "INSERT TDAEmpETC(DeptNm,qtySignDay,qtyRealDay,qtySignNight,qtyRealNight,DateEtc,insdt) VALUES(N'" + item.Name + "','" + item.QtySignDay + "','" + item.QtyRealDay + "','" + item.QtySignNight + "','" + item.QtyRealNight + "','" + date + "','" + DateTime.Now.ToString() + "')";
+                    using (SqlCommand cmd = new SqlCommand(command, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
+            MessageBox.Show("Cập nhật thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        }
+
+        private void BtnSkipVendor_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

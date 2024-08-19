@@ -3,7 +3,7 @@ using LiveSystem.Model;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
+//using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using OfficeOpenXml.Style;
 using System;
 using System.CodeDom;
@@ -97,9 +97,9 @@ namespace LiveSystem
                 status = "300h";
 
             // Lấy dữ liệu OT và thông tin nhân viên
-            string query1 = "SPGetDataOverTimeDetail @date , @month , @year ";
+            string query1 = "SPGetDataOverTimeDetail @date , @month , @year , @Status ";
             //string query2 = "select * from update_employee";
-            var listEmpOTDetail = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query1, new object[] { today , thisMonth , thisYear });
+            var listEmpOTDetail = DataProvider.Instance.ExecuteSP(Page_Main.path_Ksystem20, query1, new object[] { today , thisMonth , thisYear , status });
             //var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
 
             // Tổng hợp và chuyển đổi dữ liệu
@@ -137,7 +137,7 @@ namespace LiveSystem
                         emp.Division = "HICUP";
                         break;
                     case "V92"://add 2023-09-06
-                        emp.Division = "SL TEAM";
+                        emp.Division = "AUTO TEAM";
                         break;
                 }
                 emp.DeptNm = rowA["DeptNm"].ToString();

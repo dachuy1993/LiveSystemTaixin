@@ -37,7 +37,7 @@ namespace LiveSystem
         #region Khai báo
         public static string path_TaixinAccessManager = "Data Source=192.168.2.5\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         string path_Ksystem = "Data Source=192.168.2.20;Initial Catalog=TAIXINERP;Persist Security Info=True;User ID=sa;Password= Ksystem@123";
-        public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
+        //public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
 
         List<Helper_Employee> List_Person_Total = new List<Helper_Employee>();
         List<Helper_Employee> List_Depatment_Total = new List<Helper_Employee>();
@@ -114,7 +114,7 @@ namespace LiveSystem
 
                 string query2 = "SPGetDateFoodMainDetailYenPhong @date , @shift";
                 //string query2 = "select * from update_employee";
-                var listVSIPMealYP = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinYP, query2, new object[] { dateCheck, shift });
+                //var listVSIPMealYP = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinYP, query2, new object[] { dateCheck, shift });
                 // Kết hợp và bổ sung thông tin cho danh sách
                 List<EmpVSIPMealModel> listAll = new List<EmpVSIPMealModel>();
                 foreach (DataRow rowA in listVSIPMeal.Rows)
@@ -157,26 +157,26 @@ namespace LiveSystem
                             emp.Division = "HICUP";
                             break;
                         case "V92":
-                            emp.Division = "SL TEAM";
+                            emp.Division = "AUTO TEAM";
                             break;
                     }
                     listAll.Add(emp);
                 }
 
-                foreach (DataRow rowA in listVSIPMealYP.Rows)
-                {
-                    EmpVSIPMealModel emp = new EmpVSIPMealModel();
+                //foreach (DataRow rowA in listVSIPMealYP.Rows)
+                //{
+                //    EmpVSIPMealModel emp = new EmpVSIPMealModel();
 
-                    emp.EmpId = rowA["EmpID"].ToString();
-                    emp.EmpNm = rowA["EmpName"].ToString();
-                    emp.Division = rowA["Division"].ToString();
-                    emp.DeptNm = rowA["DeptNm"].ToString();
-                    emp.GroupNm = rowA["GroupNm"].ToString();
-                    emp.TimeScan = rowA["TimeScan"].ToString();
-                    emp.Times = rowA["Times"].ToString();
-                    emp.Division = "CUSHION";
-                    listAll.Add(emp);
-                }
+                //    emp.EmpId = rowA["EmpID"].ToString();
+                //    emp.EmpNm = rowA["EmpName"].ToString();
+                //    emp.Division = rowA["Division"].ToString();
+                //    emp.DeptNm = rowA["DeptNm"].ToString();
+                //    emp.GroupNm = rowA["GroupNm"].ToString();
+                //    emp.TimeScan = rowA["TimeScan"].ToString();
+                //    emp.Times = rowA["Times"].ToString();
+                //    emp.Division = "CUSHION";
+                //    listAll.Add(emp);
+                //}
 
                 // Lọc dữ liệu theo bộ phận, phòng ban, nhóm, mã nhân viên
                 if (txtName.Text == "")
@@ -258,7 +258,7 @@ namespace LiveSystem
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
 
                 string queryYP = "SPGetDateFoodMainYenPhong @date";
-                var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
+                //var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
                 string EmpId = "";
                 string EmpNm = "";
                 int Sang = 0;
@@ -267,18 +267,18 @@ namespace LiveSystem
                 int Dem = 0;
                 string Insdt = "";
 
-                foreach (DataRow item in listYPMealYenPhong.Rows)
-                {
-                    EmpId = item["EmpId"].ToString();
-                    EmpNm = item["EmpNm"].ToString();
-                    Sang = int.Parse(item["Qty_Sang"].ToString());
-                    Trua = int.Parse(item["Qty_Trua"].ToString());
-                    Chieu = int.Parse(item["Qty_Chieu"].ToString());
-                    Dem = int.Parse(item["Qty_Dem"].ToString());
-                    Insdt = item["Insdt"].ToString();
-                }
+                //foreach (DataRow item in listYPMealYenPhong.Rows)
+                //{
+                //    EmpId = item["EmpId"].ToString();
+                //    EmpNm = item["EmpNm"].ToString();
+                //    Sang = int.Parse(item["Qty_Sang"].ToString());
+                //    Trua = int.Parse(item["Qty_Trua"].ToString());
+                //    Chieu = int.Parse(item["Qty_Chieu"].ToString());
+                //    Dem = int.Parse(item["Qty_Dem"].ToString());
+                //    Insdt = item["Insdt"].ToString();
+                //}
 
-                listVSIPMeal.Rows.Add(EmpId, EmpNm, Sang, Trua, Chieu, Dem, Insdt);
+                //listVSIPMeal.Rows.Add(EmpId, EmpNm, Sang, Trua, Chieu, Dem, Insdt);
 
 
 
@@ -706,7 +706,7 @@ namespace LiveSystem
                             code = "7";
                             break;
                         }
-                    case "SL TEAM": //add 2023-09-06
+                    case "AUTO TEAM": //add 2023-09-06
                         {
                             code = "8";
                             break;
