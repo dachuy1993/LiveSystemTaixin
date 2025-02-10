@@ -88,7 +88,7 @@ namespace LiveSystem
                 {
                     conn.Open();
                     {
-                        var command = "select RTRIM(EmpId) from TDAEmpMaster where DeptCd = N'00104' AND RetDate = '99991231'";
+                        var command = "select RTRIM(EmpId) from TDAEmpMaster where (DeptCd = N'00104' AND RetDate = '99991231') or EmpId = 'P03002'";
                         using (SqlCommand cmd = new SqlCommand(command, conn))
                         {
                             using (IDataReader dr = cmd.ExecuteReader())

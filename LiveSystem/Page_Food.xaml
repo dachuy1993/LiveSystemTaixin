@@ -48,6 +48,7 @@
                 <ComboBoxItem Content="AUTO TEAM"></ComboBoxItem><!--//add 2023-09-06-->
                 <ComboBoxItem Content="VENDOR"></ComboBoxItem>
                 <ComboBoxItem Content="CUSHION"></ComboBoxItem>
+                <ComboBoxItem Content="RD"></ComboBoxItem>
                 <ComboBoxItem Content="OTHER"></ComboBoxItem>
             </ComboBox>
             <Label Content="{DynamicResource Phòng ban}" VerticalContentAlignment="Center"></Label>

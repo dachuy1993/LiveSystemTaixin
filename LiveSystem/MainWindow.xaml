@@ -62,7 +62,12 @@
             <Label Grid.Row="1" Grid.Column="1" Name="lb_Version" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
             </Label>
         </Grid>
-        <Grid Grid.Row="1" Background="DodgerBlue" Grid.ColumnSpan="2"></Grid>
+        <Grid Grid.Row="1" Background="DodgerBlue" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="469*"/>
+                <ColumnDefinition Width="831*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Frame x:Name="frameMain" NavigationUIVisibility="Hidden"></Frame>
         </Grid>

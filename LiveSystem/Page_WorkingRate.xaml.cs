@@ -22,6 +22,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using LiveCharts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace LiveSystem
 {
@@ -39,9 +40,11 @@ namespace LiveSystem
         List<EmpWorkingModel> list_Excell = new List<EmpWorkingModel>();
         
         string dateCheck = "";
+        string dateCheckEx = "";
         string depatment = "ALL";
         string room = "ALL";
         bool checkWorking = false;
+        
 
         string pathFileExcel = @"TempFile//ExcelFile.xlsx";
         #endregion
@@ -111,9 +114,12 @@ namespace LiveSystem
                 // Lấy dữ liệu nhân viên
                 string query1 = "exec SPGetDataWorkingRate @date , @shift , @status";
                 string query2 = "select * from update_employee";
+                string query3 = "select Item7 from TDAMinor where left(MinorCd,3) = '958' and Item6 = '1'";
                 DataTable listEmpWorking = new DataTable();
+                DataTable listVendor = new DataTable();
                 DataTable listEmpInfo = new DataTable();
                 listEmpWorking = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query1, new object[] { dateCheck, shift, status });
+                listVendor = DataProvider.Instance.executeQuery(Page_Main.path_Ksystem20, query3);
                 listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
                 //var listAll = listEmpInfo.AsEnumerable().Join(listEmpWorking.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new {x, y})
                 //    .Select(s => new EmpWorkingModel
@@ -160,6 +166,9 @@ namespace LiveSystem
                         case "V92"://add 2023-09-06
                             rowA["Division"] = "AUTO TEAM";
                             break;
+                        case "V90":
+                            rowA["Division"] = "R&D";
+                            break;
                     }
 
                     EmpWorkingModel emp = new EmpWorkingModel();
@@ -171,6 +180,7 @@ namespace LiveSystem
                     emp.Remark = rowA["Remark"].ToString();
                     emp.TimeIn = rowA["TimeIn"].ToString();
                     emp.TimeOut = rowA["TimeOut"].ToString();
+                    emp.Vendor = rowA["Vendor"].ToString();
                     listAll.Add(emp);
                 }
 
@@ -212,18 +222,26 @@ namespace LiveSystem
                         {
                             if(cbbRoom.Text == "ALL")
                             {
-                                listAll = listAll.Where(x => x.Division == "JWV" || x.Division == "SUN" || x.Division == "HMP").ToList();
+                                //listAll = listAll.Where(x => x.Division == "CNU" || x.Division == "SUN" || x.Division == "HMP" || x.Division == "DS0" || x.Division == "HES" || x.Division == "IQ0").ToList();
+                                listAll = listAll.Where(x => x.Vendor == "vendor").ToList();
+
                             }
                             else
                             {
-                                if(cbbRoom.Text == "JW")
-                                {
-                                    listAll = listAll.Where(x => x.Division == "JWV").ToList();
-                                }    
-                                else
-                                {
-                                    listAll = listAll.Where(x => x.Division == cbbRoom.Text).ToList();
-                                }    
+                                //if (cbbRoom.Text == "DS")
+                                //{
+                                //    listAll = listAll.Where(x => x.EmpNm.Substring(0,2) == "DS").ToList();
+                                //}
+                                //else if (cbbRoom.Text == "IQ")
+                                //{
+                                //    listAll = listAll.Where(x => x.EmpNm.Substring(0,2) == "IQ").ToList();
+                                //}
+
+                                //else
+                                //{
+                                //    listAll = listAll.Where(x => x.Division == cbbRoom.Text).ToList();
+                                //}    
+                                listAll = listAll.Where(x => x.Division == cbbRoom.Text).ToList();
                             }
                             
                         }    
@@ -364,6 +382,9 @@ namespace LiveSystem
         private void dpk_Check_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             dateCheck = DateTime.Parse(dpk_Check.SelectedDate.ToString()).ToString("yyyy-MM-dd");
+            dateCheckEx = DateTime.Parse(dpk_Check.SelectedDate.ToString()).ToString("dd/MM/yyyy");
+
+            
         }
         
         private async void btnTimKiem_Click(object sender, RoutedEventArgs e)
@@ -596,14 +617,14 @@ namespace LiveSystem
                     ws.Cells["A1:A1"].Style.Font.Bold = true;
 
 
-                    ws.Cells["A2:A2"].Value = "DANH SÁCH TỶ LỆ ĐI LÀM CỦA CÔNG NHÂN VIÊN";
+                    ws.Cells["A2:A2"].Value = "DANH SÁCH CHẤM VÂN TAY ĐI LÀM CÔNG NHÂN SẢN XUẤT";
                     ws.Cells["A2:I2"].Merge = true;
                     ws.Cells["A2:A2"].Style.Font.Size = 22;
                     ws.Cells["A2:A2"].Style.Font.Bold = true;
 
 
                     //Ngày SX
-                    ws.Cells["A3:A3"].Value = "Ngày : " + DateTime.Now.ToString("dd/MM/yyyy") + "  Số lượng : " + (numberRow - 5);
+                    ws.Cells["A3:A3"].Value = "Ngày : " + dateCheckEx + "  Số lượng : " + (numberRow - 5);
                     ws.Cells["A3:I3"].Merge = true;
                     ws.Cells["A3:A3"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     ws.Cells["A3:A3"].Style.Font.Bold = true;
@@ -616,7 +637,7 @@ namespace LiveSystem
                     ws.Cells["B4:B4"].Value = "Bộ phận";
                     ws.Cells["C4:C4"].Value = "Phòng ban";
                     ws.Cells["D4:D4"].Value = "Nhóm";
-                    ws.Cells["E4:E4"].Value = "Mã NV";
+                    ws.Cells["E4:E4"].Value = "Mã vân tay";
                     ws.Cells["F4:F4"].Value = "Họ và tên";
                     ws.Cells["G4:G4"].Value = "Ca";
                     ws.Cells["H4:H4"].Value = "Giờ vào làm việc";

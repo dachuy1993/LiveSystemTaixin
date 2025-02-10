@@ -46,7 +46,7 @@ namespace LiveSystem
         public static string path_TaixinAccessManager_1 = "Data Source=192.168.2.20\\SQLEXPRESS;Initial Catalog=NitgenAccessManager;Persist Security Info=True;User ID=sa;Password=123456a@";
         public static string path_Ksystem25 = "Data Source=192.168.2.5;Initial Catalog=LiveSystem;Persist Security Info=True;User ID=sa;Password= oneuser1!";
         //public static string path_TaixinYP = "Data Source=113.160.208.231,1433;Initial Catalog=ChamCom;Persist Security Info=True;User ID=WiseEyeOn39;Password= cNca@123#!";
-        public static string path_Taixin = "Data Source=192.168.2.10;Initial Catalog=taixin_db;Persist Security Info=True;User ID=sa;Password=oneuser1!";
+        //public static string path_Taixin = "Data Source=192.168.2.10;Initial Catalog=taixin_HR;Persist Security Info=True;User ID=sa;Password=oneuser1!";
 
 
         bool checkWorking = false;
@@ -107,6 +107,8 @@ namespace LiveSystem
                 stackLoading.Visibility = Visibility.Visible;
                 frameLoading.Navigate(page_Loading);
                 checkWorking = true;
+                if (dateCheck.Count() != 8)
+                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
                 // Hiển thị Page_LoadingData
                 await Task.Run(() =>
                 {
@@ -125,8 +127,7 @@ namespace LiveSystem
                 {
                     
                         // Tỷ lệ đi làm
-                        if (dateCheck.Count() != 8)
-                            dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                        
                         listWorkingRate = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { dateCheck });
                         foreach (DataRow row in listWorkingRate.Rows)
                         {
@@ -191,8 +192,6 @@ namespace LiveSystem
                 await Task.Run(() =>
                 {
                     string query = "SPGetDateTrainingMain @date";
-                    if (dateCheck.Count() != 8)
-                        dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
 
 
                     listEduInfo = DataProvider.Instance.ExecuteSP(path_Ksystem20, query, new object[] { dateCheck });
@@ -242,8 +241,7 @@ namespace LiveSystem
         {
             try
             {
-                if (dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                
                 string query = "SPGetDataOverTimeMainM @date";
                 var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
 
@@ -261,8 +259,7 @@ namespace LiveSystem
         {
             try
             {
-                if (dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                
                 string query = "SPGetDataRecruitmentMain @date";
                 var listOTRate = DataProvider.Instance.executeQuery(path_Ksystem20, query, new object[] { dateCheck });
 
@@ -281,8 +278,7 @@ namespace LiveSystem
         {
             try
             {
-                if (dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                
                 // Lấy dữ liệu nhân viên thực tế từ Ksystem
                 string query2 = "SPGetDataSafe @date";
 
@@ -309,8 +305,7 @@ namespace LiveSystem
         {
             try
             {
-                if (dateCheck.Count() != 8)
-                    dateCheck = DateTime.Parse(dateCheck).ToString("yyyyMMdd");
+                
                 string query = "SPGetDateFoodMainM @date";
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
 
@@ -371,20 +366,6 @@ namespace LiveSystem
                     }
                 }
 
-                //foreach (DataRow item in listYPMealYenPhong.Rows)
-                //{
-                //    SangFYP = int.Parse(item["Qty_Sang"].ToString());
-                    
-                //    TruaFYP = int.Parse(item["Qty_Trua"].ToString());
-                    
-                //    ChieuFYP = int.Parse(item["Qty_Chieu"].ToString());
-                    
-                //    DemFYP = int.Parse(item["Qty_Dem"].ToString());
-                    
-                //}
-
-
-
                 foreach (DataRow item  in listVSIPMeal.Rows)
                 {
                     if (item["ID"].ToString() == "1")
@@ -419,23 +400,6 @@ namespace LiveSystem
                     {
                         item["EmpNum"] = DemWYP;
                     }
-
-                    //if (item["ID"].ToString() == "2")
-                    //{
-                    //    item["EmpFood"] = SangFYP;
-                    //}
-                    //else if (item["ID"].ToString() == "4")
-                    //{
-                    //    item["EmpFood"] = TruaFYP;
-                    //}
-                    //else if (item["ID"].ToString() == "6")
-                    //{
-                    //    item["EmpFood"] = ChieuFYP;
-                    //}
-                    //else if (item["ID"].ToString() == "8")
-                    //{
-                    //    item["EmpFood"] = DemFYP;
-                    //}
 
                 }
 
@@ -495,48 +459,7 @@ namespace LiveSystem
                     }).ToList();
                 listAddressInfo = listAddressInfo.OrderByDescending(x => x.Qty).ToList();
                 
-                // Chart
-                //var _qtyCity = new ChartValues<double>();
-                //var _nameCity = new ChartValues<string>();
-                //DataChart.Values3 = _qtyCity;
-
-                //listAddressInfo.ForEach(x =>
-                //{
-                //    int len = x.Dist.Length;
-                //    if (x.Dist.Contains("Thành phố"))
-                //    {
-                //        _nameCity.Add(x.Dist.Substring(10, len - 10));
-                //    }
-                //    if (x.Dist.Contains("Quận"))
-                //    {
-                //        _nameCity.Add(x.Dist.Substring(5, len - 5));
-                //    }
-                //    if (x.Dist.Contains("Thị xã"))
-                //    {
-                //        _nameCity.Add(x.Dist.Substring(7, len - 7));
-                //    }
-                //    if (x.Dist.Contains("Huyện"))
-                //    {
-                //        _nameCity.Add(x.Dist.Substring(6, len - 6));
-                //    }
-                //    _qtyCity.Add(x.Qty);
-                //});
-
-                //if (MainWindow.language == "vi-VN")
-                //{
-                //    DataChart.Title = "Số người";
-                //}
-                //else
-                //{
-                //    DataChart.Title = "수량";
-                //}
-
-                //DataChart.Labels = _nameCity;
-                //DataChart.YFormatter = _qtyCity;
-                //DataChart.Step = 200;
-                //DataContext = this;
-                //Column column = new Column();
-                //frameChart_Huyen.Navigate(column);
+                
             }
             catch (Exception)
             {
@@ -569,50 +492,7 @@ namespace LiveSystem
         // Lấy dữ liệu tiêm Vaccine
         private void VaccineInfo()
         {
-            //try
-            //{
-            //    // Lấy dữ liệu nhân viên thực tế từ Ksystem
-            //    string query2 = "SELECT * FROM TDAEmpMaster where RetDate>= @date and len(EmpId) > 4 and len(EmpId) < 8";
-            //    var listEmp = DataProvider.Instance.executeQuery(path_Ksystem20, query2, new object[] { dateCheck });
-
-            //    // Lấy dữ liệu số mũi vaccine
-            //    string query = "select * from vacxin";
-            //    var listAllEmpVaccine = DataProvider.Instance.MySqlExecuteQuery(path_TaixinWeb, query);
-
-            //    // Join 2 table ở trên
-            //    var listEmpVaccine = listAllEmpVaccine.AsEnumerable().Join(listEmp.AsEnumerable(), x => x["EmpId"].ToString().Trim().ToUpper(), y => y["EmpId"].ToString().Trim().ToUpper(), (x, y) => new { x, y })
-            //        .Select(s => new Emp_Vaccine
-            //        {
-            //            EmpId = s.x["EmpId"].ToString(),
-            //            Vtimes = int.Parse(s.x["Vtimes"].ToString())
-            //        });
-
-            //    // Hiển thị lên view
-            //    double vaccine1 = listEmpVaccine.Where(x => x.Vtimes == 1).Count();
-            //    double vaccine2 = listEmpVaccine.Where(x => x.Vtimes == 2).Count();
-            //    double vaccine3 = listEmpVaccine.Where(x => x.Vtimes == 3).Count();
-            //    double vaccine4 = listEmpVaccine.Where(x => x.Vtimes >= 4).Count();
-            //    double total = listEmp.Rows.Count;
-
-            //    lb_Vaccine1.Content = vaccine1;
-            //    lb_Vaccine2.Content = vaccine2;
-            //    lb_Vaccine3.Content = vaccine3;
-            //    lb_Vaccine4.Content = vaccine4;
-            //    lb_VaccineNo.Content = total - vaccine1;
-
-            //    if (listEmpVaccine.Count() != 0)
-            //    {
-            //        lb_Rate1.Content = Math.Round(100 / total * vaccine1, 1).ToString() + "%";
-            //        lb_Rate2.Content = Math.Round(100 / total * vaccine2, 1).ToString() + "%";
-            //        lb_Rate3.Content = Math.Round(100 / total * vaccine3, 1).ToString() + "%";
-            //        lb_Rate4.Content = Math.Round(100 / total * vaccine4, 1).ToString() + "%";
-            //        lb_RateNo.Content = Math.Round(100 / total * (total - vaccine1), 1).ToString() + "%";
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("Error in processing vaccination data", "Error", MessageBoxButton.OK);
-            //}
+            
             
         }
 
@@ -837,6 +717,13 @@ namespace LiveSystem
             {
                 GetCarInfo();
                 //GetWorkingRate();
+            }    
+            if(DateTime.Now.Hour == 8 && DateTime.Now.Minute == 1 && DateTime.Now.Second == 01)
+            {
+                dpk_Check.SelectedDate = DateTime.Now;
+                GetWorkingRate();
+                
+
             }    
 
 

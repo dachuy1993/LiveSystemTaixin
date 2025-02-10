@@ -100,6 +100,9 @@ namespace LiveSystem
                         case "V92"://add 2023-09-06
                             rowA["MinorCd"] = "AUTO TEAM";
                             break;
+                        case "V90":
+                            rowA["MinorCd"] = "R&D";
+                            break;
                     }
 
                     EmpVacationLeave emp = new EmpVacationLeave();
@@ -384,7 +387,7 @@ namespace LiveSystem
 
         private async void GetDataCmbDept()
         {
-            string query = "SPGetDataCmbDept ";
+            string query = "SPGetDataCmbDeptWork ";
             // Lấy dữ liệu và hiển thị
             DataTable listCmb = new DataTable();
 

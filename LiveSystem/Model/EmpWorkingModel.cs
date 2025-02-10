@@ -17,5 +17,6 @@ namespace LiveSystem.Model
         public string Remark { get; set; }
         public string TimeIn { get; set; }
         public string TimeOut { get; set; }
+        public string Vendor { get; set; }
     }
 }

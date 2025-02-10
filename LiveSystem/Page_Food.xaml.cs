@@ -112,7 +112,7 @@ namespace LiveSystem
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinAccessManager, query1, new object[] { dateCheck, shift });
                 //var listEmpInfo = DataProvider.Instance.MySqlExecuteQuery(Page_Main.path_TaixinWeb, query2);
 
-                string query2 = "SPGetDateFoodMainDetailYenPhong @date , @shift";
+                //string query2 = "SPGetDateFoodMainDetailYenPhong @date , @shift";
                 //string query2 = "select * from update_employee";
                 //var listVSIPMealYP = DataProvider.Instance.ExecuteSP(Page_Main.path_TaixinYP, query2, new object[] { dateCheck, shift });
                 // Kết hợp và bổ sung thông tin cho danh sách
@@ -159,6 +159,9 @@ namespace LiveSystem
                         case "V92":
                             emp.Division = "AUTO TEAM";
                             break;
+                        case "V90":
+                            emp.Division = "R&D";
+                            break;
                     }
                     listAll.Add(emp);
                 }
@@ -191,7 +194,11 @@ namespace LiveSystem
                         else if (cbbDepatment.Text == "CUSHION")
                         {
                             listAll = listAll.Where(x => x.Division == "CUSHION").ToList();
-                        }    
+                        }  
+                        else if (cbbDepatment.Text == "RD")
+                        { 
+                            listAll = listAll.Where(x => x.Division == "R&D").ToList();
+                        }
                         else
                         {
                             // Phòng ban == ALL
@@ -257,15 +264,15 @@ namespace LiveSystem
                 //var listVSIPMeal = DataProvider.Instance.executeQuery(path_Ksystem25, query, new object[] { dateCheck });
                 var listVSIPMeal = DataProvider.Instance.ExecuteSP(path_TaixinAccessManager, query, new object[] { dateCheck });
 
-                string queryYP = "SPGetDateFoodMainYenPhong @date";
+                //string queryYP = "SPGetDateFoodMainYenPhong @date";
                 //var listYPMealYenPhong = DataProvider.Instance.ExecuteSP(path_TaixinYP, queryYP, new object[] { dateCheck });
-                string EmpId = "";
-                string EmpNm = "";
+                //string EmpId = "";
+                //string EmpNm = "";
                 int Sang = 0;
                 int Trua = 0;
                 int Chieu = 0;
                 int Dem = 0;
-                string Insdt = "";
+                //string Insdt = "";
 
                 //foreach (DataRow item in listYPMealYenPhong.Rows)
                 //{
@@ -708,7 +715,17 @@ namespace LiveSystem
                         }
                     case "AUTO TEAM": //add 2023-09-06
                         {
+                            code = "9";
+                            break;
+                        }
+                    case "RD":
+                        {
                             code = "8";
+                            break;
+                        }
+                    case "VENDOR":
+                        {
+                            code = "0";
                             break;
                         }
 
